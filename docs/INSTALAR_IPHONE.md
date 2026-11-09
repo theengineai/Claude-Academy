@@ -1,6 +1,6 @@
 # Instalar en el iPhone
 
-1. Abre la URL publicada (por ejemplo `https://theengineai.github.io/claude-academy/`) **en Safari** y fuera del modo privado.
+1. Abre la URL publicada (por ejemplo `https://theengineai.github.io/Claude-Academy/`) **en Safari** y fuera del modo privado.
 2. Navega un momento por la app (Inicio, Academia) para que se descargue todo el contenido. En **Perfil → Instalar en el iPhone** verás «Contenido offline listo en este dispositivo» cuando esté preparada.
 3. Pulsa **Compartir** (cuadrado con una flecha hacia arriba).
 4. Elige **Añadir a pantalla de inicio**. En versiones recientes de iOS puede estar dentro de «Más» o aparecer la opción «Abrir como app web»: déjala activada.

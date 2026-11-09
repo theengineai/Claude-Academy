@@ -5,7 +5,7 @@ Cada vez que cambia algo en la rama `main`, el workflow `.github/workflows/pages
 ## Una sola vez
 1. **Settings → Pages → Build and deployment → Source: GitHub Actions** (el repositorio debe ser público para que sea gratis).
 2. Pestaña **Actions** → *Publicar Claude Academy* → **Run workflow** (solo si no se ha lanzado ya con el último cambio).
-3. Cuando termine en verde, la app está en `https://theengineai.github.io/claude-academy/`.
+3. Cuando termine en verde, la app está en `https://theengineai.github.io/Claude-Academy/`.
 
 Las rutas son relativas: funciona igual con cualquier nombre de repositorio o dominio propio.
 
