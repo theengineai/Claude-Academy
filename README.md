@@ -27,7 +27,7 @@ No abras `index.html` con doble clic (`file://`): los módulos JavaScript y el S
 | | |
 |---|---|
 | Módulos | 6, con evaluación final cada uno (aprobado: 75 %) |
-| Microlecciones | 18 (3 por módulo), con tarjetas visuales y ejercicios intercalados |
+| Microlecciones | 19 (el módulo 1 empieza con «La terminal desde cero»), con tarjetas visuales y ejercicios intercalados |
 | Formatos de ejercicio | opción única/decisión, selección múltiple, ordenar, emparejar, completar, encontrar el error, editor con criterios y terminal con objetivos |
 | Misiones | 12, incluido el proyecto final integrador |
 | Laboratorio | Terminal libre persistente + 8 retos |

@@ -180,8 +180,8 @@ async function openRoute(page, route) {
   assert.equal(Number(pill.replace(/\D/g, '')), state1.xp);
   log('XP tras recargar:', pill.trim());
 
-  console.log('4. Lecciones 1.2 y 1.3 (incluyen terminal) y evaluación del módulo 1');
-  for (const id of ['l1-2', 'l1-3']) {
+  console.log('4. Lecciones de terminal (l1-t, l1-2, l1-3) y evaluación del módulo 1');
+  for (const id of ['l1-t', 'l1-2', 'l1-3']) {
     await openRoute(page, `#/lesson/${id}`);
     await playActivity(page);
     await finishResults(page);

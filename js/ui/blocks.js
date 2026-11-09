@@ -12,6 +12,15 @@ const renderers = {
     h('pre', {}, h('code', {}, b.code)),
     b.caption ? h('figcaption', { html: md(b.caption) }) : null),
 
+  // Lista de comandos explicados uno a uno: pensada para quien nunca ha usado una terminal.
+  // items: [{ cmd, desc, where? }] — where: "shell" o "sesión" (dónde se escribe).
+  cmds: b => h('div', { class: 'blk blk-cmds' }, b.title ? h('h3', {}, b.title) : null,
+    h('div', { class: 'cmds' }, b.items.map(item => h('div', { class: 'cmd-row' },
+      h('div', { class: 'cmd-top' },
+        h('code', { class: 'cmd-code' }, item.cmd),
+        item.where ? h('span', { class: `cmd-where where-${item.where === 'sesión' ? 'session' : 'shell'}` }, item.where === 'sesión' ? 'en la sesión de Claude' : 'en el shell') : null),
+      h('p', { class: 'cmd-desc', html: md(item.desc).replace(/^<p>|<\/p>$/g, '') }))))),
+
   // Diagrama de flujo animado paso a paso.
   flow: b => {
     const steps = b.steps.map((s, i) => h('li', { class: 'flow-step', style: { '--i': i } },

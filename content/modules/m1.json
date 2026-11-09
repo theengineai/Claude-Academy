@@ -11,15 +11,40 @@
       "title": "Cómo funciona Claude Code",
       "summary": "Un agente que lee, actúa con herramientas y verifica. No es un chat que solo responde.",
       "minutes": 5,
-      "objectives": ["Distinguir un chat de un agente", "Conocer el bucle reunir contexto → actuar → verificar", "Saber qué herramientas usa Claude Code"],
+      "objectives": [
+        "Distinguir un chat de un agente",
+        "Conocer el bucle reunir contexto → actuar → verificar",
+        "Saber qué herramientas usa Claude Code"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "Idea clave",
           "title": "Un agente, no un chat",
           "blocks": [
-            { "type": "text", "body": "En un chat tú copias información, recibes texto y lo aplicas a mano. **Claude Code trabaja dentro de tu proyecto**: puede leer archivos, buscar, editar, ejecutar comandos y comprobar el resultado.\n\nTu papel cambia: dejas de copiar y pegar y pasas a **definir el objetivo, los límites y cómo se comprobará** que el trabajo está bien." },
-            { "type": "compare", "left": { "title": "Chat", "items": ["Respondes con texto", "Tú aplicas los cambios", "No ve tus archivos salvo que los pegues"] }, "right": { "title": "Claude Code", "items": ["Lee el proyecto por sí mismo", "Edita y ejecuta con herramientas", "Puede verificar su propio trabajo"] } }
+            {
+              "type": "text",
+              "body": "En un chat tú copias información, recibes texto y lo aplicas a mano. **Claude Code trabaja dentro de tu proyecto**: puede leer archivos, buscar, editar, ejecutar comandos y comprobar el resultado.\n\nTu papel cambia: dejas de copiar y pegar y pasas a **definir el objetivo, los límites y cómo se comprobará** que el trabajo está bien."
+            },
+            {
+              "type": "compare",
+              "left": {
+                "title": "Chat",
+                "items": [
+                  "Respondes con texto",
+                  "Tú aplicas los cambios",
+                  "No ve tus archivos salvo que los pegues"
+                ]
+              },
+              "right": {
+                "title": "Claude Code",
+                "items": [
+                  "Lee el proyecto por sí mismo",
+                  "Edita y ejecuta con herramientas",
+                  "Puede verificar su propio trabajo"
+                ]
+              }
+            }
           ]
         },
         {
@@ -27,12 +52,27 @@
           "kicker": "Arquitectura",
           "title": "El bucle agéntico",
           "blocks": [
-            { "type": "flow", "steps": [
-              { "title": "Reunir contexto", "text": "Lee archivos, busca, consulta CLAUDE.md." },
-              { "title": "Actuar", "text": "Edita archivos o ejecuta comandos con sus herramientas." },
-              { "title": "Verificar", "text": "Ejecuta pruebas o revisa el resultado; si falla, vuelve a empezar." }
-            ] },
-            { "type": "text", "body": "Ese ciclo se repite hasta cumplir la tarea. Por eso es tan importante darle **una forma de comprobar** el resultado: unas pruebas, un total esperado, un ejemplo correcto." }
+            {
+              "type": "flow",
+              "steps": [
+                {
+                  "title": "Reunir contexto",
+                  "text": "Lee archivos, busca, consulta CLAUDE.md."
+                },
+                {
+                  "title": "Actuar",
+                  "text": "Edita archivos o ejecuta comandos con sus herramientas."
+                },
+                {
+                  "title": "Verificar",
+                  "text": "Ejecuta pruebas o revisa el resultado; si falla, vuelve a empezar."
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "body": "Ese ciclo se repite hasta cumplir la tarea. Por eso es tan importante darle **una forma de comprobar** el resultado: unas pruebas, un total esperado, un ejemplo correcto."
+            }
           ]
         },
         {
@@ -41,9 +81,18 @@
           "concept": "env.agent-loop",
           "prompt": "¿Qué diferencia mejor a Claude Code de un chat convencional?",
           "options": [
-            { "text": "Escribe respuestas más largas y detalladas", "feedback": "La longitud no es la diferencia: lo es la capacidad de actuar." },
-            { "text": "Puede leer el proyecto, actuar con herramientas y verificar el resultado", "correct": true },
-            { "text": "No necesita que le expliques el objetivo", "feedback": "Al contrario: un objetivo y un criterio de éxito claros son lo que más mejora el resultado." }
+            {
+              "text": "Escribe respuestas más largas y detalladas",
+              "feedback": "La longitud no es la diferencia: lo es la capacidad de actuar."
+            },
+            {
+              "text": "Puede leer el proyecto, actuar con herramientas y verificar el resultado",
+              "correct": true
+            },
+            {
+              "text": "No necesita que le expliques el objetivo",
+              "feedback": "Al contrario: un objetivo y un criterio de éxito claros son lo que más mejora el resultado."
+            }
           ],
           "explain": "Claude Code es un agente: reúne contexto, actúa (edita, ejecuta) y verifica en bucle."
         },
@@ -52,9 +101,22 @@
           "kicker": "Herramientas",
           "title": "Qué puede hacer dentro del proyecto",
           "blocks": [
-            { "type": "text", "body": "Las acciones se hacen con **herramientas**: leer archivos, buscar en el código, editar, ejecutar comandos de shell, consultar la web… Y puedes ampliarlas con **Skills**, **servidores MCP** y **subagentes** (lo verás en los módulos 3 a 5)." },
-            { "type": "callout", "tone": "warn", "title": "Permisos", "body": "En el modo de permisos **Manual** (`default`), Claude **pide permiso** antes de editar archivos, ejecutar comandos o usar la red; leer no requiere permiso. Hay modos con más autonomía (los verás en el módulo 2): tú decides cuánta das." },
-            { "type": "callout", "tone": "finance", "title": "En finanzas", "body": "Piensa en un analista junior muy rápido: puede preparar la conciliación, pero tú defines el procedimiento y revisas antes de firmar." }
+            {
+              "type": "text",
+              "body": "Las acciones se hacen con **herramientas**: leer archivos, buscar en el código, editar, ejecutar comandos de shell, consultar la web… Y puedes ampliarlas con **Skills**, **servidores MCP** y **subagentes** (lo verás en los módulos 3 a 5)."
+            },
+            {
+              "type": "callout",
+              "tone": "warn",
+              "title": "Permisos",
+              "body": "En el modo de permisos **Manual** (`default`), Claude **pide permiso** antes de editar archivos, ejecutar comandos o usar la red; leer no requiere permiso. Hay modos con más autonomía (los verás en el módulo 2): tú decides cuánta das."
+            },
+            {
+              "type": "callout",
+              "tone": "finance",
+              "title": "En finanzas",
+              "body": "Piensa en un analista junior muy rápido: puede preparar la conciliación, pero tú defines el procedimiento y revisas antes de firmar."
+            }
           ]
         },
         {
@@ -62,7 +124,12 @@
           "type": "order",
           "concept": "env.agent-loop",
           "prompt": "Ordena cómo trabaja Claude Code ante «arregla el cálculo del margen y comprueba que cuadra»",
-          "items": ["Lee el script y los datos para entender el cálculo", "Edita la fórmula del margen", "Ejecuta la prueba con un caso conocido", "Si la prueba falla, analiza el error y vuelve a corregir"],
+          "items": [
+            "Lee el script y los datos para entender el cálculo",
+            "Edita la fórmula del margen",
+            "Ejecuta la prueba con un caso conocido",
+            "Si la prueba falla, analiza el error y vuelve a corregir"
+          ],
           "explain": "Reunir contexto → actuar → verificar, repitiendo si la verificación falla."
         },
         {
@@ -71,10 +138,22 @@
           "concept": "env.agent-loop",
           "prompt": "¿Cuáles de estas acciones puede realizar Claude Code con sus herramientas?",
           "options": [
-            { "text": "Leer y buscar en los archivos del proyecto", "correct": true },
-            { "text": "Editar archivos", "correct": true },
-            { "text": "Ejecutar comandos de shell (con tu permiso)", "correct": true },
-            { "text": "Saltarse una regla deny configurada por ti", "feedback": "Las reglas deny bloquean en todos los modos." }
+            {
+              "text": "Leer y buscar en los archivos del proyecto",
+              "correct": true
+            },
+            {
+              "text": "Editar archivos",
+              "correct": true
+            },
+            {
+              "text": "Ejecutar comandos de shell (con tu permiso)",
+              "correct": true
+            },
+            {
+              "text": "Saltarse una regla deny configurada por ti",
+              "feedback": "Las reglas deny bloquean en todos los modos."
+            }
           ],
           "explain": "Lee, edita y ejecuta con herramientas, siempre dentro de los permisos que tú configures. Las reglas **deny** bloquean incluso en el modo más permisivo."
         },
@@ -83,8 +162,15 @@
           "kicker": "Superficies",
           "title": "El mismo motor, varias ventanas",
           "blocks": [
-            { "type": "text", "body": "Claude Code está disponible en la **terminal (CLI)**, en la **app Desktop** (pestaña Code), en extensiones de **IDE** como VS Code y JetBrains y en la **web**. Todas comparten la idea de proyecto, permisos y configuración como `CLAUDE.md` o Skills." },
-            { "type": "callout", "tone": "tip", "body": "Esta academia se centra en la terminal porque es donde se ve todo lo que ocurre. Lo aprendido aplica igual a Desktop." }
+            {
+              "type": "text",
+              "body": "Claude Code está disponible en la **terminal (CLI)**, en la **app Desktop** (pestaña Code), en extensiones de **IDE** como VS Code y JetBrains y en la **web**. Todas comparten la idea de proyecto, permisos y configuración como `CLAUDE.md` o Skills."
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Esta academia se centra en la terminal porque es donde se ve todo lo que ocurre. Lo aprendido aplica igual a Desktop."
+            }
           ]
         },
         {
@@ -94,11 +180,291 @@
           "context": "Pides: «Revisa el informe de ventas». Claude responde con un resumen convincente, pero no sabes si ha cuadrado los totales.",
           "prompt": "¿Cuál es la mejor reformulación?",
           "options": [
-            { "text": "«Revisa el informe de ventas con mucho cuidado»", "feedback": "«Con cuidado» no es comprobable." },
-            { "text": "«Revisa el informe y comprueba que la suma por cliente coincide con el total de ventas.csv; indica cualquier diferencia»", "correct": true },
-            { "text": "«Eres un experto auditor, revisa el informe»", "feedback": "El rol no sustituye a un criterio de verificación." }
+            {
+              "text": "«Revisa el informe de ventas con mucho cuidado»",
+              "feedback": "«Con cuidado» no es comprobable."
+            },
+            {
+              "text": "«Revisa el informe y comprueba que la suma por cliente coincide con el total de ventas.csv; indica cualquier diferencia»",
+              "correct": true
+            },
+            {
+              "text": "«Eres un experto auditor, revisa el informe»",
+              "feedback": "El rol no sustituye a un criterio de verificación."
+            }
           ],
           "explain": "Dar un **criterio verificable** (un total que debe cuadrar) permite que el agente compruebe su trabajo en el bucle."
+        }
+      ]
+    },
+    {
+      "id": "l1-t",
+      "title": "La terminal desde cero",
+      "summary": "Qué es una terminal, cómo se escribe una orden y cómo moverte por las carpetas. Sin dar nada por sabido.",
+      "minutes": 6,
+      "objectives": [
+        "Entender qué es una terminal y un comando",
+        "Reconocer las partes de una orden",
+        "Saber en qué carpeta estás y cambiar de carpeta"
+      ],
+      "steps": [
+        {
+          "type": "card",
+          "kicker": "Empezamos por lo básico",
+          "title": "¿Qué es una terminal?",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Normalmente le dices al ordenador qué hacer pulsando botones y menús. La **terminal** es otra forma: una ventana donde **escribes órdenes** y el ordenador responde con texto.\n\nPiensa en Excel: puedes usar los menús o escribir una fórmula en la barra. La terminal es «solo barra de fórmulas»."
+            },
+            {
+              "type": "text",
+              "body": "Cada orden que escribes se llama **comando**. Se ejecuta al pulsar **Enter**."
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "title": "Tranquilo",
+              "body": "La terminal de esta academia es **simulada**: no toca archivos reales. Equivocarte aquí no rompe nada."
+            }
+          ]
+        },
+        {
+          "id": "m1l0e1",
+          "type": "choice",
+          "concept": "env.terminal-basics",
+          "prompt": "¿Qué es un comando en la terminal?",
+          "options": [
+            {
+              "text": "Una orden escrita que el ordenador ejecuta al pulsar Enter",
+              "correct": true
+            },
+            {
+              "text": "Un botón del menú de la aplicación",
+              "feedback": "En la terminal no hay botones: se escribe."
+            },
+            {
+              "text": "Un archivo guardado en una carpeta",
+              "feedback": "Un archivo guarda datos; un comando es una acción."
+            }
+          ],
+          "explain": "Escribes una orden, pulsas Enter y el ordenador responde. Eso es todo el mecanismo."
+        },
+        {
+          "type": "card",
+          "kicker": "Cómo se escribe",
+          "title": "Las tres partes de una orden",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Casi todos los comandos siguen el mismo patrón. Un ejemplo con `ls`, que **lista** lo que hay en una carpeta:"
+            },
+            {
+              "type": "code",
+              "lang": "terminal",
+              "code": "ls -l datos"
+            },
+            {
+              "type": "flow",
+              "steps": [
+                {
+                  "title": "ls → el comando",
+                  "text": "**Qué** quieres hacer. Aquí, listar el contenido."
+                },
+                {
+                  "title": "-l → la opción",
+                  "text": "**Cómo** lo quieres. Las opciones empiezan por un guion `-`. Aquí, con más detalle."
+                },
+                {
+                  "title": "datos → el argumento",
+                  "text": "**Sobre qué** actúa. Aquí, la carpeta «datos»."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "No hace falta memorizar opciones: las verás poco a poco y siempre con su explicación."
+            }
+          ]
+        },
+        {
+          "id": "m1l0e2",
+          "type": "match",
+          "concept": "env.terminal-basics",
+          "prompt": "En `cat -n informe.txt`, empareja cada parte con su papel",
+          "pairs": [
+            [
+              "`cat`",
+              "El comando: qué hacer"
+            ],
+            [
+              "`-n`",
+              "La opción: cómo hacerlo"
+            ],
+            [
+              "`informe.txt`",
+              "El argumento: sobre qué"
+            ]
+          ],
+          "explain": "Comando, opción y argumento: lo mismo que «qué, cómo y sobre qué»."
+        },
+        {
+          "type": "card",
+          "kicker": "Dónde estás",
+          "title": "La terminal siempre está «dentro» de una carpeta",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Igual que en el explorador de archivos tienes una carpeta abierta, la terminal siempre está en una. Se llama **directorio de trabajo**. Casi todo lo que hagas depende de ella. Tres comandos para orientarte:"
+            },
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "pwd",
+                  "desc": "**¿Dónde estoy?** Muestra la ruta de la carpeta actual."
+                },
+                {
+                  "cmd": "ls",
+                  "desc": "**¿Qué hay aquí?** Lista los archivos y carpetas."
+                },
+                {
+                  "cmd": "cd datos",
+                  "desc": "**Entra** en la carpeta «datos». Con `cd ..` subes a la carpeta de arriba."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Esto es importante para Claude Code: **trabaja en la carpeta donde lo arrancas**. Si la carpeta es otra, leerá otros archivos."
+            }
+          ]
+        },
+        {
+          "id": "m1l0e3",
+          "type": "terminal",
+          "concept": "env.navigation",
+          "prompt": "Averigua dónde estás, mira lo que hay y entra en la carpeta **datos** del proyecto",
+          "setup": {
+            "cwd": "~",
+            "files": {
+              "~/proyecto/README.md": "Proyecto de prácticas\n",
+              "~/proyecto/datos/ventas.csv": "mes,importe\n07,1200\n"
+            }
+          },
+          "intro": [
+            "Escribe los comandos y pulsa enviar. Los botones de abajo te los ponen en la línea."
+          ],
+          "goals": [
+            {
+              "type": "ran",
+              "pattern": "^pwd$",
+              "label": "Preguntar dónde estás con pwd",
+              "hint": "pwd"
+            },
+            {
+              "type": "ran",
+              "pattern": "^ls",
+              "label": "Ver el contenido con ls",
+              "hint": "ls"
+            },
+            {
+              "type": "cwd",
+              "path": "~/proyecto/datos",
+              "label": "Acabar dentro de la carpeta datos",
+              "hint": "cd proyecto y después cd datos"
+            }
+          ],
+          "solution": [
+            "pwd",
+            "ls",
+            "cd proyecto",
+            "cd datos"
+          ],
+          "suggestions": {
+            "shell": [
+              "pwd",
+              "ls",
+              "cd proyecto",
+              "cd datos",
+              "cd .."
+            ]
+          },
+          "explain": "Para llegar a «datos» hay que entrar primero en «proyecto»: cada `cd` baja un nivel."
+        },
+        {
+          "id": "m1l0e4",
+          "type": "fill",
+          "concept": "env.navigation",
+          "prompt": "Completa con el comando correcto",
+          "code": false,
+          "template": "Para ver en qué carpeta estoy escribo {{0}}. Para ver lo que contiene, {{1}}. Para entrar en la carpeta informes, {{2}} informes.",
+          "blanks": [
+            {
+              "options": [
+                "pwd",
+                "ls",
+                "cd"
+              ],
+              "answer": "pwd"
+            },
+            {
+              "options": [
+                "ls",
+                "pwd",
+                "cd"
+              ],
+              "answer": "ls"
+            },
+            {
+              "options": [
+                "cd",
+                "pwd",
+                "ls"
+              ],
+              "answer": "cd"
+            }
+          ],
+          "explain": "pwd = dónde estoy; ls = qué hay; cd = entrar en una carpeta."
+        },
+        {
+          "type": "card",
+          "kicker": "Y entonces, ¿Claude Code?",
+          "title": "Es un programa que se abre desde la terminal",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "**Claude Code** es un programa. Para abrirlo escribes su nombre en la terminal, igual que `ls`:"
+            },
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "claude",
+                  "desc": "Abre Claude Code en la carpeta donde estás. Desde ahí hablas con él en lenguaje normal."
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "body": "Verás que la terminal cambia de «modo»: antes eran comandos del ordenador; ahora estás conversando con Claude. En la siguiente lección verás las dos cosas con calma."
+            }
+          ]
+        },
+        {
+          "id": "m1l0e5",
+          "type": "order",
+          "concept": "env.terminal-basics",
+          "prompt": "Ordena los pasos para empezar a trabajar con Claude Code en un proyecto",
+          "items": [
+            "Abrir la terminal",
+            "Comprobar con `pwd` en qué carpeta estás",
+            "Entrar en la carpeta del proyecto con `cd`",
+            "Escribir `claude` para abrirlo"
+          ],
+          "explain": "Primero te orientas, después arrancas Claude Code: así trabaja sobre la carpeta correcta."
         }
       ]
     },
@@ -107,15 +473,51 @@
       "title": "Terminal, CLI y Desktop",
       "summary": "Dónde se escribe cada cosa: el shell, la sesión de Claude y la app Desktop.",
       "minutes": 6,
-      "objectives": ["Diferenciar comandos de shell y comandos /", "Arrancar Claude de distintas formas", "Conocer qué aporta Desktop"],
+      "objectives": [
+        "Diferenciar comandos de shell y comandos /",
+        "Arrancar Claude de distintas formas",
+        "Conocer qué aporta Desktop"
+      ],
       "steps": [
         {
           "type": "card",
-          "kicker": "Dos niveles",
-          "title": "Shell y sesión de Claude",
+          "kicker": "Repaso rápido",
+          "title": "Dos lugares donde se escribe",
           "blocks": [
-            { "type": "text", "body": "La **terminal** ejecuta un *shell* que entiende comandos como `pwd`, `ls` o `cd`. Cuando escribes `claude`, se abre una **sesión interactiva**: a partir de ahí hablas con Claude y usas comandos que empiezan por `/`, como `/help`, `/init` o `/context`." },
-            { "type": "code", "lang": "terminal", "code": "$ cd ~/proyectos/cierre     # shell: entras en la carpeta\n$ claude                     # shell: abres la sesión\n> /help                      # sesión: comando de Claude Code\n> /exit                      # sesión: vuelves al shell" }
+            {
+              "type": "text",
+              "body": "Ya sabes que en la terminal escribes comandos. Cuando abres Claude Code hay **dos lugares** distintos, y es fácil confundirlos:\n- El **shell**: la terminal normal, donde escribes `cd`, `ls`… y `claude` para abrir el programa.\n- La **sesión de Claude**: la conversación dentro de Claude Code. Ahí hablas con él y usas comandos que empiezan por `/`."
+            },
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "cd proyecto",
+                  "where": "shell",
+                  "desc": "Entras en la carpeta de trabajo."
+                },
+                {
+                  "cmd": "claude",
+                  "where": "shell",
+                  "desc": "Abres Claude Code: empieza la sesión."
+                },
+                {
+                  "cmd": "/help",
+                  "where": "sesión",
+                  "desc": "Ya dentro, pides ayuda a Claude Code."
+                },
+                {
+                  "cmd": "/exit",
+                  "where": "sesión",
+                  "desc": "Sales de Claude y vuelves al shell."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Truco visual: en el shell la línea acaba en `$`; dentro de la sesión de Claude aparece `>`."
+            }
           ]
         },
         {
@@ -123,16 +525,60 @@
           "type": "match",
           "concept": "env.shell-vs-session",
           "prompt": "Empareja cada comando con dónde se escribe",
-          "pairs": [["`cd informes`", "En el shell"], ["`/context`", "Dentro de la sesión de Claude"], ["`claude`", "En el shell, para abrir la sesión"], ["`/exit`", "Dentro de la sesión, para salir"]],
+          "pairs": [
+            [
+              "`cd informes`",
+              "En el shell"
+            ],
+            [
+              "`/context`",
+              "Dentro de la sesión de Claude"
+            ],
+            [
+              "`claude`",
+              "En el shell, para abrir la sesión"
+            ],
+            [
+              "`/exit`",
+              "Dentro de la sesión, para salir"
+            ]
+          ],
           "explain": "Los comandos con `/` solo existen dentro de una sesión de Claude Code; el resto los interpreta el shell."
         },
         {
           "type": "card",
           "kicker": "Formas de arrancar",
-          "title": "claude, -p, -c y -r",
+          "title": "Abrir Claude Code: la forma normal y los atajos",
           "blocks": [
-            { "type": "code", "lang": "terminal", "code": "claude                         # sesión interactiva\nclaude \"explica este proyecto\"  # sesión con una primera petición\nclaude -p \"resume ventas.csv\"   # no interactivo: responde y sale\nclaude -c                      # continúa la última conversación de esta carpeta\nclaude -r \"cierre-octubre\"     # reanuda una sesión concreta por nombre o ID" },
-            { "type": "callout", "tone": "tip", "body": "`-p` (o `--print`) es la base de la automatización: lo usarás en el módulo 6." }
+            {
+              "type": "text",
+              "body": "Lo habitual es escribir solo `claude`. Las otras formas son **atajos** con opciones (recuerda: las opciones empiezan por `-`). **No tienes que memorizarlas ahora**: la academia te las pedirá con ejemplos."
+            },
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "claude",
+                  "desc": "Abre una sesión nueva. La forma normal."
+                },
+                {
+                  "cmd": "claude \"explica este proyecto\"",
+                  "desc": "Abre la sesión y ya le hace una primera petición."
+                },
+                {
+                  "cmd": "claude -c",
+                  "desc": "**c** de *continuar*: retoma la última conversación de esta carpeta."
+                },
+                {
+                  "cmd": "claude -r \"cierre-octubre\"",
+                  "desc": "**r** de *reanudar*: vuelve a una conversación concreta por su nombre."
+                },
+                {
+                  "cmd": "claude -p \"resume ventas.csv\"",
+                  "desc": "**p** de *print*: hace una sola petición, muestra la respuesta y se cierra, sin abrir conversación. Sirve para automatizar (módulo 6)."
+                }
+              ]
+            }
           ]
         },
         {
@@ -142,8 +588,24 @@
           "prompt": "Completa los comandos",
           "template": "# Quiero seguir con la conversación de ayer en esta carpeta\nclaude {{0}}\n\n# Quiero una respuesta rápida sin abrir sesión\nclaude {{1}} \"cuenta las filas de ventas.csv\"",
           "blanks": [
-            { "options": ["-c", "-p", "--init", "/resume"], "answer": "-c" },
-            { "options": ["-p", "-c", "--quiet", "/print"], "answer": "-p" }
+            {
+              "options": [
+                "-c",
+                "-p",
+                "--init",
+                "/resume"
+              ],
+              "answer": "-c"
+            },
+            {
+              "options": [
+                "-p",
+                "-c",
+                "--quiet",
+                "/print"
+              ],
+              "answer": "-p"
+            }
           ],
           "explain": "`-c` (`--continue`) retoma la conversación más reciente del directorio; `-p` (`--print`) ejecuta sin modo interactivo y sale."
         },
@@ -152,14 +614,48 @@
           "type": "terminal",
           "concept": "env.shell-vs-session",
           "prompt": "Abre una sesión de Claude en el proyecto, consulta la ayuda y vuelve al shell",
-          "setup": { "cwd": "~/cierre", "files": { "~/cierre/README.md": "Proyecto de cierre mensual\n" } },
+          "setup": {
+            "cwd": "~/cierre",
+            "files": {
+              "~/cierre/README.md": "Proyecto de cierre mensual\n"
+            }
+          },
           "goals": [
-            { "type": "ran", "pattern": "^claude$", "label": "Abrir la sesión con claude", "hint": "Escribe claude y pulsa enviar." },
-            { "type": "ran", "pattern": "^/help$", "label": "Ver la ayuda dentro de la sesión", "hint": "Dentro de la sesión escribe /help." },
-            { "type": "session", "active": false, "label": "Terminar de vuelta en el shell", "hint": "Sal con /exit." }
+            {
+              "type": "ran",
+              "pattern": "^claude$",
+              "label": "Abrir la sesión con claude",
+              "hint": "Escribe claude y pulsa enviar."
+            },
+            {
+              "type": "ran",
+              "pattern": "^/help$",
+              "label": "Ver la ayuda dentro de la sesión",
+              "hint": "Dentro de la sesión escribe /help."
+            },
+            {
+              "type": "session",
+              "active": false,
+              "label": "Terminar de vuelta en el shell",
+              "hint": "Sal con /exit."
+            }
           ],
-          "solution": ["claude", "/help", "/exit"],
-          "suggestions": { "shell": ["claude", "ls", "pwd"], "session": ["/help", "/exit"] },
+          "solution": [
+            "claude",
+            "/help",
+            "/exit"
+          ],
+          "suggestions": {
+            "shell": [
+              "claude",
+              "ls",
+              "pwd"
+            ],
+            "session": [
+              "/help",
+              "/exit"
+            ]
+          },
           "explain": "Fíjate en cómo cambia el indicador: `$` en el shell y `>` dentro de la sesión."
         },
         {
@@ -167,8 +663,15 @@
           "kicker": "App Desktop",
           "title": "Lo mismo, con interfaz visual",
           "blocks": [
-            { "type": "text", "body": "En la app Claude Desktop, Claude Code es la pestaña **Code**. Cada conversación es una sesión con su carpeta de proyecto. Aporta:\n- **Revisión visual de cambios** (diff archivo a archivo, con comentarios en líneas concretas)\n- **Sesiones en paralelo**, cada una en su propio *worktree* de Git si lo activas\n- Un **selector de modo de permisos** bajo el cuadro de texto\n- Terminal integrada, editor de archivos y vista previa en navegador\n- Elegir dónde se ejecuta: **local**, **nube** o **SSH**" },
-            { "type": "callout", "tone": "info", "body": "Desktop comparte la configuración de usuario con la CLI, como `~/.claude/settings.json` y tus Skills personales. El modo `dontAsk` solo existe en la CLI." }
+            {
+              "type": "text",
+              "body": "En la app Claude Desktop, Claude Code es la pestaña **Code**. Cada conversación es una sesión con su carpeta de proyecto. Aporta:\n- **Revisión visual de cambios** (diff archivo a archivo, con comentarios en líneas concretas)\n- **Sesiones en paralelo**, cada una en su propio *worktree* de Git si lo activas\n- Un **selector de modo de permisos** bajo el cuadro de texto\n- Terminal integrada, editor de archivos y vista previa en navegador\n- Elegir dónde se ejecuta: **local**, **nube** o **SSH**"
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "Desktop comparte la configuración de usuario con la CLI, como `~/.claude/settings.json` y tus Skills personales. El modo `dontAsk` solo existe en la CLI."
+            }
           ]
         },
         {
@@ -178,9 +681,18 @@
           "context": "Quieres revisar cómodamente, archivo a archivo, los cambios que Claude ha propuesto y dejar comentarios en líneas concretas.",
           "prompt": "¿Qué superficie encaja mejor?",
           "options": [
-            { "text": "La app Desktop, por su revisión visual de diffs con comentarios", "correct": true },
-            { "text": "`claude -p`, porque es más rápido", "feedback": "`-p` es no interactivo: imprime y sale. No sirve para revisar." },
-            { "text": "Ninguna: hay que aceptar los cambios sin revisarlos", "feedback": "Revisar es parte del método, no un extra." }
+            {
+              "text": "La app Desktop, por su revisión visual de diffs con comentarios",
+              "correct": true
+            },
+            {
+              "text": "`claude -p`, porque es más rápido",
+              "feedback": "`-p` es no interactivo: imprime y sale. No sirve para revisar."
+            },
+            {
+              "text": "Ninguna: hay que aceptar los cambios sin revisarlos",
+              "feedback": "Revisar es parte del método, no un extra."
+            }
           ],
           "explain": "Desktop abre los cambios en una vista de diff donde puedes comentar líneas y pedir ajustes."
         },
@@ -190,9 +702,18 @@
           "concept": "env.shell-vs-session",
           "prompt": "Escribes `/init` en la terminal y aparece *orden no encontrada*. ¿Por qué?",
           "options": [
-            { "text": "Porque estás en el shell: `/init` solo existe dentro de una sesión de Claude", "correct": true },
-            { "text": "Porque `/init` no existe en Claude Code", "feedback": "Sí existe: crea un CLAUDE.md inicial." },
-            { "text": "Porque falta escribir sudo delante", "feedback": "No es un problema de privilegios." }
+            {
+              "text": "Porque estás en el shell: `/init` solo existe dentro de una sesión de Claude",
+              "correct": true
+            },
+            {
+              "text": "Porque `/init` no existe en Claude Code",
+              "feedback": "Sí existe: crea un CLAUDE.md inicial."
+            },
+            {
+              "text": "Porque falta escribir sudo delante",
+              "feedback": "No es un problema de privilegios."
+            }
           ],
           "explain": "Primero `claude` para abrir la sesión; después `/init`."
         }
@@ -203,15 +724,46 @@
       "title": "Archivos, repositorios y proyectos",
       "summary": "Orientarte en la carpeta correcta y usar Git como red de seguridad.",
       "minutes": 7,
-      "objectives": ["Moverte con pwd, ls, cd y tree", "Separar datos de origen y resultados", "Usar git status, diff y commit"],
+      "objectives": [
+        "Moverte con pwd, ls, cd y tree",
+        "Separar datos de origen y resultados",
+        "Usar git status, diff y commit"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "Orientación",
           "title": "Antes de pedir, sitúate",
           "blocks": [
-            { "type": "text", "body": "Claude Code trabaja en el **directorio donde lo arrancas**. Arrancarlo en la carpeta equivocada significa leer los archivos equivocados." },
-            { "type": "code", "lang": "terminal", "code": "pwd          # ¿dónde estoy?\nls           # ¿qué hay aquí?\nls -a        # incluye ocultos como .claude/\ncd datos     # entra en una carpeta\ncd ..        # sube un nivel\ntree         # vista en árbol" }
+            {
+              "type": "text",
+              "body": "Claude Code trabaja en el **directorio donde lo arrancas**. Arrancarlo en la carpeta equivocada significa leer los archivos equivocados. Ya conoces tres comandos; añadimos dos más:"
+            },
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "pwd",
+                  "desc": "¿Dónde estoy?"
+                },
+                {
+                  "cmd": "ls",
+                  "desc": "¿Qué hay aquí? Con `ls -a` incluye también los archivos ocultos, como la carpeta `.claude/`."
+                },
+                {
+                  "cmd": "cd datos",
+                  "desc": "Entra en una carpeta. `cd ..` vuelve a la de arriba."
+                },
+                {
+                  "cmd": "tree",
+                  "desc": "Muestra todo el contenido como un árbol de carpetas."
+                },
+                {
+                  "cmd": "cat notas.md",
+                  "desc": "Muestra el contenido de un archivo de texto en pantalla."
+                }
+              ]
+            }
           ]
         },
         {
@@ -219,14 +771,48 @@
           "type": "terminal",
           "concept": "env.navigation",
           "prompt": "Entra en el proyecto `cierre`, muestra su estructura y lee las notas del responsable",
-          "setup": { "cwd": "~", "files": { "~/cierre/notas.md": "Cerrar antes del día 5. Importes en EUR.\n", "~/cierre/datos/ventas.csv": "fecha,importe\n2026-10-01,100\n", "~/cierre/informes/": null } },
+          "setup": {
+            "cwd": "~",
+            "files": {
+              "~/cierre/notas.md": "Cerrar antes del día 5. Importes en EUR.\n",
+              "~/cierre/datos/ventas.csv": "fecha,importe\n2026-10-01,100\n",
+              "~/cierre/informes/": null
+            }
+          },
           "goals": [
-            { "type": "cwd", "path": "~/cierre", "label": "Estar dentro de ~/cierre", "hint": "Usa cd cierre." },
-            { "type": "ran", "pattern": "^(tree|ls)", "label": "Ver qué contiene el proyecto", "hint": "Prueba tree o ls." },
-            { "type": "ran", "pattern": "^cat\\s+(\\./)?notas\\.md$", "label": "Leer notas.md", "hint": "cat notas.md" }
+            {
+              "type": "cwd",
+              "path": "~/cierre",
+              "label": "Estar dentro de ~/cierre",
+              "hint": "Usa cd cierre."
+            },
+            {
+              "type": "ran",
+              "pattern": "^(tree|ls)",
+              "label": "Ver qué contiene el proyecto",
+              "hint": "Prueba tree o ls."
+            },
+            {
+              "type": "ran",
+              "pattern": "^cat\\s+(\\./)?notas\\.md$",
+              "label": "Leer notas.md",
+              "hint": "cat notas.md"
+            }
           ],
-          "solution": ["cd cierre", "tree", "cat notas.md"],
-          "suggestions": { "shell": ["pwd", "ls", "cd cierre", "tree", "cat "] },
+          "solution": [
+            "cd cierre",
+            "tree",
+            "cat notas.md"
+          ],
+          "suggestions": {
+            "shell": [
+              "pwd",
+              "ls",
+              "cd cierre",
+              "tree",
+              "cat "
+            ]
+          },
           "explain": "Situarte, explorar y leer son los mismos pasos que hará Claude al empezar: tú solo te aseguras de que arranca en el sitio correcto."
         },
         {
@@ -234,8 +820,23 @@
           "kicker": "Estructura",
           "title": "Separa origen, trabajo y resultados",
           "blocks": [
-            { "type": "tree", "lines": ["cierre/", "├── CLAUDE.md          # instrucciones del proyecto", "├── datos/             # origen: no se modifica", "│   └── ventas.csv", "├── scripts/           # transformaciones", "├── informes/          # resultados generados", "└── .claude/           # skills, agentes y settings del proyecto"] },
-            { "type": "callout", "tone": "finance", "body": "Igual que en un cierre contable: el extracto original no se toca; se trabaja sobre copias y se deja rastro de cada ajuste." }
+            {
+              "type": "tree",
+              "lines": [
+                "cierre/",
+                "├── CLAUDE.md          # instrucciones del proyecto",
+                "├── datos/             # origen: no se modifica",
+                "│   └── ventas.csv",
+                "├── scripts/           # transformaciones",
+                "├── informes/          # resultados generados",
+                "└── .claude/           # skills, agentes y settings del proyecto"
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "finance",
+              "body": "Igual que en un cierre contable: el extracto original no se toca; se trabaja sobre copias y se deja rastro de cada ajuste."
+            }
           ]
         },
         {
@@ -244,9 +845,18 @@
           "concept": "env.project-structure",
           "prompt": "¿Dónde debería guardar Claude un informe que genera a partir de `datos/ventas.csv`?",
           "options": [
-            { "text": "Sobrescribiendo `datos/ventas.csv` con el resultado", "feedback": "Perderías el origen y no podrías comprobar nada." },
-            { "text": "En `informes/`, dejando los datos de origen intactos", "correct": true },
-            { "text": "En la carpeta personal, fuera del proyecto", "feedback": "Fuera del proyecto se pierde trazabilidad y control de versiones." }
+            {
+              "text": "Sobrescribiendo `datos/ventas.csv` con el resultado",
+              "feedback": "Perderías el origen y no podrías comprobar nada."
+            },
+            {
+              "text": "En `informes/`, dejando los datos de origen intactos",
+              "correct": true
+            },
+            {
+              "text": "En la carpeta personal, fuera del proyecto",
+              "feedback": "Fuera del proyecto se pierde trazabilidad y control de versiones."
+            }
           ],
           "explain": "Separar origen y resultados permite repetir el proceso y verificarlo. Además, conviene dejarlo escrito en `CLAUDE.md`."
         },
@@ -255,9 +865,21 @@
           "kicker": "Git",
           "title": "Tu red de seguridad",
           "blocks": [
-            { "type": "text", "body": "Un **repositorio Git** guarda el historial de cambios. Antes y después de trabajar con Claude, tres comandos te dan control:" },
-            { "type": "code", "lang": "terminal", "code": "git status              # qué ha cambiado\ngit diff                # qué líneas exactamente\ngit add . && git commit -m \"Corrige fórmula de margen\"" },
-            { "type": "callout", "tone": "tip", "title": "Checkpoints no sustituyen a Git", "body": "Claude Code guarda *checkpoints* de sus ediciones y puedes volver atrás con `/rewind` (o pulsando Esc dos veces). Pero no rastrea los cambios hechos con comandos de shell, y no es un historial permanente. Para eso, Git." }
+            {
+              "type": "text",
+              "body": "Un **repositorio Git** guarda el historial de cambios. Antes y después de trabajar con Claude, tres comandos te dan control:"
+            },
+            {
+              "type": "code",
+              "lang": "terminal",
+              "code": "git status              # qué ha cambiado\ngit diff                # qué líneas exactamente\ngit add . && git commit -m \"Corrige fórmula de margen\""
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "title": "Checkpoints no sustituyen a Git",
+              "body": "Claude Code guarda *checkpoints* de sus ediciones y puedes volver atrás con `/rewind` (o pulsando Esc dos veces). Pero no rastrea los cambios hechos con comandos de shell, y no es un historial permanente. Para eso, Git."
+            }
           ]
         },
         {
@@ -265,7 +887,12 @@
           "type": "order",
           "concept": "env.git",
           "prompt": "Ordena un cierre de tarea seguro tras trabajar con Claude",
-          "items": ["`git status` para ver qué archivos cambiaron", "`git diff` para revisar las líneas modificadas", "Ejecutar las pruebas o comprobaciones", "`git add` y `git commit -m` con un mensaje claro"],
+          "items": [
+            "`git status` para ver qué archivos cambiaron",
+            "`git diff` para revisar las líneas modificadas",
+            "Ejecutar las pruebas o comprobaciones",
+            "`git add` y `git commit -m` con un mensaje claro"
+          ],
           "explain": "Revisar qué cambió, verificar y solo entonces confirmar el cambio en el historial."
         },
         {
@@ -273,14 +900,47 @@
           "type": "terminal",
           "concept": "env.git",
           "prompt": "Inicializa un repositorio en el proyecto y haz el primer commit con todos los archivos",
-          "setup": { "cwd": "~/cierre", "files": { "~/cierre/CLAUDE.md": "# Cierre mensual\n- Importes en EUR\n", "~/cierre/datos/ventas.csv": "fecha,importe\n2026-10-01,100\n" } },
+          "setup": {
+            "cwd": "~/cierre",
+            "files": {
+              "~/cierre/CLAUDE.md": "# Cierre mensual\n- Importes en EUR\n",
+              "~/cierre/datos/ventas.csv": "fecha,importe\n2026-10-01,100\n"
+            }
+          },
           "goals": [
-            { "type": "exists", "path": "~/cierre/.git", "kind": "dir", "label": "Repositorio inicializado", "hint": "git init" },
-            { "type": "commits", "min": 1, "label": "Al menos un commit", "hint": "git add . y después git commit -m \"mensaje\"" },
-            { "type": "clean", "label": "Árbol de trabajo limpio (nada pendiente)", "hint": "Comprueba con git status." }
+            {
+              "type": "exists",
+              "path": "~/cierre/.git",
+              "kind": "dir",
+              "label": "Repositorio inicializado",
+              "hint": "git init"
+            },
+            {
+              "type": "commits",
+              "min": 1,
+              "label": "Al menos un commit",
+              "hint": "git add . y después git commit -m \"mensaje\""
+            },
+            {
+              "type": "clean",
+              "label": "Árbol de trabajo limpio (nada pendiente)",
+              "hint": "Comprueba con git status."
+            }
           ],
-          "solution": ["git init", "git add .", "git commit -m \"Estado inicial del cierre\""],
-          "suggestions": { "shell": ["git init", "git status", "git add .", "git commit -m \"\"", "git log"] },
+          "solution": [
+            "git init",
+            "git add .",
+            "git commit -m \"Estado inicial del cierre\""
+          ],
+          "suggestions": {
+            "shell": [
+              "git init",
+              "git status",
+              "git add .",
+              "git commit -m \"\"",
+              "git log"
+            ]
+          },
           "explain": "Con un commit inicial, cualquier cambio posterior de Claude se puede revisar con `git diff` y deshacer si hace falta."
         },
         {
@@ -290,9 +950,18 @@
           "context": "Claude ejecutó un script de shell que reescribió `informes/resumen.csv`. Quieres deshacerlo.",
           "prompt": "¿Qué es lo más fiable?",
           "options": [
-            { "text": "`/rewind`: los checkpoints deshacen cualquier cambio", "feedback": "Los checkpoints no rastrean archivos que solo han cambiado comandos de shell." },
-            { "text": "Recuperar la versión anterior con Git (por ejemplo, desde el último commit)", "correct": true },
-            { "text": "Pedir a Claude que «recuerde» cómo era el archivo", "feedback": "La conversación no es una copia de seguridad fiable." }
+            {
+              "text": "`/rewind`: los checkpoints deshacen cualquier cambio",
+              "feedback": "Los checkpoints no rastrean archivos que solo han cambiado comandos de shell."
+            },
+            {
+              "text": "Recuperar la versión anterior con Git (por ejemplo, desde el último commit)",
+              "correct": true
+            },
+            {
+              "text": "Pedir a Claude que «recuerde» cómo era el archivo",
+              "feedback": "La conversación no es una copia de seguridad fiable."
+            }
           ],
           "explain": "Los checkpoints cubren las ediciones de las herramientas de archivos de Claude; los cambios de comandos Bash no se rastrean. Git es la red de seguridad permanente."
         }
@@ -308,9 +977,18 @@
         "concept": "env.cli-start",
         "prompt": "¿Qué hace `claude -r \"cierre-octubre\"`?",
         "options": [
-          { "text": "Reanuda la sesión llamada «cierre-octubre»", "correct": true },
-          { "text": "Borra la sesión «cierre-octubre»", "feedback": "-r es --resume, no remove." },
-          { "text": "Ejecuta «cierre-octubre» como petición no interactiva", "feedback": "Eso sería -p." }
+          {
+            "text": "Reanuda la sesión llamada «cierre-octubre»",
+            "correct": true
+          },
+          {
+            "text": "Borra la sesión «cierre-octubre»",
+            "feedback": "-r es --resume, no remove."
+          },
+          {
+            "text": "Ejecuta «cierre-octubre» como petición no interactiva",
+            "feedback": "Eso sería -p."
+          }
         ],
         "explain": "`-r` / `--resume` reanuda una sesión por ID o nombre; sin argumento muestra un selector."
       },
@@ -320,9 +998,21 @@
         "concept": "env.shell-vs-session",
         "prompt": "Este alumno anotó sus pasos. ¿Qué líneas están mal?",
         "file": "pasos.txt",
-        "lines": ["$ cd ~/cierre", "$ /init", "$ claude", "> /context", "> cd datos"],
-        "faulty": [1, 4],
-        "notes": { "1": "/init se escribe dentro de la sesión, después de claude.", "4": "cd es un comando de shell; dentro de la sesión se pide en lenguaje natural o se sale con /exit." },
+        "lines": [
+          "$ cd ~/cierre",
+          "$ /init",
+          "$ claude",
+          "> /context",
+          "> cd datos"
+        ],
+        "faulty": [
+          1,
+          4
+        ],
+        "notes": {
+          "1": "/init se escribe dentro de la sesión, después de claude.",
+          "4": "cd es un comando de shell; dentro de la sesión se pide en lenguaje natural o se sale con /exit."
+        },
         "fixed": "$ cd ~/cierre\n$ claude\n> /init\n> /context",
         "explain": "Los comandos `/` van dentro de la sesión; los de shell, fuera."
       },
@@ -332,10 +1022,22 @@
         "concept": "env.git",
         "prompt": "¿Qué te permite Git que no te garantizan los checkpoints de Claude Code?",
         "options": [
-          { "text": "Historial permanente entre sesiones y días", "correct": true },
-          { "text": "Recuperar archivos modificados por comandos de shell", "correct": true },
-          { "text": "Compartir y revisar cambios con tu equipo", "correct": true },
-          { "text": "Que Claude no pueda equivocarse", "feedback": "Ninguna herramienta lo garantiza; Git te permite deshacer." }
+          {
+            "text": "Historial permanente entre sesiones y días",
+            "correct": true
+          },
+          {
+            "text": "Recuperar archivos modificados por comandos de shell",
+            "correct": true
+          },
+          {
+            "text": "Compartir y revisar cambios con tu equipo",
+            "correct": true
+          },
+          {
+            "text": "Que Claude no pueda equivocarse",
+            "feedback": "Ninguna herramienta lo garantiza; Git te permite deshacer."
+          }
         ],
         "explain": "Los checkpoints son para recuperación rápida dentro de la sesión; Git es el historial permanente y colaborativo."
       }

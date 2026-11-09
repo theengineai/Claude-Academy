@@ -17,7 +17,7 @@ test('cantidades mínimas del programa', () => {
   assert.ok(course.missions.length >= 12, '12+ misiones');
   assert.equal(course.missions.filter(m => m.final).length, 1, 'un proyecto final');
   for (const mod of course.modules) {
-    assert.equal(mod.lessons.length, 3, `${mod.id}: 3 lecciones`);
+    assert.ok(mod.lessons.length >= 3, `${mod.id}: 3+ lecciones`);
     assert.ok((mod.exam.extra || []).length >= 3, `${mod.id}: preguntas propias de evaluación`);
     assert.ok(course.missions.some(m => m.module === mod.id), `${mod.id}: tiene misiones`);
   }

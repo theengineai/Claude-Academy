@@ -81,7 +81,7 @@ h2.section-title { font-size: 1rem; color: var(--ink-2); }
 /* Callouts */
 .callout { display: flex; gap: 10px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); }
 .callout > .icon { color: var(--accent); margin-top: 2px; }
-.callout strong { display: block; margin-bottom: 2px; }
+.callout > div > strong { display: block; margin-bottom: 2px; }
 .callout-warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 30%, transparent); }
 .callout-warn > .icon { color: var(--warn); }
 .callout-finance { background: var(--ok-soft); border-color: color-mix(in srgb, var(--ok) 25%, transparent); }
@@ -162,7 +162,16 @@ input[type="checkbox"][role="switch"]:checked::after { transform: translateX(20p
 .blk-code { margin: 0; border-radius: var(--radius-sm); overflow: hidden; background: var(--term-bg); color: var(--term-ink); }
 .code-head { display: flex; justify-content: space-between; gap: 8px; padding: 7px 12px; background: var(--term-bar); font-size: 12px; color: var(--term-dim); font-family: var(--font-mono); }
 .code-file { color: var(--term-claude); }
-.blk-code pre { padding: 12px; font-size: 13.5px; line-height: 1.5; overflow-x: auto; }
+/* El código no se parte en el móvil: se desliza en horizontal y se mantiene legible. */
+.blk-code pre { padding: 12px; font-size: 13.5px; line-height: 1.5; overflow-x: auto; white-space: pre; word-break: normal; -webkit-overflow-scrolling: touch; }
+.cmds { display: flex; flex-direction: column; gap: 8px; }
+.cmd-row { padding: 10px 12px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--line); }
+.cmd-top { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.cmd-code { font-size: .98rem; font-weight: 600; color: var(--accent-2); background: var(--surface-2); padding: .15em .5em; overflow-wrap: anywhere; }
+.cmd-where { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; padding: 2px 8px; border-radius: 999px; }
+.where-shell { background: var(--blue-soft); color: var(--blue); }
+.where-session { background: var(--accent-soft); color: var(--accent-2); }
+.cmd-desc { margin-top: 6px; font-size: .93rem; color: var(--ink-2); }
 .blk-code pre code { background: none; border: 0; padding: 0; font-size: inherit; color: inherit; }
 .blk-code figcaption { padding: 8px 12px 10px; font-size: .85rem; color: var(--term-dim); background: var(--term-bar); }
 .blk-code figcaption code { background: #2C2B28; border-color: #3B3935; color: var(--term-ink); }
