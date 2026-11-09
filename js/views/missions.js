@@ -1,7 +1,7 @@
 // Misiones: casos prácticos evaluables y proyecto final.
 import { h } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
-import { runSession } from './session.js';
+import { runSession, savedProgress } from './session.js';
 import { isMissionUnlocked, completeMission, missionXp } from '../core/progress.js';
 
 const DIFFICULTY = { 1: 'Básica', 2: 'Intermedia', 3: 'Avanzada' };
@@ -45,7 +45,8 @@ function missionCard(ctx, m) {
     h('div', { class: 'mission-meta' },
       h('span', { class: 'small muted' }, `${m.steps.length} pasos`),
       h('span', { class: 'type-icons' }, types.map(t => icon(typeIcons[t] || 'spark', { size: 14 }))),
-      rec ? h('span', { class: 'small ok-ink' }, `Mejor: ${Math.round(rec.best * 100)}% a la primera`) : null),
+      rec ? h('span', { class: 'small ok-ink' }, `Mejor: ${Math.round(rec.best * 100)}% a la primera`) : null,
+      savedProgress(state, `mission:${m.id}`) ? h('span', { class: 'pill pill-partial' }, 'A medias') : null),
     open ? null : h('p', { class: 'locked-note small' }, icon('lock', { size: 14 }), lockReason(ctx, m)));
 }
 
@@ -69,6 +70,7 @@ export function openMission(ctx, missionId) {
     title: m.title,
     steps: [intro, ...m.steps],
     exitRoute: '#/missions',
+    resumeKey: `mission:${m.id}`,
     onFinish: ({ accuracy }) => {
       const r = completeMission(state, m, accuracy);
       const achievements = ctx.commit();

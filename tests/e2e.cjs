@@ -180,6 +180,31 @@ async function openRoute(page, route) {
   assert.equal(Number(pill.replace(/\D/g, '')), state1.xp);
   log('XP tras recargar:', pill.trim());
 
+  console.log('3b. Volver atrás y continuar donde lo dejé');
+  await openRoute(page, '#/lesson/l1-t');
+  await page.locator('.act-foot .btn-primary').click(); // tarjeta 1 → pregunta
+  await answer(page, EX.m1l0e1);
+  await page.locator('.act-foot .btn-primary').click();
+  await page.locator('.feedback .btn').last().click(); // → tarjeta 2
+  const cardTitle = (await page.locator('.card-title').textContent()).trim();
+  await page.locator('.act-head .back').click();
+  await page.locator('.feedback.review').waitFor(); // pregunta respondida en modo repaso
+  assert.equal(await page.locator('.review-tag').count(), 1);
+  await page.locator('.act-head .back').click();
+  assert.equal(await page.locator('.act-head .back').isHidden(), true, 'en el primer paso no hay «Atrás»');
+  await page.locator('.act-foot .btn-primary').click();
+  await page.locator('.act-foot .btn-primary').click();
+  assert.equal((await page.locator('.card-title').textContent()).trim(), cardTitle, 'se vuelve hacia delante hasta donde iba');
+  await page.locator('.act-head .close').click();
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('cca.state')).inProgress['lesson:l1-t']);
+  assert.equal(saved.furthest, 2, 'avance guardado al salir');
+  await page.reload({ waitUntil: 'networkidle' });
+  await openRoute(page, '#/lesson/l1-t');
+  await page.getByRole('button', { name: 'Continuar donde lo dejé' }).click();
+  assert.equal((await page.locator('.card-title').textContent()).trim(), cardTitle, 'reanuda en el mismo paso tras cerrar la app');
+  await page.locator('.act-head .close').click();
+  log('atrás, modo repaso y reanudación correctos');
+
   console.log('4. Lecciones de terminal (l1-t, l1-2, l1-3) y evaluación del módulo 1');
   for (const id of ['l1-t', 'l1-2', 'l1-3']) {
     await openRoute(page, `#/lesson/${id}`);

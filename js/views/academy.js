@@ -2,6 +2,7 @@
 import { h } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
 import { sheet } from '../ui/fx.js';
+import { savedProgress } from './session.js';
 import {
   isModuleUnlocked, isLessonUnlocked, isExamUnlocked, isMissionUnlocked, moduleProgress, PASS_EXAM,
 } from '../core/progress.js';
@@ -92,6 +93,7 @@ function showNode(ctx, node, { done, open }) {
   if (node.kind === 'lesson') {
     const l = node.item;
     const rec = state.lessons[l.id];
+    const partial = savedProgress(state, `lesson:${l.id}`);
     sheet(h('div', { class: 'node-sheet' },
       h('span', { class: 'kicker' }, `Lección ${l.moduleIndex}.${l.index} · ${l.minutes} min`),
       h('h3', {}, l.title),
@@ -99,18 +101,19 @@ function showNode(ctx, node, { done, open }) {
       h('ul', { class: 'goals' }, (l.objectives || []).map(o => h('li', {}, icon('target', { size: 15 }), o))),
       rec ? h('p', { class: 'small muted' }, `Mejor resultado: ${Math.round(rec.best * 100)}% a la primera`) : null,
       open
-        ? h('a', { class: 'btn btn-primary btn-block', href: `#/lesson/${l.id}` }, done ? 'Repetir lección' : 'Empezar lección')
+        ? h('a', { class: 'btn btn-primary btn-block', href: `#/lesson/${l.id}` }, partial ? `Continuar (paso ${partial.furthest + 1} de ${partial.queue.length})` : done ? 'Repetir lección' : 'Empezar lección')
         : h('p', { class: 'locked-note' }, icon('lock', { size: 16 }), 'Completa la lección anterior para desbloquearla.')), { label: l.title });
   } else {
     const mod = node.item;
     const rec = state.exams[mod.id];
+    const partial = savedProgress(state, `exam:${mod.id}`);
     sheet(h('div', { class: 'node-sheet' },
       h('span', { class: 'kicker' }, `Módulo ${mod.index}`),
       h('h3', {}, `Evaluación: ${mod.title}`),
       h('p', { class: 'muted' }, `${mod.exam.size || 8} preguntas. Aprobado: ${Math.round(PASS_EXAM * 100)}%.`),
       rec ? h('p', { class: 'small muted' }, `Mejor nota: ${Math.round(rec.best * 100)}%${rec.passed ? ' · superada' : ''}`) : null,
       open
-        ? h('a', { class: 'btn btn-primary btn-block', href: `#/exam/${mod.id}` }, done ? 'Repetir evaluación' : 'Empezar evaluación')
+        ? h('a', { class: 'btn btn-primary btn-block', href: `#/exam/${mod.id}` }, partial ? `Continuar (paso ${partial.furthest + 1} de ${partial.queue.length})` : done ? 'Repetir evaluación' : 'Empezar evaluación')
         : h('p', { class: 'locked-note' }, icon('lock', { size: 16 }), 'Completa las tres lecciones del módulo para desbloquearla.')), { label: 'Evaluación' });
   }
 }

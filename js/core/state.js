@@ -20,6 +20,7 @@ export function defaultState(now = new Date()) {
     stats: { answers: 0, correct: 0, commands: 0, reviews: 0, perfect: 0 },
     settings: { dailyGoal: 30, reducedMotion: false, theme: 'auto' },
     sandbox: null,      // sistema de archivos del laboratorio libre (serializado)
+    inProgress: {},     // { 'lesson:l1-2': avance guardado de una actividad a medias }
     lastRoute: null,
   };
 }
@@ -59,6 +60,7 @@ export function migrate(raw) {
     stats: { ...base.stats, ...(s.stats || {}) },
     settings: { ...base.settings, ...(s.settings || {}) },
     lab: isPlainObject(s.lab) ? s.lab : {},
+    inProgress: isPlainObject(s.inProgress) ? s.inProgress : {},
   };
 }
 

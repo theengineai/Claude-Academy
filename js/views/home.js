@@ -7,6 +7,7 @@ import {
   nextStep, recommendations, streak, todayXp, rankInfo, masteryLevel, overallMastery, moduleProgress,
 } from '../core/progress.js';
 import { dueConcepts } from '../core/srs.js';
+import { savedProgress } from './session.js';
 
 const DAY_NAMES = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
 
@@ -39,7 +40,10 @@ export function renderHome(page, ctx) {
         h('span', { class: 'kicker' }, mod ? `Módulo ${mod.index} · ${mod.title}` : 'Proyecto final'),
         h('h1', {}, next.title),
         h('p', {}, lesson ? lesson.summary : next.kind === 'exam' ? 'Demuestra lo aprendido para desbloquear el siguiente módulo.' : 'Integra todo lo aprendido en un caso real.'),
-        h('span', { class: 'btn btn-primary btn-hero' }, icon('play', { size: 18 }), state.xp ? 'Continuar' : 'Empezar'),
+        h('span', { class: 'btn btn-primary btn-hero' }, icon('play', { size: 18 }), (() => {
+          const partial = savedProgress(state, `${next.kind}:${next.id}`);
+          return partial ? `Continuar · paso ${partial.furthest + 1}` : state.xp ? 'Continuar' : 'Empezar';
+        })()),
       ),
       h('div', { class: 'hero-art', 'aria-hidden': 'true' },
         h('div', { class: 'mini-term' }, h('span', {}, '$ claude'), h('span', {}, '> /init'), h('span', { class: 'cursor' }, '▍')),

@@ -242,3 +242,15 @@
 .settings .setting { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; border-top: 1px solid var(--line); }
 .settings .setting:first-of-type { border-top: 0; }
 .steps-list { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; font-size: .92rem; }
+
+/* ---------- Navegación dentro de una actividad ---------- */
+.act-head .back { border: 0; background: transparent; color: var(--ink-3); margin-left: -8px; }
+.review-tag { align-self: flex-start; display: inline-flex; gap: 6px; align-items: center; padding: 4px 10px; border-radius: 999px; background: var(--blue-soft); color: var(--blue); font-weight: 700; font-size: .8rem; }
+.ex-review { pointer-events: none; }
+.ex-review .option:not(.right):not(.missed) { opacity: .55; }
+.review-solution { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--line); }
+.feedback.review { background: var(--surface); border: 1px solid var(--line); }
+.feedback.review.ok .fb-head { color: var(--ok); }
+.feedback.review.bad .fb-head { color: var(--warn); }
+.resume-card { padding-top: 24px; }
+.pill-partial { color: var(--blue); background: var(--blue-soft); border-color: transparent; font-size: .75rem; padding: 3px 9px; }

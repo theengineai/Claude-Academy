@@ -1,5 +1,5 @@
 // Apertura de lecciones, evaluaciones y sesiones de repaso.
-import { runSession } from './session.js';
+import { runSession, savedProgress } from './session.js';
 import { examPool } from '../core/course.js';
 import { shuffle } from '../core/util.js';
 import { buildReviewQueue } from '../core/srs.js';
@@ -16,6 +16,7 @@ export function openLesson(ctx, lessonId) {
     title: lesson.title,
     steps: lesson.steps,
     exitRoute: '#/academy',
+    resumeKey: `lesson:${lesson.id}`,
     onFinish: ({ accuracy }) => {
       const r = completeLesson(state, lesson.id, accuracy);
       const achievements = ctx.commit();
@@ -43,10 +44,14 @@ export function openExam(ctx, moduleId) {
   // Las preguntas exclusivas del examen siempre entran; el resto se sortea de las lecciones.
   const extra = mod.exam.extra || [];
   const rest = shuffle(examPool(course, moduleId).filter(ex => !extra.includes(ex)));
-  const questions = shuffle([...extra, ...rest].slice(0, size));
+  const resumeKey = `exam:${mod.id}`;
+  // Si la evaluación estaba a medias, se recuperan exactamente las mismas preguntas.
+  const savedIds = savedProgress(state, resumeKey)?.meta?.ids;
+  const restored = savedIds?.map(id => course.exercises[id]?.exercise).filter(Boolean);
+  const questions = restored?.length === savedIds?.length && restored?.length ? restored : shuffle([...extra, ...rest].slice(0, size));
   const intro = {
     type: 'card', kicker: `Módulo ${mod.index}`, title: `Evaluación: ${mod.title}`,
-    blocks: [{ type: 'text', body: `${questions.length} preguntas. Necesitas un **${Math.round(PASS_EXAM * 100)}%** para superarla${mod.index < course.modules.length ? ' y desbloquear el siguiente módulo' : ''}.\n\nCada respuesta cuenta a la primera: no hay segundas oportunidades dentro de la evaluación, pero puedes repetirla cuando quieras.` }],
+    blocks: [{ type: 'text', body: `${questions.length} preguntas. Necesitas un **${Math.round(PASS_EXAM * 100)}%** para superarla${mod.index < course.modules.length ? ' y desbloquear el siguiente módulo' : ''}.\n\nCada respuesta cuenta a la primera: puedes volver atrás para releer, pero no cambiar lo ya respondido. Si sales, tu avance se guarda; y puedes repetir la evaluación cuando quieras.` }],
   };
   runSession(ctx, {
     kind: 'exam',
@@ -55,6 +60,8 @@ export function openExam(ctx, moduleId) {
     requeueWrong: false,
     retryInPlace: false,
     exitRoute: '#/academy',
+    resumeKey,
+    meta: { ids: questions.map(q => q.id) },
     onFinish: ({ accuracy, correct, total }) => {
       const r = completeExam(state, mod.id, accuracy);
       const achievements = ctx.commit();
