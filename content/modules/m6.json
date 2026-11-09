@@ -11,17 +11,69 @@
       "title": "Automatizar con -p y hooks",
       "summary": "Claude en scripts y acciones deterministas en el ciclo de vida.",
       "minutes": 8,
-      "objectives": ["Usar claude -p con salida estructurada", "Preaprobar herramientas de forma acotada", "Configurar hooks"],
+      "objectives": [
+        "Usar claude -p con salida estructurada",
+        "Preaprobar herramientas de forma acotada",
+        "Configurar hooks"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "No interactivo",
           "title": "Claude como herramienta de línea de comandos",
           "blocks": [
-            { "type": "text", "body": "Con `-p` Claude ejecuta la petición, imprime el resultado y sale. Se puede encadenar con otros comandos como cualquier herramienta Unix." },
-            { "type": "code", "lang": "terminal", "code": "# texto por stdin\ncat datos/gastos.csv | claude -p \"agrupa los gastos por concepto\"\n\n# salida JSON para scripts (campo result, session_id…)\nclaude -p \"resume el proyecto\" --output-format json\n\n# herramientas preaprobadas, acotadas\nclaude -p \"revisa mis cambios\" --allowedTools \"Bash(git diff *),Read\"" },
-            { "type": "callout", "tone": "tip", "body": "Para CI, `--bare` arranca sin cargar hooks, Skills, MCP ni CLAUDE.md de la máquina: mismo resultado en cualquier equipo. `--max-turns` limita las iteraciones." }
+            {
+              "type": "text",
+              "body": "Con `-p` Claude ejecuta la petición, **muestra el resultado y se cierra**, sin abrir conversación. Eso permite usarlo en scripts y tareas automáticas."
+            },
+            {
+              "type": "text",
+              "body": "Un truco de la terminal: la barra vertical `|` (**tubería**) pasa el resultado de un comando como entrada del siguiente. Así puedes darle a Claude datos de otro comando."
+            },
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "cat datos/gastos.csv | claude -p \"agrupa los gastos por concepto\"",
+                  "desc": "`cat` muestra el archivo, `|` se lo pasa a Claude y `-p` pide una sola respuesta."
+                },
+                {
+                  "cmd": "claude -p \"resume el proyecto\" --output-format json",
+                  "desc": "Devuelve la respuesta en formato **JSON** (el texto va en el campo `result`), fácil de leer para otros programas."
+                },
+                {
+                  "cmd": "claude -p \"revisa mis cambios\" --allowedTools \"Bash(git diff *),Read\"",
+                  "desc": "Permite esas herramientas sin pedir permiso. Fíjate en el patrón: solo `git diff`, nada más."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Para tareas automáticas, `--bare` arranca sin cargar hooks, Skills, MCP ni CLAUDE.md de la máquina: mismo resultado en cualquier equipo. `--max-turns` limita las iteraciones."
+            }
           ]
+        },
+        {
+          "id": "m6l1e0",
+          "type": "choice",
+          "concept": "auto.headless",
+          "prompt": "En `cat gastos.csv | claude -p \"resume\"`, ¿qué hace la barra `|`?",
+          "options": [
+            {
+              "text": "Pasa el contenido del archivo a Claude como entrada",
+              "correct": true
+            },
+            {
+              "text": "Separa dos comandos que se ejecutan sin relación",
+              "feedback": "Los conecta: lo que sale del primero entra en el segundo."
+            },
+            {
+              "text": "Comenta el resto de la línea",
+              "feedback": "Eso no es una tubería."
+            }
+          ],
+          "explain": "La tubería encadena comandos: la salida del primero es la entrada del segundo."
         },
         {
           "id": "m6l1e1",
@@ -29,10 +81,22 @@
           "concept": "auto.output",
           "prompt": "Empareja cada opción con su efecto",
           "pairs": [
-            ["`--output-format json`", "Respuesta con metadatos; el texto va en result"],
-            ["`--allowedTools \"Read\"`", "Usa Read sin pedir permiso"],
-            ["`--bare`", "No carga configuración local (CLAUDE.md, hooks, MCP…)"],
-            ["`--max-turns 3`", "Limita las iteraciones del agente"]
+            [
+              "`--output-format json`",
+              "Respuesta con metadatos; el texto va en result"
+            ],
+            [
+              "`--allowedTools \"Read\"`",
+              "Usa Read sin pedir permiso"
+            ],
+            [
+              "`--bare`",
+              "No carga configuración local (CLAUDE.md, hooks, MCP…)"
+            ],
+            [
+              "`--max-turns 3`",
+              "Limita las iteraciones del agente"
+            ]
           ],
           "explain": "Estas opciones hacen la ejecución predecible y segura en scripts."
         },
@@ -43,9 +107,18 @@
           "context": "Un script nocturno debe resumir los cambios del día. Solo necesita leer el diff de Git.",
           "prompt": "¿Qué preaprobación es la más segura?",
           "options": [
-            { "text": "`--allowedTools \"Bash(git diff *)\"`", "correct": true },
-            { "text": "`--allowedTools \"Bash\"`", "feedback": "Permitiría cualquier comando de shell." },
-            { "text": "`--dangerously-skip-permissions`", "feedback": "Sin comprobaciones: solo en entornos aislados." }
+            {
+              "text": "`--allowedTools \"Bash(git diff *)\"`",
+              "correct": true
+            },
+            {
+              "text": "`--allowedTools \"Bash\"`",
+              "feedback": "Permitiría cualquier comando de shell."
+            },
+            {
+              "text": "`--dangerously-skip-permissions`",
+              "feedback": "Sin comprobaciones: solo en entornos aislados."
+            }
           ],
           "explain": "Preaprueba exactamente lo necesario. El espacio antes de `*` evita que coincida con otros comandos como `git diff-index`."
         },
@@ -54,13 +127,35 @@
           "type": "terminal",
           "concept": "auto.headless",
           "prompt": "Envía los gastos a Claude por stdin y pide un resumen en JSON, sin abrir sesión",
-          "setup": { "cwd": "~/finanzas", "files": { "~/finanzas/datos/gastos.csv": "fecha,concepto,importe_eur\n2026-10-05,Software,240.00\n2026-10-15,Viajes,610.20\n" } },
+          "setup": {
+            "cwd": "~/finanzas",
+            "files": {
+              "~/finanzas/datos/gastos.csv": "fecha,concepto,importe_eur\n2026-10-05,Software,240.00\n2026-10-15,Viajes,610.20\n"
+            }
+          },
           "goals": [
-            { "type": "ran", "pattern": "^cat\\s+datos/gastos\\.csv\\s*\\|\\s*claude\\s+(-p|--print)\\b.*--output-format\\s+json", "label": "cat datos/gastos.csv | claude -p \"…\" --output-format json", "hint": "Encadena con | y añade --output-format json" },
-            { "type": "session", "active": false, "label": "Sin quedarte en una sesión interactiva", "hint": "-p ejecuta y sale." }
+            {
+              "type": "ran",
+              "pattern": "^cat\\s+datos/gastos\\.csv\\s*\\|\\s*claude\\s+(-p|--print)\\b.*--output-format\\s+json",
+              "label": "cat datos/gastos.csv | claude -p \"…\" --output-format json",
+              "hint": "Encadena con | y añade --output-format json"
+            },
+            {
+              "type": "session",
+              "active": false,
+              "label": "Sin quedarte en una sesión interactiva",
+              "hint": "-p ejecuta y sale."
+            }
           ],
-          "solution": ["cat datos/gastos.csv | claude -p \"resume los gastos por concepto\" --output-format json"],
-          "suggestions": { "shell": ["cat datos/gastos.csv | claude -p \"resume los gastos por concepto\" --output-format json", "claude -p "] },
+          "solution": [
+            "cat datos/gastos.csv | claude -p \"resume los gastos por concepto\" --output-format json"
+          ],
+          "suggestions": {
+            "shell": [
+              "cat datos/gastos.csv | claude -p \"resume los gastos por concepto\" --output-format json",
+              "claude -p "
+            ]
+          },
           "explain": "En un script real extraerías el texto con una herramienta como jq: `… | jq -r '.result'`."
         },
         {
@@ -68,9 +163,26 @@
           "kicker": "Hooks",
           "title": "Acciones que siempre ocurren",
           "blocks": [
-            { "type": "text", "body": "Un **hook** es un comando que Claude Code ejecuta en un momento concreto del ciclo de vida. A diferencia de CLAUDE.md (una sugerencia), un hook **siempre** se ejecuta. Eventos habituales:\n- `PreToolUse`: antes de usar una herramienta; **puede bloquearla**\n- `PostToolUse`: después de usarla con éxito\n- `UserPromptSubmit`, `SessionStart`, `Stop`, `Notification`, `PreCompact`, `SessionEnd`, `SubagentStop`" },
-            { "type": "code", "lang": "json", "file": ".claude/settings.json", "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          { \"type\": \"command\", \"command\": \"python scripts/validar_csv.py\" }\n        ]\n      }\n    ]\n  }\n}" },
-            { "type": "callout", "tone": "warn", "body": "En `PreToolUse`, salir con **código 2** bloquea la acción (el motivo se escribe en stderr). Salir con 0 no aprueba nada: sigue el flujo normal de permisos." }
+            {
+              "type": "text",
+              "body": "Un **hook** es un comando que Claude Code ejecuta en un momento concreto del ciclo de vida. A diferencia de CLAUDE.md (una sugerencia), un hook **siempre** se ejecuta. Eventos habituales:\n- `PreToolUse`: antes de usar una herramienta; **puede bloquearla**\n- `PostToolUse`: después de usarla con éxito\n- `UserPromptSubmit`, `SessionStart`, `Stop`, `Notification`, `PreCompact`, `SessionEnd`, `SubagentStop`"
+            },
+            {
+              "type": "code",
+              "lang": "json",
+              "file": ".claude/settings.json",
+              "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          { \"type\": \"command\", \"command\": \"python scripts/validar_csv.py\" }\n        ]\n      }\n    ]\n  }\n}"
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "`matcher` dice **a qué herramientas** se aplica el hook: `Edit|Write` significa «Edit o Write»."
+            },
+            {
+              "type": "callout",
+              "tone": "warn",
+              "body": "En `PreToolUse`, el comando del hook puede **terminar con el número 2** (todo programa devuelve un número al acabar: 0 significa «todo bien») y eso **bloquea** la acción; el motivo se escribe como mensaje de error. Terminar con 0 no aprueba nada: sigue el flujo normal de permisos."
+            }
           ]
         },
         {
@@ -79,9 +191,18 @@
           "concept": "auto.hooks",
           "prompt": "Quieres impedir de forma determinista que se edite cualquier archivo de `datos/`. ¿Qué evento de hook usas?",
           "options": [
-            { "text": "`PreToolUse`, saliendo con código 2 si la ruta está en datos/", "correct": true },
-            { "text": "`PostToolUse`", "feedback": "Se ejecuta después: la edición ya se habría producido." },
-            { "text": "`SessionStart`", "feedback": "Se ejecuta al iniciar la sesión, no antes de cada edición." }
+            {
+              "text": "`PreToolUse`, saliendo con código 2 si la ruta está en datos/",
+              "correct": true
+            },
+            {
+              "text": "`PostToolUse`",
+              "feedback": "Se ejecuta después: la edición ya se habría producido."
+            },
+            {
+              "text": "`SessionStart`",
+              "feedback": "Se ejecuta al iniciar la sesión, no antes de cada edición."
+            }
           ],
           "explain": "PreToolUse ocurre antes de la herramienta y puede bloquearla. (Una regla deny `Edit(./datos/**)` también lo conseguiría.)"
         },
@@ -94,10 +215,22 @@
           "starter": "{\n  \"hooks\": {\n  }\n}\n",
           "rows": 14,
           "checks": [
-            { "label": "Es JSON válido", "json": true },
-            { "label": "Usa el evento PostToolUse", "pattern": "\"PostToolUse\"\\s*:\\s*\\[" },
-            { "label": "matcher para Edit|Write", "pattern": "\"matcher\"\\s*:\\s*\"(Edit\\|Write|Write\\|Edit)\"" },
-            { "label": "Hook de tipo command con el script", "pattern": "\"type\"\\s*:\\s*\"command\"[\\s\\S]*\"command\"\\s*:\\s*\"python scripts/validar_csv\\.py\"|\"command\"\\s*:\\s*\"python scripts/validar_csv\\.py\"[\\s\\S]*\"type\"\\s*:\\s*\"command\"" }
+            {
+              "label": "Es JSON válido",
+              "json": true
+            },
+            {
+              "label": "Usa el evento PostToolUse",
+              "pattern": "\"PostToolUse\"\\s*:\\s*\\["
+            },
+            {
+              "label": "matcher para Edit|Write",
+              "pattern": "\"matcher\"\\s*:\\s*\"(Edit\\|Write|Write\\|Edit)\""
+            },
+            {
+              "label": "Hook de tipo command con el script",
+              "pattern": "\"type\"\\s*:\\s*\"command\"[\\s\\S]*\"command\"\\s*:\\s*\"python scripts/validar_csv\\.py\"|\"command\"\\s*:\\s*\"python scripts/validar_csv\\.py\"[\\s\\S]*\"type\"\\s*:\\s*\"command\""
+            }
           ],
           "solution": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          { \"type\": \"command\", \"command\": \"python scripts/validar_csv.py\" }\n        ]\n      }\n    ]\n  }\n}\n",
           "explain": "Estructura: evento → lista de grupos con matcher → lista de hooks con type y command."
@@ -109,20 +242,57 @@
       "title": "Debugging y testing",
       "summary": "Reproducir, aislar, corregir y blindar con pruebas.",
       "minutes": 7,
-      "objectives": ["Pedir una depuración eficaz", "Usar tests como criterio de éxito", "Diagnosticar configuración con /doctor"],
+      "objectives": [
+        "Pedir una depuración eficaz",
+        "Usar tests como criterio de éxito",
+        "Diagnosticar configuración con /doctor"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "Depurar",
           "title": "Dale el error, no la sensación",
           "blocks": [
-            { "type": "compare", "left": { "title": "Poco útil", "items": ["«El informe está mal»", "«No funciona, arréglalo»"] }, "right": { "title": "Útil", "items": ["El comando que reproduce el error", "El mensaje exacto (o @log.txt)", "Qué esperabas y qué obtuviste", "Si ocurre siempre o a veces"] } },
-            { "type": "flow", "steps": [
-              { "title": "Reproducir", "text": "Un comando que falle de forma consistente." },
-              { "title": "Aislar", "text": "Encontrar la causa, no solo el síntoma." },
-              { "title": "Corregir", "text": "El cambio mínimo." },
-              { "title": "Blindar", "text": "Un test que falle sin el arreglo y pase con él." }
-            ] }
+            {
+              "type": "compare",
+              "left": {
+                "title": "Poco útil",
+                "items": [
+                  "«El informe está mal»",
+                  "«No funciona, arréglalo»"
+                ]
+              },
+              "right": {
+                "title": "Útil",
+                "items": [
+                  "El comando que reproduce el error",
+                  "El mensaje exacto (o @log.txt)",
+                  "Qué esperabas y qué obtuviste",
+                  "Si ocurre siempre o a veces"
+                ]
+              }
+            },
+            {
+              "type": "flow",
+              "steps": [
+                {
+                  "title": "Reproducir",
+                  "text": "Un comando que falle de forma consistente."
+                },
+                {
+                  "title": "Aislar",
+                  "text": "Encontrar la causa, no solo el síntoma."
+                },
+                {
+                  "title": "Corregir",
+                  "text": "El cambio mínimo."
+                },
+                {
+                  "title": "Blindar",
+                  "text": "Un test que falle sin el arreglo y pase con él."
+                }
+              ]
+            }
           ]
         },
         {
@@ -131,9 +301,18 @@
           "concept": "met.debugging",
           "prompt": "¿Qué petición de depuración es mejor?",
           "options": [
-            { "text": "«`python scripts/margen.py octubre` da ZeroDivisionError en la línea 12; con septiembre funciona. Encuentra la causa y propón el cambio mínimo»", "correct": true },
-            { "text": "«El script de margen falla a veces, revísalo todo»", "feedback": "Sin reproducción ni error concreto, Claude tendrá que adivinar." },
-            { "text": "«Reescribe el script desde cero»", "feedback": "Reescribir no explica la causa y puede introducir errores nuevos." }
+            {
+              "text": "«`python scripts/margen.py octubre` da un error de «división entre cero» en la línea 12; con septiembre funciona. Encuentra la causa y propón el cambio mínimo»",
+              "correct": true
+            },
+            {
+              "text": "«El script de margen falla a veces, revísalo todo»",
+              "feedback": "Sin reproducción ni error concreto, Claude tendrá que adivinar."
+            },
+            {
+              "text": "«Reescribe el script desde cero»",
+              "feedback": "Reescribir no explica la causa y puede introducir errores nuevos."
+            }
           ],
           "explain": "Comando de reproducción + error exacto + comparación con un caso que funciona = diagnóstico rápido."
         },
@@ -142,12 +321,27 @@
           "kicker": "Tests",
           "title": "Tests primero, código después",
           "blocks": [
-            { "type": "text", "body": "Pedir primero las pruebas convierte tus expectativas en algo que Claude puede **verificar solo**:" },
-            { "type": "chat", "messages": [
-              { "role": "user", "text": "Escribe tests para `calcular_margen` con estos casos: ventas 200 y costes 150 → 25%; ventas 0 → error claro. No implementes nada aún." },
-              { "role": "claude", "text": "He creado `tests/test_margen.py` con los dos casos. Fallan como se esperaba porque la función aún no los cumple." },
-              { "role": "user", "text": "Ahora implementa hasta que pasen, sin modificar los tests." }
-            ] }
+            {
+              "type": "text",
+              "body": "Pedir primero las pruebas convierte tus expectativas en algo que Claude puede **verificar solo**:"
+            },
+            {
+              "type": "chat",
+              "messages": [
+                {
+                  "role": "user",
+                  "text": "Escribe tests para `calcular_margen` con estos casos: ventas 200 y costes 150 → 25%; ventas 0 → error claro. No implementes nada aún."
+                },
+                {
+                  "role": "claude",
+                  "text": "He creado `tests/test_margen.py` con los dos casos. Fallan como se esperaba porque la función aún no los cumple."
+                },
+                {
+                  "role": "user",
+                  "text": "Ahora implementa hasta que pasen, sin modificar los tests."
+                }
+              ]
+            }
           ]
         },
         {
@@ -155,7 +349,13 @@
           "type": "order",
           "concept": "met.testing",
           "prompt": "Ordena el flujo guiado por tests",
-          "items": ["Escribir tests con casos de resultado conocido", "Comprobar que fallan", "Implementar el cambio sin tocar los tests", "Ejecutar los tests hasta que pasen", "Revisar el diff y hacer commit"],
+          "items": [
+            "Escribir tests con casos de resultado conocido",
+            "Comprobar que fallan",
+            "Implementar el cambio sin tocar los tests",
+            "Ejecutar los tests hasta que pasen",
+            "Revisar el diff y hacer commit"
+          ],
           "explain": "Los tests son el criterio de éxito objetivo del bucle agéntico."
         },
         {
@@ -164,9 +364,20 @@
           "concept": "met.debugging",
           "prompt": "Esta función debe devolver el margen sobre ventas y avisar si no hay ventas. ¿Qué líneas tienen errores?",
           "file": "scripts/margen.py",
-          "lines": ["def calcular_margen(ventas, costes):", "    if ventas < 0:", "        raise ValueError(\"Sin ventas no hay margen\")", "    return (ventas - costes) / costes"],
-          "faulty": [1, 3],
-          "notes": { "1": "Debe comprobar ventas == 0 (o <= 0): con 0 se divide por cero.", "3": "El margen se calcula sobre ventas, no sobre costes." },
+          "lines": [
+            "def calcular_margen(ventas, costes):",
+            "    if ventas < 0:",
+            "        raise ValueError(\"Sin ventas no hay margen\")",
+            "    return (ventas - costes) / costes"
+          ],
+          "faulty": [
+            1,
+            3
+          ],
+          "notes": {
+            "1": "Debe comprobar ventas == 0 (o <= 0): con 0 se divide por cero.",
+            "3": "El margen se calcula sobre ventas, no sobre costes."
+          },
           "fixed": "def calcular_margen(ventas, costes):\n    if ventas <= 0:\n        raise ValueError(\"Sin ventas no hay margen\")\n    return (ventas - costes) / ventas",
           "explain": "Dos errores clásicos: la condición de borde y el denominador equivocado. Un test con ventas 200 y costes 150 lo habría detectado."
         },
@@ -175,8 +386,15 @@
           "kicker": "Configuración",
           "title": "Cuando falla la configuración, no el código",
           "blocks": [
-            { "type": "text", "body": "Si una Skill no aparece, un servidor MCP no conecta o un ajuste parece ignorarse:\n- `/doctor` (o `claude doctor`): diagnostica instalación, settings, CLAUDE.md y permisos\n- `/status`: qué archivos de settings se han cargado\n- `/mcp`: estado de los servidores\n- `/skills`, `/agents`, `/hooks`: qué está realmente disponible" },
-            { "type": "callout", "tone": "tip", "body": "Errores frecuentes: JSON con coma final, frontmatter mal delimitado, nombre de campo mal escrito (se ignora sin avisar) o archivo en la carpeta equivocada." }
+            {
+              "type": "text",
+              "body": "Si una Skill no aparece, un servidor MCP no conecta o un ajuste parece ignorarse:\n- `/doctor` (o `claude doctor`): diagnostica instalación, settings, CLAUDE.md y permisos\n- `/status`: qué archivos de settings se han cargado\n- `/mcp`: estado de los servidores\n- `/skills`, `/agents`, `/hooks`: qué está realmente disponible"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Errores frecuentes: JSON con coma final, frontmatter mal delimitado, nombre de campo mal escrito (se ignora sin avisar) o archivo en la carpeta equivocada."
+            }
           ]
         },
         {
@@ -184,16 +402,57 @@
           "type": "terminal",
           "concept": "met.debugging",
           "prompt": "El proyecto tiene un settings.json roto. Diagnostícalo con claude doctor y arréglalo hasta que no haya errores",
-          "setup": { "cwd": "~/finanzas", "files": { "~/finanzas/.claude/settings.json": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(git diff *)\"],\n  }\n}\n" } },
-          "intro": ["Pista: claude doctor y después nano .claude/settings.json"],
-          "goals": [
-            { "type": "ran", "pattern": "^claude doctor$|^/doctor$", "label": "Ejecutar el diagnóstico", "hint": "claude doctor" },
-            { "type": "doctor", "label": "Sin errores de configuración", "hint": "Quita la coma final después de la lista allow." },
-            { "type": "json", "path": "~/finanzas/.claude/settings.json", "expect": { "permissions.allow": { "includes": "Bash(git diff *)" } }, "label": "Conservar la regla allow original", "hint": "No borres la regla: solo corrige la sintaxis." }
+          "setup": {
+            "cwd": "~/finanzas",
+            "files": {
+              "~/finanzas/.claude/settings.json": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(git diff *)\"],\n  }\n}\n"
+            }
+          },
+          "intro": [
+            "Pista: claude doctor y después nano .claude/settings.json"
           ],
-          "solution": ["claude doctor", "nano .claude/settings.json", "claude doctor"],
-          "solutionFiles": [{ "path": "~/finanzas/.claude/settings.json", "content": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(git diff *)\"]\n  }\n}\n" }],
-          "suggestions": { "shell": ["claude doctor", "cat .claude/settings.json", "nano .claude/settings.json"] },
+          "goals": [
+            {
+              "type": "ran",
+              "pattern": "^claude doctor$|^/doctor$",
+              "label": "Ejecutar el diagnóstico",
+              "hint": "claude doctor"
+            },
+            {
+              "type": "doctor",
+              "label": "Sin errores de configuración",
+              "hint": "Quita la coma final después de la lista allow."
+            },
+            {
+              "type": "json",
+              "path": "~/finanzas/.claude/settings.json",
+              "expect": {
+                "permissions.allow": {
+                  "includes": "Bash(git diff *)"
+                }
+              },
+              "label": "Conservar la regla allow original",
+              "hint": "No borres la regla: solo corrige la sintaxis."
+            }
+          ],
+          "solution": [
+            "claude doctor",
+            "nano .claude/settings.json",
+            "claude doctor"
+          ],
+          "solutionFiles": [
+            {
+              "path": "~/finanzas/.claude/settings.json",
+              "content": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(git diff *)\"]\n  }\n}\n"
+            }
+          ],
+          "suggestions": {
+            "shell": [
+              "claude doctor",
+              "cat .claude/settings.json",
+              "nano .claude/settings.json"
+            ]
+          },
           "explain": "Una coma final invalida todo el archivo: en Claude Code real verías un *Settings Error* al arrancar."
         }
       ]
@@ -203,22 +462,50 @@
       "title": "Desarrollar una aplicación con Claude Code",
       "summary": "De la idea a una herramienta funcionando: especificación, plan, incrementos, revisión e integración continua.",
       "minutes": 8,
-      "objectives": ["Estructurar un proyecto de principio a fin", "Trabajar en incrementos verificables", "Conocer Claude Code en GitHub Actions"],
+      "objectives": [
+        "Estructurar un proyecto de principio a fin",
+        "Trabajar en incrementos verificables",
+        "Conocer Claude Code en GitHub Actions"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "De principio a fin",
           "title": "Un proyecto, siete pasos",
           "blocks": [
-            { "type": "flow", "steps": [
-              { "title": "Especificación", "text": "Qué problema resuelve, para quién, criterios de aceptación." },
-              { "title": "CLAUDE.md", "text": "Estructura, comandos de test y convenciones." },
-              { "title": "Plan", "text": "En modo plan; tú lo apruebas." },
-              { "title": "Incremento pequeño", "text": "Una funcionalidad con su test." },
-              { "title": "Verificación", "text": "Tests, diff y prueba manual." },
-              { "title": "Commit", "text": "Mensaje que explica el porqué." },
-              { "title": "Repetir", "text": "Siguiente incremento." }
-            ] }
+            {
+              "type": "flow",
+              "steps": [
+                {
+                  "title": "Especificación",
+                  "text": "Qué problema resuelve, para quién, criterios de aceptación."
+                },
+                {
+                  "title": "CLAUDE.md",
+                  "text": "Estructura, comandos de test y convenciones."
+                },
+                {
+                  "title": "Plan",
+                  "text": "En modo plan; tú lo apruebas."
+                },
+                {
+                  "title": "Incremento pequeño",
+                  "text": "Una funcionalidad con su test."
+                },
+                {
+                  "title": "Verificación",
+                  "text": "Tests, diff y prueba manual."
+                },
+                {
+                  "title": "Commit",
+                  "text": "Mensaje que explica el porqué."
+                },
+                {
+                  "title": "Repetir",
+                  "text": "Siguiente incremento."
+                }
+              ]
+            }
           ]
         },
         {
@@ -228,9 +515,18 @@
           "context": "Quieres una pequeña app que lea extractos CSV y genere un informe de tesorería semanal.",
           "prompt": "¿Cuál es el mejor primer mensaje?",
           "options": [
-            { "text": "«Hazme una app de tesorería completa»", "feedback": "Demasiado abierto: sin criterios no hay forma de verificar." },
-            { "text": "«En modo plan: propón la estructura y los pasos para una app que lea datos/extractos/*.csv y genere informes/tesoreria_SEMANA.md con saldo inicial, cobros, pagos y saldo final que cuadre. Incluye cómo la probaríamos»", "correct": true },
-            { "text": "«Escribe todo el código en un solo archivo y luego lo miramos»", "feedback": "Sin plan ni incrementos, revisar será difícil." }
+            {
+              "text": "«Hazme una app de tesorería completa»",
+              "feedback": "Demasiado abierto: sin criterios no hay forma de verificar."
+            },
+            {
+              "text": "«En modo plan: propón la estructura y los pasos para una app que lea datos/extractos/*.csv y genere informes/tesoreria_SEMANA.md con saldo inicial, cobros, pagos y saldo final que cuadre. Incluye cómo la probaríamos»",
+              "correct": true
+            },
+            {
+              "text": "«Escribe todo el código en un solo archivo y luego lo miramos»",
+              "feedback": "Sin plan ni incrementos, revisar será difícil."
+            }
           ],
           "explain": "Entrada, salida, regla de cuadre y forma de probar: con eso el plan será concreto y verificable."
         },
@@ -239,8 +535,16 @@
           "kicker": "Integración continua",
           "title": "Claude Code en GitHub Actions",
           "blocks": [
-            { "type": "text", "body": "Con **Claude Code GitHub Actions** (`anthropics/claude-code-action@v1`) puedes mencionar `@claude` en una issue o PR para que analice, implemente cambios o revise código. La forma rápida de configurarlo es `/install-github-app` desde Claude Code." },
-            { "type": "callout", "tone": "warn", "title": "Credenciales", "body": "La clave (`ANTHROPIC_API_KEY`) o el token de suscripción (`CLAUDE_CODE_OAUTH_TOKEN`) se guardan como **secretos del repositorio**, nunca en el código. Limita turnos con `--max-turns` en `claude_args` para controlar el coste." }
+            {
+              "type": "text",
+              "body": "**GitHub Actions** ejecuta tareas automáticas en GitHub cuando ocurre algo; por ejemplo, cuando alguien abre una **issue** (una incidencia o tarea) o una **pull request** (una propuesta de cambios para revisar antes de integrarlos).\n\nCon **Claude Code GitHub Actions** (`anthropics/claude-code-action@v1`) puedes mencionar `@claude` en una issue o pull request para que analice, implemente cambios o revise código. La forma rápida de configurarlo es `/install-github-app` desde Claude Code."
+            },
+            {
+              "type": "callout",
+              "tone": "warn",
+              "title": "Credenciales",
+              "body": "La clave de acceso (una *API key*: un código personal que identifica tu cuenta; `ANTHROPIC_API_KEY`) o el token de suscripción (`CLAUDE_CODE_OAUTH_TOKEN`) se guardan como **secretos del repositorio** (un apartado de GitHub pensado para claves), nunca en el código. Limita turnos con `--max-turns` en `claude_args` para controlar el coste."
+            }
           ]
         },
         {
@@ -249,10 +553,22 @@
           "concept": "auto.ci",
           "prompt": "¿Qué es correcto sobre Claude Code en GitHub Actions?",
           "options": [
-            { "text": "Se activa mencionando @claude en issues o pull requests", "correct": true },
-            { "text": "La API key se guarda como secreto del repositorio", "correct": true },
-            { "text": "Conviene escribir la API key directamente en el YAML del workflow", "feedback": "Nunca: usa secrets." },
-            { "text": "`/install-github-app` ayuda a configurarlo", "correct": true }
+            {
+              "text": "Se activa mencionando @claude en issues o pull requests",
+              "correct": true
+            },
+            {
+              "text": "La API key se guarda como secreto del repositorio",
+              "correct": true
+            },
+            {
+              "text": "Conviene escribir la API key directamente en el YAML del workflow",
+              "feedback": "Nunca: usa secrets."
+            },
+            {
+              "text": "`/install-github-app` ayuda a configurarlo",
+              "correct": true
+            }
           ],
           "explain": "Configuración guiada, credenciales como secretos y límites de turnos."
         },
@@ -261,7 +577,13 @@
           "type": "order",
           "concept": "auto.app-workflow",
           "prompt": "Ordena el desarrollo de la funcionalidad «exportar informe a CSV»",
-          "items": ["Describir el comportamiento esperado y el formato de salida", "Pedir en modo plan qué archivos cambiarían", "Escribir primero el test del exportador", "Implementar hasta que el test pase", "Revisar el diff, probar a mano y hacer commit"],
+          "items": [
+            "Describir el comportamiento esperado y el formato de salida",
+            "Pedir en modo plan qué archivos cambiarían",
+            "Escribir primero el test del exportador",
+            "Implementar hasta que el test pase",
+            "Revisar el diff, probar a mano y hacer commit"
+          ],
           "explain": "Especificar, planificar, testear, implementar y verificar: el bucle profesional completo."
         },
         {
@@ -270,9 +592,18 @@
           "concept": "met.prompting",
           "prompt": "A mitad del proyecto, Claude propone «aprovechar para refactorizar todo». ¿Qué haces?",
           "options": [
-            { "text": "Mantener el alcance: terminar el incremento actual y anotar la refactorización como tarea aparte", "correct": true },
-            { "text": "Aceptar: cuantos más cambios a la vez, mejor", "feedback": "Diffs enormes son difíciles de revisar y de deshacer." },
-            { "text": "Cerrar la sesión y empezar otro proyecto", "feedback": "No hace falta: basta con acotar." }
+            {
+              "text": "Mantener el alcance: terminar el incremento actual y anotar la refactorización como tarea aparte",
+              "correct": true
+            },
+            {
+              "text": "Aceptar: cuantos más cambios a la vez, mejor",
+              "feedback": "Diffs enormes son difíciles de revisar y de deshacer."
+            },
+            {
+              "text": "Cerrar la sesión y empezar otro proyecto",
+              "feedback": "No hace falta: basta con acotar."
+            }
           ],
           "explain": "Cambios pequeños y revisables: cada incremento debe poder verificarse y deshacerse por separado."
         }
@@ -288,9 +619,18 @@
         "concept": "auto.hooks",
         "prompt": "¿Cuál es la diferencia clave entre una instrucción en CLAUDE.md y un hook?",
         "options": [
-          { "text": "El hook se ejecuta siempre de forma determinista; CLAUDE.md es contexto que Claude sigue", "correct": true },
-          { "text": "Ninguna", "feedback": "Uno es una sugerencia; el otro, una acción garantizada." },
-          { "text": "CLAUDE.md puede bloquear acciones y el hook no", "feedback": "Es al revés: PreToolUse puede bloquear." }
+          {
+            "text": "El hook se ejecuta siempre de forma determinista; CLAUDE.md es contexto que Claude sigue",
+            "correct": true
+          },
+          {
+            "text": "Ninguna",
+            "feedback": "Uno es una sugerencia; el otro, una acción garantizada."
+          },
+          {
+            "text": "CLAUDE.md puede bloquear acciones y el hook no",
+            "feedback": "Es al revés: PreToolUse puede bloquear."
+          }
         ],
         "explain": "Para garantías, hooks y permisos; para orientar, CLAUDE.md."
       },
@@ -301,8 +641,22 @@
         "prompt": "Completa para obtener JSON y quedarte solo con el texto",
         "template": "claude -p \"resume el proyecto\" --output-format {{0}} | jq -r '.{{1}}'",
         "blanks": [
-          { "options": ["json", "text", "yaml"], "answer": "json" },
-          { "options": ["result", "text", "output"], "answer": "result" }
+          {
+            "options": [
+              "json",
+              "text",
+              "yaml"
+            ],
+            "answer": "json"
+          },
+          {
+            "options": [
+              "result",
+              "text",
+              "output"
+            ],
+            "answer": "result"
+          }
         ],
         "explain": "Con `--output-format json` el texto de la respuesta está en el campo `result`."
       },
@@ -312,9 +666,18 @@
         "concept": "auto.headless",
         "prompt": "¿Por qué se recomienda `--bare` en CI?",
         "options": [
-          { "text": "Porque no carga hooks, Skills, MCP ni CLAUDE.md de la máquina: resultados reproducibles", "correct": true },
-          { "text": "Porque es más barato", "feedback": "Su propósito es la reproducibilidad y el arranque rápido." },
-          { "text": "Porque desactiva todos los permisos", "feedback": "No: solo omite la configuración descubierta automáticamente." }
+          {
+            "text": "Porque no carga hooks, Skills, MCP ni CLAUDE.md de la máquina: resultados reproducibles",
+            "correct": true
+          },
+          {
+            "text": "Porque es más barato",
+            "feedback": "Su propósito es la reproducibilidad y el arranque rápido."
+          },
+          {
+            "text": "Porque desactiva todos los permisos",
+            "feedback": "No: solo omite la configuración descubierta automáticamente."
+          }
         ],
         "explain": "Lo que necesites lo pasas explícitamente con flags como --settings, --mcp-config o --agents."
       }

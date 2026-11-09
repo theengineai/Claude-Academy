@@ -11,16 +11,32 @@
       "title": "CLAUDE.md y memoria",
       "summary": "Instrucciones persistentes que Claude carga al empezar cada sesión.",
       "minutes": 7,
-      "objectives": ["Saber qué va en CLAUDE.md y qué no", "Distinguir memoria de usuario, proyecto y local", "Usar imports @ y .claude/rules"],
+      "objectives": [
+        "Saber qué va en CLAUDE.md y qué no",
+        "Distinguir memoria de usuario, proyecto y local",
+        "Usar imports @ y .claude/rules"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "Memoria",
           "title": "Cada sesión empieza de cero",
           "blocks": [
-            { "type": "text", "body": "Claude no recuerda la conversación de ayer. Lo que debe saber siempre se escribe en **`CLAUDE.md`**: un archivo Markdown que Claude Code carga al inicio de cada sesión.\n\nIncluye lo que un compañero nuevo necesitaría: estructura, comandos para validar, convenciones y límites." },
-            { "type": "code", "lang": "markdown", "file": "CLAUDE.md", "code": "# Cierre mensual\n\n## Estructura\n- datos/: extractos originales (no modificar)\n- informes/: resultados generados\n\n## Validación\n- Ejecuta `python scripts/test_margen.py` tras cada cambio\n- Los totales por cliente deben cuadrar con datos/ventas.csv\n\n## Convenciones\n- Importes en EUR con 2 decimales" },
-            { "type": "callout", "tone": "tip", "body": "`/init` genera un CLAUDE.md inicial analizando el proyecto. Si ya existe, propone mejoras en lugar de sobrescribirlo. Revísalo siempre." }
+            {
+              "type": "text",
+              "body": "Claude no recuerda la conversación de ayer. Lo que debe saber siempre se escribe en **`CLAUDE.md`**: un archivo Markdown que Claude Code carga al inicio de cada sesión.\n\nIncluye lo que un compañero nuevo necesitaría: estructura, comandos para validar, convenciones y límites.\n\n**Markdown** es texto normal con marcas muy simples: `#` para un título, `-` para una lista. Si has escrito una nota con viñetas, ya lo conoces."
+            },
+            {
+              "type": "code",
+              "lang": "markdown",
+              "file": "CLAUDE.md",
+              "code": "# Cierre mensual\n\n## Estructura\n- datos/: extractos originales (no modificar)\n- informes/: resultados generados\n\n## Validación\n- Ejecuta `python scripts/test_margen.py` tras cada cambio\n- Los totales por cliente deben cuadrar con datos/ventas.csv\n\n## Convenciones\n- Importes en EUR con 2 decimales"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "`/init` genera un CLAUDE.md inicial analizando el proyecto. Si ya existe, propone mejoras en lugar de sobrescribirlo. Revísalo siempre."
+            }
           ]
         },
         {
@@ -29,10 +45,22 @@
           "concept": "ctx.claude-md",
           "prompt": "¿Qué conviene incluir en el CLAUDE.md de un proyecto?",
           "options": [
-            { "text": "Comandos para ejecutar las pruebas o validaciones", "correct": true },
-            { "text": "Convenciones concretas (moneda, formato de fechas, nombres)", "correct": true },
-            { "text": "La contraseña de la base de datos", "feedback": "Nunca: CLAUDE.md suele compartirse en el repositorio." },
-            { "text": "Qué carpetas no deben modificarse", "correct": true }
+            {
+              "text": "Comandos para ejecutar las pruebas o validaciones",
+              "correct": true
+            },
+            {
+              "text": "Convenciones concretas (moneda, formato de fechas, nombres)",
+              "correct": true
+            },
+            {
+              "text": "La contraseña de la base de datos",
+              "feedback": "Nunca: CLAUDE.md suele compartirse en el repositorio."
+            },
+            {
+              "text": "Qué carpetas no deben modificarse",
+              "correct": true
+            }
           ],
           "explain": "CLAUDE.md es contexto compartido: instrucciones concretas, comprobables y sin secretos."
         },
@@ -41,9 +69,28 @@
           "kicker": "Ámbitos",
           "title": "Tres niveles de memoria",
           "blocks": [
-            { "type": "tree", "lines": ["~/.claude/CLAUDE.md     # usuario: tus preferencias en todos los proyectos", "proyecto/CLAUDE.md      # proyecto: compartido con el equipo (o .claude/CLAUDE.md)", "proyecto/CLAUDE.local.md  # local: solo tú, añádelo a .gitignore"] },
-            { "type": "text", "body": "Claude Code carga los `CLAUDE.md` del directorio de trabajo **y de los directorios superiores** al arrancar; los de subcarpetas se cargan cuando trabaja en ellas. Todos se **suman** al contexto, no se sustituyen." },
-            { "type": "callout", "tone": "info", "body": "Además existe la **auto memoria**: notas que Claude escribe por sí mismo a partir de tus correcciones. Se gestiona con `/memory`." }
+            {
+              "type": "tree",
+              "lines": [
+                "~/.claude/CLAUDE.md     # usuario: tus preferencias en todos los proyectos",
+                "proyecto/CLAUDE.md      # proyecto: compartido con el equipo (o .claude/CLAUDE.md)",
+                "proyecto/CLAUDE.local.md  # local: solo tú, añádelo a .gitignore"
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "`.gitignore` es un archivo donde listas lo que Git **no debe guardar ni compartir**. Así tus notas personales no se suben al repositorio del equipo."
+            },
+            {
+              "type": "text",
+              "body": "Claude Code carga los `CLAUDE.md` del directorio de trabajo **y de los directorios superiores** al arrancar; los de subcarpetas se cargan cuando trabaja en ellas. Todos se **suman** al contexto, no se sustituyen."
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "Además existe la **auto memoria**: notas que Claude escribe por sí mismo a partir de tus correcciones. Se gestiona con `/memory`."
+            }
           ]
         },
         {
@@ -52,9 +99,18 @@
           "concept": "ctx.memory-scopes",
           "prompt": "Empareja cada necesidad con su archivo",
           "pairs": [
-            ["Prefiero respuestas en español en todos mis proyectos", "`~/.claude/CLAUDE.md`"],
-            ["El equipo valida con `npm test` en este repositorio", "`CLAUDE.md` del proyecto"],
-            ["Mi URL de pruebas personal para este proyecto", "`CLAUDE.local.md`"]
+            [
+              "Prefiero respuestas en español en todos mis proyectos",
+              "`~/.claude/CLAUDE.md`"
+            ],
+            [
+              "El equipo valida con `npm test` en este repositorio",
+              "`CLAUDE.md` del proyecto"
+            ],
+            [
+              "Mi URL de pruebas personal para este proyecto",
+              "`CLAUDE.local.md`"
+            ]
           ],
           "explain": "Usuario = tú en todas partes; proyecto = el equipo; local = tú en este proyecto (sin subirlo a Git)."
         },
@@ -63,8 +119,16 @@
           "kicker": "Escala",
           "title": "Archivos cortos, imports y reglas",
           "blocks": [
-            { "type": "text", "body": "La guía oficial recomienda **menos de 200 líneas** por CLAUDE.md: cuanto más largo, más contexto consume y peor se sigue. Para crecer:\n- **Imports**: `@docs/glosario.md` dentro de CLAUDE.md incluye ese archivo (rutas relativas al archivo que importa; máximo cuatro saltos encadenados).\n- **Reglas**: archivos temáticos en `.claude/rules/` (por ejemplo `testing.md`). Pueden limitarse a ciertas rutas con `paths` en su frontmatter." },
-            { "type": "code", "lang": "markdown", "file": "CLAUDE.md", "code": "# Cierre mensual\nConsulta el glosario contable en @docs/glosario.md\n\n## Validación\n- Ejecuta las pruebas antes de dar una tarea por terminada" }
+            {
+              "type": "text",
+              "body": "La guía oficial recomienda **menos de 200 líneas** por CLAUDE.md: cuanto más largo, más contexto consume y peor se sigue. Para crecer:\n- **Imports**: `@docs/glosario.md` dentro de CLAUDE.md incluye ese archivo (rutas relativas al archivo que importa; máximo cuatro saltos encadenados).\n- **Reglas**: archivos temáticos en `.claude/rules/` (por ejemplo `testing.md`). Pueden aplicarse solo a ciertas carpetas o tipos de archivo."
+            },
+            {
+              "type": "code",
+              "lang": "markdown",
+              "file": "CLAUDE.md",
+              "code": "# Cierre mensual\nConsulta el glosario contable en @docs/glosario.md\n\n## Validación\n- Ejecuta las pruebas antes de dar una tarea por terminada"
+            }
           ]
         },
         {
@@ -74,9 +138,18 @@
           "context": "Tu CLAUDE.md dice «No modifiques nunca datos/». Aun así quieres la garantía de que ninguna edición pueda tocar esa carpeta.",
           "prompt": "¿Qué deberías saber?",
           "options": [
-            { "text": "CLAUDE.md es contexto, no un bloqueo: para garantizarlo usa reglas deny de permisos o un hook PreToolUse", "correct": true },
-            { "text": "Basta con escribirlo en mayúsculas", "feedback": "El énfasis ayuda a que lo siga, pero no lo hace obligatorio." },
-            { "text": "CLAUDE.md bloquea técnicamente cualquier acción que prohíba", "feedback": "La documentación lo deja claro: Claude lo trata como contexto, no como configuración impuesta." }
+            {
+              "text": "CLAUDE.md es contexto, no un bloqueo: para garantizarlo usa reglas deny de permisos o un hook PreToolUse",
+              "correct": true
+            },
+            {
+              "text": "Basta con escribirlo en mayúsculas",
+              "feedback": "El énfasis ayuda a que lo siga, pero no lo hace obligatorio."
+            },
+            {
+              "text": "CLAUDE.md bloquea técnicamente cualquier acción que prohíba",
+              "feedback": "La documentación lo deja claro: Claude lo trata como contexto, no como configuración impuesta."
+            }
           ],
           "explain": "Instrucciones → comportamiento esperado. Permisos y hooks → control técnico. Lo verás en los módulos 4 y 6."
         },
@@ -89,10 +162,27 @@
           "starter": "# Cierre mensual\n\nSé preciso y cuidadoso.\n",
           "rows": 10,
           "checks": [
-            { "label": "Indica la moneda (EUR)", "pattern": "\\bEUR\\b|euros?", "hint": "Por ejemplo: «Importes en EUR»." },
-            { "label": "Protege la carpeta datos/", "pattern": "(no (modifiques|modificar|toques|tocar|sobrescribas|sobrescribir)|nunca (modifiques|toques)|solo lectura)[^\\n]*datos|datos[^\\n]*(no (se )?(modifica|toca)|solo lectura|intact)", "hint": "Por ejemplo: «No modificar datos/»." },
-            { "label": "Define una validación concreta (prueba, total o cuadre)", "pattern": "(test|prueba|cuadr|reconcil|concili|total)", "hint": "Por ejemplo: «Los totales deben cuadrar con datos/ventas.csv»." },
-            { "label": "Elimina la instrucción vaga «Sé preciso»", "pattern": "s[eé] preciso", "negate": true, "hint": "No es comprobable; sustitúyela por criterios concretos." }
+            {
+              "label": "Indica la moneda (EUR)",
+              "pattern": "\\bEUR\\b|euros?",
+              "hint": "Por ejemplo: «Importes en EUR»."
+            },
+            {
+              "label": "Protege la carpeta datos/",
+              "pattern": "(no (modifiques|modificar|toques|tocar|sobrescribas|sobrescribir)|nunca (modifiques|toques)|solo lectura)[^\\n]*datos|datos[^\\n]*(no (se )?(modifica|toca)|solo lectura|intact)",
+              "hint": "Por ejemplo: «No modificar datos/»."
+            },
+            {
+              "label": "Define una validación concreta (prueba, total o cuadre)",
+              "pattern": "(test|prueba|cuadr|reconcil|concili|total)",
+              "hint": "Por ejemplo: «Los totales deben cuadrar con datos/ventas.csv»."
+            },
+            {
+              "label": "Elimina la instrucción vaga «Sé preciso»",
+              "pattern": "s[eé] preciso",
+              "negate": true,
+              "hint": "No es comprobable; sustitúyela por criterios concretos."
+            }
           ],
           "solution": "# Cierre mensual\n\n- Importes en EUR con 2 decimales\n- No modificar datos/: son los extractos originales\n- Validación: los totales por cliente deben cuadrar con datos/ventas.csv\n",
           "explain": "Instrucciones concretas y comprobables funcionan mejor que adjetivos como «preciso» o «cuidadoso»."
@@ -105,8 +195,22 @@
           "code": false,
           "template": "Para incluir el glosario dentro de CLAUDE.md escribo {{0}}, y para reglas temáticas creo archivos en la carpeta {{1}}.",
           "blanks": [
-            { "options": ["@docs/glosario.md", "#include glosario", "/import glosario"], "answer": "@docs/glosario.md" },
-            { "options": [".claude/rules/", ".claude/memory/", "docs/claude/"], "answer": ".claude/rules/" }
+            {
+              "options": [
+                "@docs/glosario.md",
+                "#include glosario",
+                "/import glosario"
+              ],
+              "answer": "@docs/glosario.md"
+            },
+            {
+              "options": [
+                ".claude/rules/",
+                ".claude/memory/",
+                "docs/claude/"
+              ],
+              "answer": ".claude/rules/"
+            }
           ],
           "explain": "La sintaxis de import es `@ruta`; las reglas modulares viven en `.claude/rules/`."
         }
@@ -117,19 +221,44 @@
       "title": "Gestión del contexto",
       "summary": "La ventana de contexto es limitada: llénala con lo que sirve.",
       "minutes": 6,
-      "objectives": ["Entender qué ocupa contexto", "Usar /context, /compact y /clear", "Referenciar archivos con @ y retomar sesiones"],
+      "objectives": [
+        "Entender qué ocupa contexto",
+        "Usar /context, /compact y /clear",
+        "Referenciar archivos con @ y retomar sesiones"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "Ventana de contexto",
           "title": "Todo lo que Claude «tiene delante»",
           "blocks": [
-            { "type": "text", "body": "En cada momento Claude trabaja con una **ventana de contexto** limitada: instrucciones de sistema, tu CLAUDE.md, descripciones de Skills, herramientas MCP, la conversación y todo lo que lee. Cuando se llena de ruido, la calidad baja." },
-            { "type": "flow", "title": "Qué ocupa espacio", "steps": [
-              { "title": "Memoria", "text": "CLAUDE.md y reglas, en cada sesión." },
-              { "title": "Herramientas y Skills", "text": "Descripciones disponibles." },
-              { "title": "Conversación", "text": "Tus mensajes, respuestas y resultados de herramientas (archivos leídos, salidas de comandos)." }
-            ] }
+            {
+              "type": "text",
+              "body": "En cada momento Claude trabaja con una **ventana de contexto** limitada: instrucciones de sistema, tu CLAUDE.md, descripciones de Skills, herramientas MCP, la conversación y todo lo que lee. Cuando se llena de ruido, la calidad baja."
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "El espacio se mide en **tokens**: trozos de texto, algo más cortos que una palabra. Por eso, al ver el uso de contexto, las cifras aparecen en tokens."
+            },
+            {
+              "type": "flow",
+              "title": "Qué ocupa espacio",
+              "steps": [
+                {
+                  "title": "Memoria",
+                  "text": "CLAUDE.md y reglas, en cada sesión."
+                },
+                {
+                  "title": "Herramientas y Skills",
+                  "text": "Descripciones disponibles."
+                },
+                {
+                  "title": "Conversación",
+                  "text": "Tus mensajes, respuestas y resultados de herramientas (archivos leídos, salidas de comandos)."
+                }
+              ]
+            }
           ]
         },
         {
@@ -138,10 +267,22 @@
           "concept": "ctx.window",
           "prompt": "¿Qué consume espacio de la ventana de contexto?",
           "options": [
-            { "text": "El contenido de los archivos que Claude lee", "correct": true },
-            { "text": "Tu CLAUDE.md, que se carga en cada sesión", "correct": true },
-            { "text": "La salida de los comandos que ejecuta", "correct": true },
-            { "text": "Los archivos del proyecto que nadie ha abierto", "feedback": "Lo que no se lee ni se referencia no entra en el contexto." }
+            {
+              "text": "El contenido de los archivos que Claude lee",
+              "correct": true
+            },
+            {
+              "text": "Tu CLAUDE.md, que se carga en cada sesión",
+              "correct": true
+            },
+            {
+              "text": "La salida de los comandos que ejecuta",
+              "correct": true
+            },
+            {
+              "text": "Los archivos del proyecto que nadie ha abierto",
+              "feedback": "Lo que no se lee ni se referencia no entra en el contexto."
+            }
           ],
           "explain": "Todo lo que se carga o se lee ocupa espacio. Por eso conviene señalar archivos concretos y mantener CLAUDE.md breve."
         },
@@ -150,8 +291,36 @@
           "kicker": "Comandos",
           "title": "Ver, resumir o empezar de nuevo",
           "blocks": [
-            { "type": "code", "lang": "sesión", "code": "/context                 # muestra cómo se reparte el contexto\n/compact conserva las hipótesis del margen   # resume la conversación\n/clear                   # conversación nueva con el contexto vacío\n/btw ¿qué era EBITDA?    # pregunta lateral que no entra en la conversación" },
-            { "type": "callout", "tone": "tip", "body": "Cambias de tarea → `/clear`. Misma tarea pero conversación larga → `/compact` con instrucciones de qué conservar. Las decisiones importantes, mejor en archivos." }
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "/context",
+                  "where": "sesión",
+                  "desc": "Muestra **cómo se reparte** el espacio de contexto."
+                },
+                {
+                  "cmd": "/compact conserva las hipótesis del margen",
+                  "where": "sesión",
+                  "desc": "**Resume** la conversación para liberar espacio. Lo que escribes después es qué debe conservar el resumen."
+                },
+                {
+                  "cmd": "/clear",
+                  "where": "sesión",
+                  "desc": "Empieza una conversación **nueva** con el contexto vacío."
+                },
+                {
+                  "cmd": "/btw ¿qué era el EBITDA?",
+                  "where": "sesión",
+                  "desc": "Una pregunta lateral que **no entra** en la conversación."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Cambias de tarea → `/clear`. Misma tarea pero conversación larga → `/compact` con instrucciones de qué conservar. Las decisiones importantes, mejor en archivos."
+            }
           ]
         },
         {
@@ -160,36 +329,105 @@
           "concept": "ctx.compact-clear",
           "prompt": "Empareja cada situación con el comando adecuado",
           "pairs": [
-            ["Termino la conciliación y empiezo una tarea distinta", "`/clear`"],
-            ["Llevo mucho rato con la misma tarea y quiero liberar espacio", "`/compact`"],
-            ["Quiero ver qué está ocupando el contexto", "`/context`"]
+            [
+              "Termino la conciliación y empiezo una tarea distinta",
+              "`/clear`"
+            ],
+            [
+              "Llevo mucho rato con la misma tarea y quiero liberar espacio",
+              "`/compact`"
+            ],
+            [
+              "Quiero ver qué está ocupando el contexto",
+              "`/context`"
+            ]
           ],
           "explain": "`/clear` empieza de cero; `/compact` resume para seguir; `/context` diagnostica."
-        },
-        {
-          "id": "m2l2e2",
-          "type": "terminal",
-          "concept": "ctx.compact-clear",
-          "prompt": "Abre una sesión, añade los datos al contexto con @, mira el uso de contexto y compacta indicando qué conservar",
-          "setup": { "cwd": "~/cierre", "files": { "~/cierre/CLAUDE.md": "# Cierre\n- Importes en EUR\n", "~/cierre/datos/ventas.csv": "fecha,cliente,importe\n2026-10-01,A,100\n2026-10-02,B,250\n" } },
-          "goals": [
-            { "type": "ran", "pattern": "^claude", "label": "Abrir una sesión", "hint": "claude" },
-            { "type": "ran", "pattern": "@datos/ventas\\.csv", "label": "Referenciar @datos/ventas.csv en una petición", "hint": "Por ejemplo: resume @datos/ventas.csv" },
-            { "type": "ran", "pattern": "^/context$", "label": "Consultar /context", "hint": "/context" },
-            { "type": "ran", "pattern": "^/compact\\s+\\S+", "label": "Compactar con instrucciones de foco", "hint": "/compact conserva los totales por cliente" }
-          ],
-          "solution": ["claude", "resume @datos/ventas.csv", "/context", "/compact conserva los totales por cliente"],
-          "suggestions": { "shell": ["claude"], "session": ["resume @datos/ventas.csv", "/context", "/compact ", "/exit"] },
-          "explain": "Con `@ruta` el archivo entra en el contexto sin esperar a que Claude lo busque. `/compact` admite instrucciones para decidir qué se conserva en el resumen."
         },
         {
           "type": "card",
           "kicker": "Referencias",
           "title": "Señala, no vuelques",
           "blocks": [
-            { "type": "compare", "left": { "title": "Ruido", "items": ["«Mira todo el proyecto y mejóralo»", "Pegar 300 líneas de log sin explicar"] }, "right": { "title": "Foco", "items": ["«Revisa @scripts/margen.py: el margen debe calcularse sobre ventas»", "Indicar el error exacto y cómo reproducirlo"] } },
-            { "type": "text", "body": "`@archivo` incluye su contenido; `@carpeta/` incluye el **listado**, no el contenido de cada archivo." }
+            {
+              "type": "compare",
+              "left": {
+                "title": "Ruido",
+                "items": [
+                  "«Mira todo el proyecto y mejóralo»",
+                  "Pegar 300 líneas de log sin explicar"
+                ]
+              },
+              "right": {
+                "title": "Foco",
+                "items": [
+                  "«Revisa @scripts/margen.py: el margen debe calcularse sobre ventas»",
+                  "Indicar el error exacto y cómo reproducirlo"
+                ]
+              }
+            },
+            {
+              "type": "text",
+              "body": "`@archivo` incluye su contenido; `@carpeta/` incluye el **listado**, no el contenido de cada archivo."
+            }
           ]
+        },
+        {
+          "id": "m2l2e2",
+          "type": "terminal",
+          "concept": "ctx.compact-clear",
+          "prompt": "Abre una sesión, añade los datos al contexto con @, mira el uso de contexto y compacta indicando qué conservar",
+          "setup": {
+            "cwd": "~/cierre",
+            "files": {
+              "~/cierre/CLAUDE.md": "# Cierre\n- Importes en EUR\n",
+              "~/cierre/datos/ventas.csv": "fecha,cliente,importe\n2026-10-01,A,100\n2026-10-02,B,250\n"
+            }
+          },
+          "goals": [
+            {
+              "type": "ran",
+              "pattern": "^claude",
+              "label": "Abrir una sesión",
+              "hint": "claude"
+            },
+            {
+              "type": "ran",
+              "pattern": "@datos/ventas\\.csv",
+              "label": "Referenciar @datos/ventas.csv en una petición",
+              "hint": "Por ejemplo: resume @datos/ventas.csv"
+            },
+            {
+              "type": "ran",
+              "pattern": "^/context$",
+              "label": "Consultar /context",
+              "hint": "/context"
+            },
+            {
+              "type": "ran",
+              "pattern": "^/compact\\s+\\S+",
+              "label": "Compactar con instrucciones de foco",
+              "hint": "/compact conserva los totales por cliente"
+            }
+          ],
+          "solution": [
+            "claude",
+            "resume @datos/ventas.csv",
+            "/context",
+            "/compact conserva los totales por cliente"
+          ],
+          "suggestions": {
+            "shell": [
+              "claude"
+            ],
+            "session": [
+              "resume @datos/ventas.csv",
+              "/context",
+              "/compact ",
+              "/exit"
+            ]
+          },
+          "explain": "Con `@ruta` el archivo entra en el contexto sin esperar a que Claude lo busque. `/compact` admite instrucciones para decidir qué se conserva en el resumen."
         },
         {
           "id": "m2l2e3",
@@ -197,9 +435,18 @@
           "concept": "ctx.mentions",
           "prompt": "¿Qué ocurre al escribir `@informes/` (una carpeta) en tu petición?",
           "options": [
-            { "text": "Se añade el listado de la carpeta, no el contenido de cada archivo", "correct": true },
-            { "text": "Se cargan todos los archivos completos de la carpeta", "feedback": "Las referencias a directorios muestran listados." },
-            { "text": "Se borra la carpeta", "feedback": "@ solo añade contexto." }
+            {
+              "text": "Se añade el listado de la carpeta, no el contenido de cada archivo",
+              "correct": true
+            },
+            {
+              "text": "Se cargan todos los archivos completos de la carpeta",
+              "feedback": "Las referencias a directorios muestran listados."
+            },
+            {
+              "text": "Se borra la carpeta",
+              "feedback": "@ solo añade contexto."
+            }
           ],
           "explain": "Para el contenido, referencia los archivos concretos que importan."
         },
@@ -208,8 +455,36 @@
           "kicker": "Sesiones",
           "title": "Retomar el trabajo",
           "blocks": [
-            { "type": "code", "lang": "terminal", "code": "claude -n cierre-octubre    # pon nombre a la sesión\nclaude -c                   # continúa la más reciente de esta carpeta\nclaude -r cierre-octubre    # reanuda por nombre\n> /resume                   # selector de sesiones desde dentro" },
-            { "type": "callout", "tone": "info", "body": "Si no hay ninguna conversación previa en la carpeta, `claude -c` responde *No conversation found to continue*." }
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "claude -n cierre-octubre",
+                  "where": "shell",
+                  "desc": "Abre Claude Code y **le pone nombre** a la sesión (`-n` = nombre)."
+                },
+                {
+                  "cmd": "claude -c",
+                  "where": "shell",
+                  "desc": "**Continúa** la conversación más reciente de esta carpeta."
+                },
+                {
+                  "cmd": "claude -r cierre-octubre",
+                  "where": "shell",
+                  "desc": "**Reanuda** una conversación concreta por su nombre."
+                },
+                {
+                  "cmd": "/resume",
+                  "where": "sesión",
+                  "desc": "Abre una lista de sesiones para elegir, ya dentro de Claude."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "Si no hay ninguna conversación previa en la carpeta, `claude -c` responde *No conversation found to continue*."
+            }
           ]
         },
         {
@@ -219,9 +494,18 @@
           "context": "Ayer trabajaste en «cierre-octubre» y hoy, en la misma carpeta, has abierto otra sesión para una consulta rápida.",
           "prompt": "¿Cómo vuelves exactamente a la sesión de ayer?",
           "options": [
-            { "text": "`claude -c`", "feedback": "-c continúa la más reciente, que ahora es la consulta rápida." },
-            { "text": "`claude -r cierre-octubre`", "correct": true },
-            { "text": "`/clear`", "feedback": "/clear empieza una conversación vacía." }
+            {
+              "text": "`claude -c`",
+              "feedback": "-c continúa la más reciente, que ahora es la consulta rápida."
+            },
+            {
+              "text": "`claude -r cierre-octubre`",
+              "correct": true
+            },
+            {
+              "text": "`/clear`",
+              "feedback": "/clear empieza una conversación vacía."
+            }
           ],
           "explain": "Nombrar sesiones (`-n`) y reanudarlas por nombre (`-r`) evita confusiones cuando trabajas en varias cosas."
         }
@@ -232,20 +516,42 @@
       "title": "Planificar, ejecutar y validar",
       "summary": "El método profesional: explorar y planificar antes de tocar nada, y verificar al final.",
       "minutes": 7,
-      "objectives": ["Usar el modo plan", "Conocer los modos de permisos", "Definir criterios de verificación"],
+      "objectives": [
+        "Usar el modo plan",
+        "Conocer los modos de permisos",
+        "Definir criterios de verificación"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "Método",
           "title": "Explorar → planificar → ejecutar → verificar",
           "blocks": [
-            { "type": "flow", "steps": [
-              { "title": "Explorar", "text": "Que lea lo relevante sin cambiar nada." },
-              { "title": "Planificar", "text": "Que proponga pasos concretos; tú los revisas." },
-              { "title": "Ejecutar", "text": "Cambios acotados, uno a uno." },
-              { "title": "Verificar", "text": "Pruebas, totales, diff. Si algo falla, se corrige." }
-            ] },
-            { "type": "text", "body": "Saltar la planificación funciona para cambios pequeños. Para cualquier cosa que toque varios archivos o datos importantes, planifica primero." }
+            {
+              "type": "flow",
+              "steps": [
+                {
+                  "title": "Explorar",
+                  "text": "Que lea lo relevante sin cambiar nada."
+                },
+                {
+                  "title": "Planificar",
+                  "text": "Que proponga pasos concretos; tú los revisas."
+                },
+                {
+                  "title": "Ejecutar",
+                  "text": "Cambios acotados, uno a uno."
+                },
+                {
+                  "title": "Verificar",
+                  "text": "Pruebas, totales, diff. Si algo falla, se corrige."
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "body": "Saltar la planificación funciona para cambios pequeños. Para cualquier cosa que toque varios archivos o datos importantes, planifica primero."
+            }
           ]
         },
         {
@@ -253,9 +559,34 @@
           "kicker": "Modo plan",
           "title": "Investiga sin tocar",
           "blocks": [
-            { "type": "text", "body": "En **modo plan** Claude lee, investiga y escribe un plan, pero **no edita tu código** hasta que lo apruebes. Formas de entrar:" },
-            { "type": "code", "lang": "terminal", "code": "claude --permission-mode plan   # arrancar ya en modo plan\n> /plan revisa el cálculo del margen   # entrar desde la sesión\n# o pulsar Shift+Tab hasta ver «⏸ plan mode on»" },
-            { "type": "callout", "tone": "tip", "body": "Con el plan listo puedes editarlo con Ctrl+G antes de aprobarlo." }
+            {
+              "type": "text",
+              "body": "En **modo plan** Claude lee, investiga y escribe un plan, pero **no edita tu código** hasta que lo apruebes. Formas de entrar:"
+            },
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "claude --permission-mode plan",
+                  "where": "shell",
+                  "desc": "Abre Claude Code ya en modo plan."
+                },
+                {
+                  "cmd": "/plan revisa el cálculo del margen",
+                  "where": "sesión",
+                  "desc": "Entra en modo plan desde dentro y empieza con esa tarea."
+                },
+                {
+                  "cmd": "Mayús + Tab",
+                  "desc": "Con el teclado, cambia de modo hasta ver «plan mode on». En el simulador, usa el botón **⇧Tab**."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Con el plan listo puedes editarlo con Ctrl+G antes de aprobarlo."
+            }
           ]
         },
         {
@@ -263,8 +594,15 @@
           "kicker": "Permisos",
           "title": "Los modos de permisos",
           "blocks": [
-            { "type": "text", "body": "- **default (Manual)**: pide permiso para editar, ejecutar comandos o usar la red.\n- **acceptEdits**: edita archivos del directorio sin preguntar; los demás comandos siguen pidiendo permiso.\n- **plan**: solo lee e investiga hasta que apruebas.\n- **auto**: un clasificador revisa cada acción antes de ejecutarla (si tu plan lo permite).\n- **dontAsk**: deniega todo lo no preaprobado; pensado para CI.\n- **bypassPermissions**: sin comprobaciones; solo en contenedores o máquinas aisladas." },
-            { "type": "callout", "tone": "warn", "body": "**Shift+Tab** recorre: default → acceptEdits → plan → (auto si está disponible). `dontAsk` nunca aparece en el ciclo y `bypassPermissions` solo si arrancaste con él." }
+            {
+              "type": "text",
+              "body": "- **default (Manual)**: pide permiso para editar, ejecutar comandos o usar la red.\n- **acceptEdits**: edita archivos del directorio sin preguntar; los demás comandos siguen pidiendo permiso.\n- **plan**: solo lee e investiga hasta que apruebas.\n- **auto**: un sistema automático de revisión (un *clasificador*) comprueba cada acción antes de ejecutarla, si tu plan lo permite.\n- **dontAsk**: deniega todo lo no preaprobado; pensado para ejecuciones automáticas sin nadie delante (lo que se llama **CI**, integración continua).\n- **bypassPermissions**: sin comprobaciones; solo en contenedores o máquinas aisladas."
+            },
+            {
+              "type": "callout",
+              "tone": "warn",
+              "body": "**Shift+Tab** recorre: default → acceptEdits → plan → (auto si está disponible). `dontAsk` nunca aparece en el ciclo y `bypassPermissions` solo si arrancaste con él."
+            }
           ]
         },
         {
@@ -273,10 +611,22 @@
           "concept": "sec.permission-modes",
           "prompt": "Empareja cada modo con su comportamiento",
           "pairs": [
-            ["`plan`", "Lee e investiga; no edita hasta aprobar el plan"],
-            ["`acceptEdits`", "Edita archivos sin preguntar; otros comandos piden permiso"],
-            ["`default`", "Pide permiso para editar, ejecutar o usar la red"],
-            ["`bypassPermissions`", "Sin comprobaciones: solo en entornos aislados"]
+            [
+              "`plan`",
+              "Lee e investiga; no edita hasta aprobar el plan"
+            ],
+            [
+              "`acceptEdits`",
+              "Edita archivos sin preguntar; otros comandos piden permiso"
+            ],
+            [
+              "`default`",
+              "Pide permiso para editar, ejecutar o usar la red"
+            ],
+            [
+              "`bypassPermissions`",
+              "Sin comprobaciones: solo en entornos aislados"
+            ]
           ],
           "explain": "Elegir el modo es decidir cuánta autonomía das en cada fase del trabajo."
         },
@@ -285,13 +635,41 @@
           "type": "terminal",
           "concept": "met.plan-mode",
           "prompt": "Arranca una sesión directamente en modo plan y pide un análisis del script de margen",
-          "setup": { "cwd": "~/cierre", "files": { "~/cierre/scripts/margen.py": "def margen(ventas, costes):\n    return (ventas - costes) / costes\n" } },
+          "setup": {
+            "cwd": "~/cierre",
+            "files": {
+              "~/cierre/scripts/margen.py": "def margen(ventas, costes):\n    return (ventas - costes) / costes\n"
+            }
+          },
           "goals": [
-            { "type": "mode", "value": "plan", "label": "Sesión en modo plan", "hint": "claude --permission-mode plan (o Shift+Tab dentro de la sesión)" },
-            { "type": "ran", "pattern": "@scripts/margen\\.py", "label": "Pedir el análisis referenciando @scripts/margen.py", "hint": "analiza @scripts/margen.py" }
+            {
+              "type": "mode",
+              "value": "plan",
+              "label": "Sesión en modo plan",
+              "hint": "claude --permission-mode plan (o Shift+Tab dentro de la sesión)"
+            },
+            {
+              "type": "ran",
+              "pattern": "@scripts/margen\\.py",
+              "label": "Pedir el análisis referenciando @scripts/margen.py",
+              "hint": "analiza @scripts/margen.py"
+            }
           ],
-          "solution": ["claude --permission-mode plan", "analiza @scripts/margen.py y propone cómo corregir el margen"],
-          "suggestions": { "shell": ["claude --permission-mode plan", "claude"], "session": ["analiza @scripts/margen.py", "/plan ", "/exit"] },
+          "solution": [
+            "claude --permission-mode plan",
+            "analiza @scripts/margen.py y propone cómo corregir el margen"
+          ],
+          "suggestions": {
+            "shell": [
+              "claude --permission-mode plan",
+              "claude"
+            ],
+            "session": [
+              "analiza @scripts/margen.py",
+              "/plan ",
+              "/exit"
+            ]
+          },
           "explain": "En modo plan Claude solo investiga y propone: perfecto para entender un error antes de corregirlo (aquí el margen se divide entre costes en lugar de ventas)."
         },
         {
@@ -301,9 +679,18 @@
           "context": "Claude ha corregido la fórmula del margen y dice «Listo, ya funciona».",
           "prompt": "¿Qué evidencia deberías pedir antes de aceptar?",
           "options": [
-            { "text": "Que lo confirme otra vez con más seguridad", "feedback": "Una afirmación repetida no es evidencia." },
-            { "text": "Un caso de prueba con resultado conocido (ventas 200, costes 150 → margen 25%) y el diff del cambio", "correct": true },
-            { "text": "Ninguna: si lo dice, está bien", "feedback": "Verificar es parte del método." }
+            {
+              "text": "Que lo confirme otra vez con más seguridad",
+              "feedback": "Una afirmación repetida no es evidencia."
+            },
+            {
+              "text": "Un caso de prueba con resultado conocido (ventas 200, costes 150 → margen 25%) y el diff del cambio",
+              "correct": true
+            },
+            {
+              "text": "Ninguna: si lo dice, está bien",
+              "feedback": "Verificar es parte del método."
+            }
           ],
           "explain": "Un ejemplo con resultado conocido y el diff permiten comprobar el cambio de forma objetiva."
         },
@@ -312,7 +699,13 @@
           "type": "order",
           "concept": "met.explore-plan",
           "prompt": "Ordena el flujo para cambiar el cálculo de comisiones de varios informes",
-          "items": ["Pedir en modo plan que localice dónde se calculan las comisiones", "Revisar y ajustar el plan propuesto", "Aprobar y ejecutar los cambios por partes", "Ejecutar las pruebas y revisar el diff", "Hacer commit con un mensaje que explique el porqué"],
+          "items": [
+            "Pedir en modo plan que localice dónde se calculan las comisiones",
+            "Revisar y ajustar el plan propuesto",
+            "Aprobar y ejecutar los cambios por partes",
+            "Ejecutar las pruebas y revisar el diff",
+            "Hacer commit con un mensaje que explique el porqué"
+          ],
           "explain": "Explorar y planificar sin tocar, ejecutar acotado y verificar antes de confirmar."
         },
         {
@@ -321,9 +714,18 @@
           "concept": "met.checkpoints",
           "prompt": "Claude acaba de editar tres archivos en una dirección que no te convence. ¿Qué atajo abre el menú para volver atrás?",
           "options": [
-            { "text": "Pulsar Esc dos veces con la entrada vacía (o `/rewind`)", "correct": true },
-            { "text": "`/clear`", "feedback": "/clear vacía la conversación, pero no deshace cambios en archivos." },
-            { "text": "Cerrar la terminal", "feedback": "Los archivos seguirían modificados." }
+            {
+              "text": "Pulsar Esc dos veces con la entrada vacía (o `/rewind`)",
+              "correct": true
+            },
+            {
+              "text": "`/clear`",
+              "feedback": "/clear vacía la conversación, pero no deshace cambios en archivos."
+            },
+            {
+              "text": "Cerrar la terminal",
+              "feedback": "Los archivos seguirían modificados."
+            }
           ],
           "explain": "El menú de `/rewind` permite restaurar código, conversación o ambos a un checkpoint anterior."
         }
@@ -339,9 +741,22 @@
         "concept": "ctx.claude-md",
         "prompt": "Este CLAUDE.md de proyecto tiene problemas. Señálalos",
         "file": "CLAUDE.md",
-        "lines": ["# Cierre mensual", "- Importes en EUR con 2 decimales", "- Token de la API: sk-live-7f3a9b2c", "- Sé muy preciso", "- No modificar datos/: son originales", "- Valida con: python scripts/test_margen.py"],
-        "faulty": [2, 3],
-        "notes": { "2": "Un secreto nunca va en CLAUDE.md: se comparte en el repositorio.", "3": "Instrucción vaga, no comprobable." },
+        "lines": [
+          "# Cierre mensual",
+          "- Importes en EUR con 2 decimales",
+          "- Token de la API: sk-live-7f3a9b2c",
+          "- Sé muy preciso",
+          "- No modificar datos/: son originales",
+          "- Valida con: python scripts/test_margen.py"
+        ],
+        "faulty": [
+          2,
+          3
+        ],
+        "notes": {
+          "2": "Un secreto nunca va en CLAUDE.md: se comparte en el repositorio.",
+          "3": "Instrucción vaga, no comprobable."
+        },
         "fixed": "# Cierre mensual\n- Importes en EUR con 2 decimales\n- No modificar datos/: son originales\n- Valida con: python scripts/test_margen.py",
         "explain": "Sin secretos y con instrucciones concretas."
       },
@@ -351,9 +766,18 @@
         "concept": "ctx.memory-scopes",
         "prompt": "Ejecutas Claude en `cierre/scripts/`. Existen `cierre/CLAUDE.md` y `cierre/scripts/CLAUDE.md`. ¿Qué se carga al arrancar?",
         "options": [
-          { "text": "Ambos, concatenados", "correct": true },
-          { "text": "Solo el de `scripts/`, que sustituye al otro", "feedback": "Los archivos se suman, no se sobrescriben." },
-          { "text": "Solo el de la raíz del proyecto", "feedback": "También se carga el del directorio de trabajo." }
+          {
+            "text": "Ambos, concatenados",
+            "correct": true
+          },
+          {
+            "text": "Solo el de `scripts/`, que sustituye al otro",
+            "feedback": "Los archivos se suman, no se sobrescriben."
+          },
+          {
+            "text": "Solo el de la raíz del proyecto",
+            "feedback": "También se carga el del directorio de trabajo."
+          }
         ],
         "explain": "Se cargan los CLAUDE.md del directorio de trabajo y de sus superiores, y se concatenan."
       },
@@ -363,7 +787,13 @@
         "concept": "met.plan-mode",
         "prompt": "Completa el comando para empezar en modo plan",
         "template": "claude --permission-mode {{0}}",
-        "blanks": [ { "accept": ["plan"] } ],
+        "blanks": [
+          {
+            "accept": [
+              "plan"
+            ]
+          }
+        ],
         "explain": "`--permission-mode plan` arranca la sesión en modo plan."
       }
     ]

@@ -64,6 +64,11 @@
       "title": "Qué es una terminal y un comando"
     },
     {
+      "id": "env.create-files",
+      "competency": "entorno",
+      "title": "Crear carpetas y editar archivos"
+    },
+    {
       "id": "env.agent-loop",
       "competency": "entorno",
       "title": "Bucle agéntico: reunir contexto, actuar y verificar"

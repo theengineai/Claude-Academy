@@ -106,6 +106,41 @@
               "body": "Las acciones se hacen con **herramientas**: leer archivos, buscar en el código, editar, ejecutar comandos de shell, consultar la web… Y puedes ampliarlas con **Skills**, **servidores MCP** y **subagentes** (lo verás en los módulos 3 a 5)."
             },
             {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "Read",
+                  "desc": "Leer un archivo del proyecto."
+                },
+                {
+                  "cmd": "Grep",
+                  "desc": "Buscar un texto dentro de muchos archivos."
+                },
+                {
+                  "cmd": "Glob",
+                  "desc": "Buscar archivos por su nombre o tipo (por ejemplo, todos los `.csv`)."
+                },
+                {
+                  "cmd": "Edit",
+                  "desc": "Modificar un archivo que ya existe."
+                },
+                {
+                  "cmd": "Write",
+                  "desc": "Crear un archivo nuevo."
+                },
+                {
+                  "cmd": "Bash",
+                  "desc": "Ejecutar comandos de la terminal (guardar versiones con Git, lanzar pruebas…)."
+                }
+              ],
+              "title": "Las herramientas, con su nombre"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Estos nombres los verás más adelante al decidir **permisos** (módulo 4) y al crear **subagentes** (módulo 5). Ahora basta con reconocerlos."
+            },
+            {
               "type": "callout",
               "tone": "warn",
               "title": "Permisos",
@@ -118,6 +153,31 @@
               "body": "Piensa en un analista junior muy rápido: puede preparar la conciliación, pero tú defines el procedimiento y revisas antes de firmar."
             }
           ]
+        },
+        {
+          "id": "m1l1e5",
+          "type": "match",
+          "concept": "env.agent-loop",
+          "prompt": "Empareja cada herramienta con lo que hace",
+          "pairs": [
+            [
+              "`Read`",
+              "Leer un archivo"
+            ],
+            [
+              "`Edit`",
+              "Modificar un archivo existente"
+            ],
+            [
+              "`Bash`",
+              "Ejecutar comandos de la terminal"
+            ],
+            [
+              "`Grep`",
+              "Buscar un texto en muchos archivos"
+            ]
+          ],
+          "explain": "Son las «manos» de Claude Code: leer, buscar, modificar y ejecutar."
         },
         {
           "id": "m1l1e2",
@@ -164,7 +224,7 @@
           "blocks": [
             {
               "type": "text",
-              "body": "Claude Code está disponible en la **terminal (CLI)**, en la **app Desktop** (pestaña Code), en extensiones de **IDE** como VS Code y JetBrains y en la **web**. Todas comparten la idea de proyecto, permisos y configuración como `CLAUDE.md` o Skills."
+              "body": "Claude Code está disponible en la **terminal** (también llamada **CLI**, de *command-line interface*: la interfaz donde escribes comandos), en la **app Desktop** (pestaña Code), en extensiones para editores de código (los **IDE**, como VS Code y JetBrains) y en la **web**. Todas comparten la idea de proyecto, permisos y configuración como `CLAUDE.md` o Skills."
             },
             {
               "type": "callout",
@@ -665,12 +725,12 @@
           "blocks": [
             {
               "type": "text",
-              "body": "En la app Claude Desktop, Claude Code es la pestaña **Code**. Cada conversación es una sesión con su carpeta de proyecto. Aporta:\n- **Revisión visual de cambios** (diff archivo a archivo, con comentarios en líneas concretas)\n- **Sesiones en paralelo**, cada una en su propio *worktree* de Git si lo activas\n- Un **selector de modo de permisos** bajo el cuadro de texto\n- Terminal integrada, editor de archivos y vista previa en navegador\n- Elegir dónde se ejecuta: **local**, **nube** o **SSH**"
+              "body": "En la app Claude Desktop, Claude Code es la pestaña **Code**. Cada conversación es una sesión con su carpeta de proyecto. Aporta:\n- **Revisión visual de cambios** (diff archivo a archivo, con comentarios en líneas concretas)\n- **Sesiones en paralelo**, cada una en su propio *worktree* si lo activas (una copia aislada del proyecto; lo verás en el módulo 5)\n- Un **selector de modo de permisos** bajo el cuadro de texto\n- Terminal integrada, editor de archivos y vista previa en navegador\n- Elegir dónde se ejecuta: **local**, **nube** o **SSH**"
             },
             {
               "type": "callout",
               "tone": "info",
-              "body": "Desktop comparte la configuración de usuario con la CLI, como `~/.claude/settings.json` y tus Skills personales. El modo `dontAsk` solo existe en la CLI."
+              "body": "Desktop comparte con la CLI tu configuración de usuario y tus Skills personales. El modo `dontAsk` solo existe en la CLI."
             }
           ]
         },
@@ -834,6 +894,11 @@
             },
             {
               "type": "callout",
+              "tone": "info",
+              "body": "En `scripts/` van **programas**, normalmente en Python (un lenguaje muy usado para analizar datos). No necesitas saber escribirlos: Claude los escribe y tú **compruebas el resultado**."
+            },
+            {
+              "type": "callout",
               "tone": "finance",
               "body": "Igual que en un cierre contable: el extracto original no se toca; se trabaja sobre copias y se deja rastro de cada ajuste."
             }
@@ -862,17 +927,132 @@
         },
         {
           "type": "card",
+          "kicker": "Crear y editar",
+          "title": "Crear carpetas y archivos",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Para dejar notas, reglas o Skills en un proyecto tendrás que **crear carpetas y escribir archivos**. Cuatro comandos bastan:"
+            },
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "mkdir informes",
+                  "desc": "Crea la carpeta «informes»."
+                },
+                {
+                  "cmd": "mkdir -p a/b/c",
+                  "desc": "Crea una carpeta dentro de otra aunque las de en medio no existan. La opción `-p` significa «también las intermedias»."
+                },
+                {
+                  "cmd": "nano informes/nota.txt",
+                  "desc": "Abre un **editor de texto sencillo** para escribir ese archivo (si no existe, lo crea)."
+                },
+                {
+                  "cmd": "cat informes/nota.txt",
+                  "desc": "Muestra por pantalla lo que contiene el archivo."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "En el simulador, `nano` abre una ventana con un botón **Guardar**. En una terminal real se guarda con Ctrl+O y se sale con Ctrl+X."
+            }
+          ]
+        },
+        {
+          "id": "m1l3e6",
+          "type": "terminal",
+          "concept": "env.create-files",
+          "prompt": "Crea la carpeta **informes**, escribe dentro un archivo **nota.txt** con la frase «Revisar el margen de octubre» y comprueba su contenido",
+          "setup": {
+            "cwd": "~/cierre",
+            "files": {
+              "~/cierre/README.md": "Proyecto de cierre\n"
+            }
+          },
+          "goals": [
+            {
+              "type": "exists",
+              "path": "~/cierre/informes",
+              "kind": "dir",
+              "label": "Existe la carpeta informes",
+              "hint": "mkdir informes"
+            },
+            {
+              "type": "file",
+              "path": "~/cierre/informes/nota.txt",
+              "checks": [
+                {
+                  "pattern": "revisar el margen"
+                }
+              ],
+              "label": "nota.txt contiene «Revisar el margen de octubre»",
+              "hint": "nano informes/nota.txt, escribe la frase y pulsa Guardar"
+            },
+            {
+              "type": "ran",
+              "pattern": "^cat\\s+informes/nota\\.txt$",
+              "label": "Comprobar el contenido con cat",
+              "hint": "cat informes/nota.txt"
+            }
+          ],
+          "solution": [
+            "mkdir informes",
+            "nano informes/nota.txt",
+            "cat informes/nota.txt"
+          ],
+          "solutionFiles": [
+            {
+              "path": "~/cierre/informes/nota.txt",
+              "content": "Revisar el margen de octubre\n"
+            }
+          ],
+          "suggestions": {
+            "shell": [
+              "mkdir informes",
+              "nano informes/nota.txt",
+              "cat informes/nota.txt",
+              "ls"
+            ]
+          },
+          "explain": "Crear una carpeta, escribir un archivo y leerlo: con eso podrás montar cualquier estructura de proyecto."
+        },
+        {
+          "type": "card",
           "kicker": "Git",
           "title": "Tu red de seguridad",
           "blocks": [
             {
               "type": "text",
-              "body": "Un **repositorio Git** guarda el historial de cambios. Antes y después de trabajar con Claude, tres comandos te dan control:"
+              "body": "**Git** es el programa que guarda el historial de un proyecto, y un **repositorio Git** es el proyecto con ese historial. Cada vez que guardas una versión con nombre se crea un **commit**: una «foto» del proyecto a la que puedes volver. Antes y después de trabajar con Claude, estos comandos te dan control:"
             },
             {
-              "type": "code",
-              "lang": "terminal",
-              "code": "git status              # qué ha cambiado\ngit diff                # qué líneas exactamente\ngit add . && git commit -m \"Corrige fórmula de margen\""
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "git init",
+                  "desc": "Convierte la carpeta en un repositorio. Solo se hace **una vez** por proyecto."
+                },
+                {
+                  "cmd": "git status",
+                  "desc": "**Qué ha cambiado** desde la última versión guardada."
+                },
+                {
+                  "cmd": "git diff",
+                  "desc": "**Qué líneas** exactamente han cambiado (lo quitado y lo añadido)."
+                },
+                {
+                  "cmd": "git add .",
+                  "desc": "**Prepara** todos los cambios para guardarlos. El punto significa «todo lo de esta carpeta»."
+                },
+                {
+                  "cmd": "git commit -m \"Corrige fórmula de margen\"",
+                  "desc": "**Guarda la versión** (commit) con un mensaje que explica qué y por qué."
+                }
+              ]
             },
             {
               "type": "callout",

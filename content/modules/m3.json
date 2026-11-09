@@ -11,15 +11,26 @@
       "title": "Anatomía de una Skill",
       "summary": "Una carpeta con un SKILL.md: frontmatter que dice cuándo usarla e instrucciones que dicen cómo.",
       "minutes": 6,
-      "objectives": ["Saber qué es una Skill y cuándo crearla", "Conocer la estructura de SKILL.md", "Conocer las ubicaciones personal y de proyecto"],
+      "objectives": [
+        "Saber qué es una Skill y cuándo crearla",
+        "Conocer la estructura de SKILL.md",
+        "Conocer las ubicaciones personal y de proyecto"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "Concepto",
           "title": "Tu procedimiento, empaquetado",
           "blocks": [
-            { "type": "text", "body": "Una **Skill** es un conjunto de instrucciones que Claude carga **cuando es relevante** o cuando tú la invocas con `/nombre`. Es ideal para procedimientos que repites: una conciliación, un informe mensual, una revisión con checklist.\n\nSi te descubres pegando las mismas instrucciones una y otra vez en el chat, eso debería ser una Skill." },
-            { "type": "callout", "tone": "finance", "body": "Piensa en el manual de procedimientos del departamento: cada Skill es un procedimiento que Claude puede consultar cuando toca." }
+            {
+              "type": "text",
+              "body": "Una **Skill** es un conjunto de instrucciones que Claude carga **cuando es relevante** o cuando tú la invocas con `/nombre`. Es ideal para procedimientos que repites: una conciliación, un informe mensual, una revisión con checklist.\n\nSi te descubres pegando las mismas instrucciones una y otra vez en el chat, eso debería ser una Skill."
+            },
+            {
+              "type": "callout",
+              "tone": "finance",
+              "body": "Piensa en el manual de procedimientos del departamento: cada Skill es un procedimiento que Claude puede consultar cuando toca."
+            }
           ]
         },
         {
@@ -27,9 +38,24 @@
           "kicker": "Estructura",
           "title": "Una carpeta con SKILL.md",
           "blocks": [
-            { "type": "tree", "lines": [".claude/skills/", "└── conciliar-bancos/      # el nombre de la carpeta = nombre por defecto", "    └── SKILL.md"] },
-            { "type": "code", "lang": "markdown", "file": "SKILL.md", "code": "---\nname: conciliar-bancos\ndescription: Concilia extractos bancarios con el libro mayor. Úsala cuando el usuario pida conciliar, cuadrar o revisar movimientos bancarios.\n---\n\n1. Lee el extracto y el mayor del periodo indicado.\n2. Empareja movimientos por fecha, importe y concepto.\n3. Lista las partidas sin emparejar con su importe.\n4. Comprueba que saldo inicial + movimientos = saldo final." },
-            { "type": "text", "body": "Entre las dos líneas `---` va el **frontmatter** (YAML). Debajo, las **instrucciones** en Markdown." }
+            {
+              "type": "tree",
+              "lines": [
+                ".claude/skills/",
+                "└── conciliar-bancos/      # el nombre de la carpeta = nombre por defecto",
+                "    └── SKILL.md"
+              ]
+            },
+            {
+              "type": "code",
+              "lang": "markdown",
+              "file": "SKILL.md",
+              "code": "---\nname: conciliar-bancos\ndescription: Concilia extractos bancarios con el libro mayor. Úsala cuando el usuario pida conciliar, cuadrar o revisar movimientos bancarios.\n---\n\n1. Lee el extracto y el mayor del periodo indicado.\n2. Empareja movimientos por fecha, importe y concepto.\n3. Lista las partidas sin emparejar con su importe.\n4. Comprueba que saldo inicial + movimientos = saldo final."
+            },
+            {
+              "type": "text",
+              "body": "Entre las dos líneas `---` va el **frontmatter**: datos de la Skill escritos como «etiqueta: valor» (formato YAML). Debajo, las **instrucciones** en Markdown, igual que en CLAUDE.md."
+            }
           ]
         },
         {
@@ -38,9 +64,18 @@
           "concept": "sk.frontmatter",
           "prompt": "¿Para qué usa Claude el campo `description` de una Skill?",
           "options": [
-            { "text": "Para decidir cuándo cargarla automáticamente", "correct": true },
-            { "text": "Solo como comentario para humanos", "feedback": "Es lo que Claude lee para saber si la Skill es relevante." },
-            { "text": "Para nombrar el comando /", "feedback": "Eso es name (o el nombre de la carpeta)." }
+            {
+              "text": "Para decidir cuándo cargarla automáticamente",
+              "correct": true
+            },
+            {
+              "text": "Solo como comentario para humanos",
+              "feedback": "Es lo que Claude lee para saber si la Skill es relevante."
+            },
+            {
+              "text": "Para nombrar el comando /",
+              "feedback": "Eso es name (o el nombre de la carpeta)."
+            }
           ],
           "explain": "La description está siempre en contexto; el cuerpo completo solo se carga al invocarse. Por eso debe decir **qué hace y cuándo usarla**."
         },
@@ -49,8 +84,17 @@
           "kicker": "Ubicaciones",
           "title": "Personal o de proyecto",
           "blocks": [
-            { "type": "tree", "lines": ["~/.claude/skills/<nombre>/SKILL.md   # personal: todos tus proyectos", ".claude/skills/<nombre>/SKILL.md    # proyecto: se sube al repositorio y la comparte el equipo"] },
-            { "type": "text", "body": "Si dos Skills se llaman igual, gana la de mayor prioridad: **empresa > personal > proyecto**. Los archivos antiguos en `.claude/commands/x.md` siguen creando `/x`, pero se recomiendan Skills porque admiten archivos de apoyo." }
+            {
+              "type": "tree",
+              "lines": [
+                "~/.claude/skills/<nombre>/SKILL.md   # personal: todos tus proyectos",
+                ".claude/skills/<nombre>/SKILL.md    # proyecto: se sube al repositorio y la comparte el equipo"
+              ]
+            },
+            {
+              "type": "text",
+              "body": "Si dos Skills se llaman igual, gana la de mayor prioridad: **empresa > personal > proyecto**. Los archivos antiguos en `.claude/commands/x.md` siguen creando `/x`, pero se recomiendan Skills porque admiten archivos de apoyo."
+            }
           ]
         },
         {
@@ -60,8 +104,24 @@
           "prompt": "Completa la ruta para una Skill de proyecto llamada `informe-iva`",
           "template": "{{0}}/informe-iva/{{1}}",
           "blanks": [
-            { "options": [".claude/skills", "~/.claude/commands", "skills/claude", ".claude/agents"], "answer": ".claude/skills" },
-            { "options": ["SKILL.md", "skill.json", "README.md", "index.md"], "answer": "SKILL.md" }
+            {
+              "options": [
+                ".claude/skills",
+                "~/.claude/commands",
+                "skills/claude",
+                ".claude/agents"
+              ],
+              "answer": ".claude/skills"
+            },
+            {
+              "options": [
+                "SKILL.md",
+                "skill.json",
+                "README.md",
+                "index.md"
+              ],
+              "answer": "SKILL.md"
+            }
           ],
           "explain": "Proyecto: `.claude/skills/<nombre>/SKILL.md`. Personal: `~/.claude/skills/<nombre>/SKILL.md`."
         },
@@ -71,10 +131,22 @@
           "concept": "sk.what",
           "prompt": "¿Qué casos son buenos candidatos a Skill?",
           "options": [
-            { "text": "La conciliación bancaria que haces cada mes con los mismos pasos", "correct": true },
-            { "text": "El checklist de revisión de un informe antes de enviarlo a dirección", "correct": true },
-            { "text": "Una pregunta puntual que no volverás a hacer", "feedback": "Para algo puntual basta con pedirlo en la conversación." },
-            { "text": "El formato estándar del informe trimestral", "correct": true }
+            {
+              "text": "La conciliación bancaria que haces cada mes con los mismos pasos",
+              "correct": true
+            },
+            {
+              "text": "El checklist de revisión de un informe antes de enviarlo a dirección",
+              "correct": true
+            },
+            {
+              "text": "Una pregunta puntual que no volverás a hacer",
+              "feedback": "Para algo puntual basta con pedirlo en la conversación."
+            },
+            {
+              "text": "El formato estándar del informe trimestral",
+              "correct": true
+            }
           ],
           "explain": "Las Skills brillan en procedimientos repetibles con pasos y criterios claros."
         },
@@ -84,9 +156,24 @@
           "concept": "sk.frontmatter",
           "prompt": "Esta Skill no se activa nunca sola. ¿Qué líneas fallan?",
           "file": ".claude/skills/informe-iva/SKILL.md",
-          "lines": ["--", "name: informe-iva", "description: Skill", "--", "", "Prepara el borrador del modelo de IVA trimestral."],
-          "faulty": [0, 2, 3],
-          "notes": { "0": "El frontmatter se delimita con tres guiones: ---", "2": "«Skill» no dice qué hace ni cuándo usarla.", "3": "Cierre del frontmatter: ---" },
+          "lines": [
+            "--",
+            "name: informe-iva",
+            "description: Skill",
+            "--",
+            "",
+            "Prepara el borrador del modelo de IVA trimestral."
+          ],
+          "faulty": [
+            0,
+            2,
+            3
+          ],
+          "notes": {
+            "0": "El frontmatter se delimita con tres guiones: ---",
+            "2": "«Skill» no dice qué hace ni cuándo usarla.",
+            "3": "Cierre del frontmatter: ---"
+          },
           "fixed": "---\nname: informe-iva\ndescription: Prepara el borrador del IVA trimestral. Úsala cuando el usuario pida preparar o revisar el IVA del trimestre.\n---\n\nPrepara el borrador del modelo de IVA trimestral.",
           "explain": "Delimitadores `---` correctos y una description que explique qué hace y cuándo usarla."
         }
@@ -97,15 +184,41 @@
       "title": "Crear y reutilizar Skills",
       "summary": "Invocación manual o automática, argumentos y cómo crear la Skill en el proyecto.",
       "minutes": 7,
-      "objectives": ["Controlar quién puede invocar una Skill", "Pasar argumentos con $ARGUMENTS", "Crear una Skill desde la terminal"],
+      "objectives": [
+        "Controlar quién puede invocar una Skill",
+        "Pasar argumentos con $ARGUMENTS",
+        "Crear una Skill desde la terminal"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "Invocación",
           "title": "¿Quién puede activarla?",
           "blocks": [
-            { "type": "text", "body": "Por defecto, **tú y Claude** podéis invocar una Skill. Dos campos lo cambian:" },
-            { "type": "compare", "left": { "title": "disable-model-invocation: true", "icon": "user", "items": ["Solo tú, con /nombre", "Para acciones con efectos: enviar, publicar, desplegar"] }, "right": { "title": "user-invocable: false", "icon": "spark", "items": ["Solo Claude la usa", "Oculta del menú /", "Para conocimiento de fondo"] } }
+            {
+              "type": "text",
+              "body": "Por defecto, **tú y Claude** podéis invocar una Skill. Dos campos lo cambian:"
+            },
+            {
+              "type": "compare",
+              "left": {
+                "title": "disable-model-invocation: true",
+                "icon": "user",
+                "items": [
+                  "Solo tú, con /nombre",
+                  "Para acciones con efectos: enviar, publicar, desplegar"
+                ]
+              },
+              "right": {
+                "title": "user-invocable: false",
+                "icon": "spark",
+                "items": [
+                  "Solo Claude la usa",
+                  "Oculta del menú /",
+                  "Para conocimiento de fondo"
+                ]
+              }
+            }
           ]
         },
         {
@@ -115,9 +228,18 @@
           "context": "Tienes una Skill que envía el informe de cierre por correo a dirección. No quieres que Claude decida enviarlo por su cuenta.",
           "prompt": "¿Qué añades al frontmatter?",
           "options": [
-            { "text": "`disable-model-invocation: true`", "correct": true },
-            { "text": "`user-invocable: false`", "feedback": "Eso haría lo contrario: solo Claude podría invocarla." },
-            { "text": "Nada: basta con decirlo en la description", "feedback": "La description guía, pero el campo lo impide de forma explícita." }
+            {
+              "text": "`disable-model-invocation: true`",
+              "correct": true
+            },
+            {
+              "text": "`user-invocable: false`",
+              "feedback": "Eso haría lo contrario: solo Claude podría invocarla."
+            },
+            {
+              "text": "Nada: basta con decirlo en la description",
+              "feedback": "La description guía, pero el campo lo impide de forma explícita."
+            }
           ],
           "explain": "Con `disable-model-invocation: true` solo tú puedes lanzarla con `/nombre`, y su descripción ni siquiera entra en el contexto."
         },
@@ -126,8 +248,21 @@
           "kicker": "Argumentos",
           "title": "Skills con parámetros",
           "blocks": [
-            { "type": "code", "lang": "markdown", "file": ".claude/skills/cierre/SKILL.md", "code": "---\nname: cierre\ndescription: Prepara el cierre mensual de un periodo\nargument-hint: [periodo]\ndisable-model-invocation: true\n---\n\nPrepara el cierre del periodo $ARGUMENTS:\n1. Consolida datos/ventas_$ARGUMENTS.csv y datos/gastos_$ARGUMENTS.csv\n2. Calcula el margen bruto\n3. Deja el informe en informes/cierre_$ARGUMENTS.md" },
-            { "type": "text", "body": "`/cierre 2026-10` sustituye `$ARGUMENTS` por `2026-10`. También existen `$0`, `$1`… (posición, empezando en 0). Si la Skill no usa ningún marcador, Claude Code añade `ARGUMENTS: <valor>` al final." }
+            {
+              "type": "code",
+              "lang": "markdown",
+              "file": ".claude/skills/cierre/SKILL.md",
+              "code": "---\nname: cierre\ndescription: Prepara el cierre mensual de un periodo\nargument-hint: [periodo]\ndisable-model-invocation: true\n---\n\nPrepara el cierre del periodo $ARGUMENTS:\n1. Consolida datos/ventas_$ARGUMENTS.csv y datos/gastos_$ARGUMENTS.csv\n2. Calcula el margen bruto\n3. Deja el informe en informes/cierre_$ARGUMENTS.md"
+            },
+            {
+              "type": "text",
+              "body": "`/cierre 2026-10` sustituye `$ARGUMENTS` por `2026-10`. También existen `$0`, `$1`… (posición, empezando en 0). Si la Skill no usa ningún marcador, Claude Code añade `ARGUMENTS: <valor>` al final."
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Para crear una Skill en la práctica de abajo: `mkdir -p .claude/skills/cierre` crea la carpeta (con `-p` crea también las intermedias) y `nano .claude/skills/cierre/SKILL.md` abre el editor para escribir el archivo. Lo viste en el módulo 1."
+            }
           ]
         },
         {
@@ -137,9 +272,30 @@
           "prompt": "Con `/comparar 2026-09 2026-10`, ¿qué valen los marcadores?",
           "template": "$0 = {{0}}\n$1 = {{1}}\n$ARGUMENTS = {{2}}",
           "blanks": [
-            { "options": ["2026-09", "2026-10", "comparar"], "answer": "2026-09" },
-            { "options": ["2026-10", "2026-09", "(vacío)"], "answer": "2026-10" },
-            { "options": ["2026-09 2026-10", "2026-09", "comparar 2026-09 2026-10"], "answer": "2026-09 2026-10" }
+            {
+              "options": [
+                "2026-09",
+                "2026-10",
+                "comparar"
+              ],
+              "answer": "2026-09"
+            },
+            {
+              "options": [
+                "2026-10",
+                "2026-09",
+                "(vacío)"
+              ],
+              "answer": "2026-10"
+            },
+            {
+              "options": [
+                "2026-09 2026-10",
+                "2026-09",
+                "comparar 2026-09 2026-10"
+              ],
+              "answer": "2026-09 2026-10"
+            }
           ],
           "explain": "Las posiciones empiezan en 0 y `$ARGUMENTS` es todo lo escrito tras el nombre."
         },
@@ -148,17 +304,77 @@
           "type": "terminal",
           "concept": "sk.locations",
           "prompt": "Crea la Skill de proyecto `cierre` con su frontmatter y pruébala con /cierre 2026-10",
-          "setup": { "cwd": "~/finanzas", "files": { "~/finanzas/CLAUDE.md": "# Finanzas\n- Importes en EUR\n", "~/finanzas/datos/": null } },
-          "intro": ["Pista: mkdir -p .claude/skills/cierre y después nano .claude/skills/cierre/SKILL.md"],
-          "goals": [
-            { "type": "exists", "path": "~/finanzas/.claude/skills/cierre/SKILL.md", "kind": "file", "label": "Existe .claude/skills/cierre/SKILL.md", "hint": "Crea la carpeta con mkdir -p y el archivo con nano." },
-            { "type": "frontmatter", "path": "~/finanzas/.claude/skills/cierre/SKILL.md", "expect": { "description": { "pattern": ".{20,}" } }, "label": "Frontmatter con una description útil (20+ caracteres)", "hint": "Empieza con --- , añade description: ... y cierra con ---" },
-            { "type": "file", "path": "~/finanzas/.claude/skills/cierre/SKILL.md", "checks": [{ "pattern": "\\$ARGUMENTS|\\$0" }], "label": "Las instrucciones usan $ARGUMENTS (o $0)", "hint": "Por ejemplo: Prepara el cierre del periodo $ARGUMENTS" },
-            { "type": "ran", "pattern": "^/cierre\\s+2026-10$", "label": "Probarla con /cierre 2026-10 dentro de una sesión", "hint": "claude y después /cierre 2026-10" }
+          "setup": {
+            "cwd": "~/finanzas",
+            "files": {
+              "~/finanzas/CLAUDE.md": "# Finanzas\n- Importes en EUR\n",
+              "~/finanzas/datos/": null
+            }
+          },
+          "intro": [
+            "Pista: mkdir -p .claude/skills/cierre y después nano .claude/skills/cierre/SKILL.md"
           ],
-          "solution": ["mkdir -p .claude/skills/cierre", "nano .claude/skills/cierre/SKILL.md", "claude", "/cierre 2026-10"],
-          "solutionFiles": [{ "path": "~/finanzas/.claude/skills/cierre/SKILL.md", "content": "---\nname: cierre\ndescription: Prepara el cierre mensual de un periodo con margen bruto\nargument-hint: [periodo]\n---\n\nPrepara el cierre del periodo $ARGUMENTS y deja el informe en informes/.\n" }],
-          "suggestions": { "shell": ["mkdir -p .claude/skills/cierre", "nano .claude/skills/cierre/SKILL.md", "claude"], "session": ["/skills", "/cierre 2026-10", "/exit"] },
+          "goals": [
+            {
+              "type": "exists",
+              "path": "~/finanzas/.claude/skills/cierre/SKILL.md",
+              "kind": "file",
+              "label": "Existe .claude/skills/cierre/SKILL.md",
+              "hint": "Crea la carpeta con mkdir -p y el archivo con nano."
+            },
+            {
+              "type": "frontmatter",
+              "path": "~/finanzas/.claude/skills/cierre/SKILL.md",
+              "expect": {
+                "description": {
+                  "pattern": ".{20,}"
+                }
+              },
+              "label": "Frontmatter con una description útil (20+ caracteres)",
+              "hint": "Empieza con --- , añade description: ... y cierra con ---"
+            },
+            {
+              "type": "file",
+              "path": "~/finanzas/.claude/skills/cierre/SKILL.md",
+              "checks": [
+                {
+                  "pattern": "\\$ARGUMENTS|\\$0"
+                }
+              ],
+              "label": "Las instrucciones usan $ARGUMENTS (o $0)",
+              "hint": "Por ejemplo: Prepara el cierre del periodo $ARGUMENTS"
+            },
+            {
+              "type": "ran",
+              "pattern": "^/cierre\\s+2026-10$",
+              "label": "Probarla con /cierre 2026-10 dentro de una sesión",
+              "hint": "claude y después /cierre 2026-10"
+            }
+          ],
+          "solution": [
+            "mkdir -p .claude/skills/cierre",
+            "nano .claude/skills/cierre/SKILL.md",
+            "claude",
+            "/cierre 2026-10"
+          ],
+          "solutionFiles": [
+            {
+              "path": "~/finanzas/.claude/skills/cierre/SKILL.md",
+              "content": "---\nname: cierre\ndescription: Prepara el cierre mensual de un periodo con margen bruto\nargument-hint: [periodo]\n---\n\nPrepara el cierre del periodo $ARGUMENTS y deja el informe en informes/.\n"
+            }
+          ],
+          "suggestions": {
+            "shell": [
+              "mkdir -p .claude/skills/cierre",
+              "nano .claude/skills/cierre/SKILL.md",
+              "claude"
+            ],
+            "session": [
+              "/skills",
+              "/cierre 2026-10",
+              "/exit"
+            ]
+          },
           "explain": "Al invocarla verás cómo `$ARGUMENTS` se sustituye por el periodo: así se reutiliza el mismo procedimiento cada mes."
         },
         {
@@ -167,9 +383,18 @@
           "concept": "sk.locations",
           "prompt": "Quieres usar tu Skill `estilo-informes` en todos tus proyectos, sin subirla a ningún repositorio. ¿Dónde la guardas?",
           "options": [
-            { "text": "`~/.claude/skills/estilo-informes/SKILL.md`", "correct": true },
-            { "text": "`.claude/skills/estilo-informes/SKILL.md` en cada proyecto", "feedback": "Funcionaría, pero la duplicarías y acabaría en cada repositorio." },
-            { "text": "Dentro de CLAUDE.md", "feedback": "CLAUDE.md se carga siempre; una Skill solo cuando hace falta." }
+            {
+              "text": "`~/.claude/skills/estilo-informes/SKILL.md`",
+              "correct": true
+            },
+            {
+              "text": "`.claude/skills/estilo-informes/SKILL.md` en cada proyecto",
+              "feedback": "Funcionaría, pero la duplicarías y acabaría en cada repositorio."
+            },
+            {
+              "text": "Dentro de CLAUDE.md",
+              "feedback": "CLAUDE.md se carga siempre; una Skill solo cuando hace falta."
+            }
           ],
           "explain": "Las Skills personales viven en `~/.claude/skills/` y están disponibles en todos tus proyectos."
         }
@@ -180,15 +405,32 @@
       "title": "Skills avanzadas con control de calidad",
       "summary": "Archivos de apoyo, contexto dinámico y checklists que convierten una Skill en un procedimiento auditable.",
       "minutes": 7,
-      "objectives": ["Usar archivos de apoyo y carga progresiva", "Inyectar contexto con !`comando`", "Diseñar controles de calidad dentro de la Skill"],
+      "objectives": [
+        "Usar archivos de apoyo y carga progresiva",
+        "Inyectar contexto con !`comando`",
+        "Diseñar controles de calidad dentro de la Skill"
+      ],
       "steps": [
         {
           "type": "card",
           "kicker": "Carga progresiva",
           "title": "SKILL.md corto, detalle aparte",
           "blocks": [
-            { "type": "tree", "lines": ["conciliar-bancos/", "├── SKILL.md          # resumen y navegación (recomendado < 500 líneas)", "├── criterios.md      # se lee solo cuando hace falta", "├── ejemplos.md", "└── scripts/", "    └── emparejar.py  # se ejecuta, no se carga en contexto"] },
-            { "type": "text", "body": "La carga es por capas: la **description** está siempre en contexto; el **cuerpo** entra al invocarse; los **archivos de apoyo** solo si SKILL.md indica cuándo abrirlos. Así no malgastas contexto." }
+            {
+              "type": "tree",
+              "lines": [
+                "conciliar-bancos/",
+                "├── SKILL.md          # resumen y navegación (recomendado < 500 líneas)",
+                "├── criterios.md      # se lee solo cuando hace falta",
+                "├── ejemplos.md",
+                "└── scripts/",
+                "    └── emparejar.py  # se ejecuta, no se carga en contexto"
+              ]
+            },
+            {
+              "type": "text",
+              "body": "La carga es por capas: la **description** está siempre en contexto; el **cuerpo** entra al invocarse; los **archivos de apoyo** solo si SKILL.md indica cuándo abrirlos. Así no malgastas contexto."
+            }
           ]
         },
         {
@@ -196,7 +438,11 @@
           "type": "order",
           "concept": "sk.supporting",
           "prompt": "Ordena qué entra en contexto y cuándo",
-          "items": ["La description de la Skill (siempre disponible)", "El cuerpo de SKILL.md (al invocarla)", "criterios.md (cuando las instrucciones lo piden)"],
+          "items": [
+            "La description de la Skill (siempre disponible)",
+            "El cuerpo de SKILL.md (al invocarla)",
+            "criterios.md (cuando las instrucciones lo piden)"
+          ],
           "explain": "Divulgación progresiva: cada capa entra solo cuando aporta."
         },
         {
@@ -204,8 +450,21 @@
           "kicker": "Contexto dinámico",
           "title": "Datos frescos antes de empezar",
           "blocks": [
-            { "type": "code", "lang": "markdown", "file": "SKILL.md", "code": "---\nname: resumen-cambios\ndescription: Resume los cambios sin confirmar y señala riesgos\nallowed-tools: Bash(git diff *)\n---\n\n## Cambios actuales\n!`git diff HEAD`\n\nResume los cambios en tres puntos y lista los riesgos." },
-            { "type": "text", "body": "`!`comando`` se ejecuta **antes** de enviar la Skill a Claude y su salida sustituye al marcador. `allowed-tools` preaprueba herramientas durante el turno en que se invoca la Skill (no restringe las demás)." }
+            {
+              "type": "code",
+              "lang": "markdown",
+              "file": "SKILL.md",
+              "code": "---\nname: resumen-cambios\ndescription: Resume los cambios sin confirmar y señala riesgos\nallowed-tools: Bash(git diff *)\n---\n\n## Cambios actuales\n!`git diff HEAD`\n\nResume los cambios en tres puntos y lista los riesgos."
+            },
+            {
+              "type": "text",
+              "body": "En una Skill, una línea con `!` y un comando entre comillas invertidas (como en el ejemplo) se ejecuta **antes** de enviarle la Skill a Claude, y su resultado ocupa ese lugar. `allowed-tools` preaprueba herramientas durante el turno en que se invoca la Skill (no restringe las demás)."
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "Cómo leer `Bash(git diff *)`: la herramienta **Bash** (ejecutar comandos) y, entre paréntesis, **qué comandos** se permiten. El `*` significa «cualquier cosa a continuación»: aquí, cualquier `git diff`."
+            }
           ]
         },
         {
@@ -214,9 +473,18 @@
           "concept": "sk.frontmatter",
           "prompt": "¿Qué hace exactamente `allowed-tools: Bash(git diff *)` en una Skill?",
           "options": [
-            { "text": "Permite usar `git diff …` sin pedir permiso durante el turno que invoca la Skill", "correct": true },
-            { "text": "Impide que Claude use cualquier otra herramienta", "feedback": "No restringe: para quitar herramientas existe disallowed-tools." },
-            { "text": "Ejecuta git diff cada vez que se abre Claude", "feedback": "Eso no lo hace ningún campo de Skill." }
+            {
+              "text": "Permite usar `git diff …` sin pedir permiso durante el turno que invoca la Skill",
+              "correct": true
+            },
+            {
+              "text": "Impide que Claude use cualquier otra herramienta",
+              "feedback": "No restringe: para quitar herramientas existe disallowed-tools."
+            },
+            {
+              "text": "Ejecuta git diff cada vez que se abre Claude",
+              "feedback": "Eso no lo hace ningún campo de Skill."
+            }
           ],
           "explain": "`allowed-tools` concede permisos durante ese turno; no limita el resto de herramientas."
         },
@@ -225,8 +493,17 @@
           "kicker": "Calidad",
           "title": "Una Skill que se audita a sí misma",
           "blocks": [
-            { "type": "code", "lang": "markdown", "file": "SKILL.md", "code": "---\nname: informe-margen\ndescription: Genera el informe de margen mensual. Úsala cuando pidan el informe de margen o rentabilidad del mes.\n---\n\n## Procedimiento\n1. Lee datos/ventas_$0.csv y datos/gastos_$0.csv (no los modifiques)\n2. Calcula margen = (ventas - gastos) / ventas\n3. Escribe informes/margen_$0.md\n\n## Controles antes de entregar\n- [ ] La suma de ventas por cliente coincide con el total del CSV\n- [ ] El margen está entre -100% y 100%\n- [ ] Cada cifra indica su fuente (archivo y columna)\n- Si un control falla: detente y explica la diferencia; no la maquilles." },
-            { "type": "callout", "tone": "finance", "body": "Es el equivalente a la casilla de «revisado por» de un papel de trabajo: el procedimiento incluye cómo demostrar que está bien." }
+            {
+              "type": "code",
+              "lang": "markdown",
+              "file": "SKILL.md",
+              "code": "---\nname: informe-margen\ndescription: Genera el informe de margen mensual. Úsala cuando pidan el informe de margen o rentabilidad del mes.\n---\n\n## Procedimiento\n1. Lee datos/ventas_$0.csv y datos/gastos_$0.csv (no los modifiques)\n2. Calcula margen = (ventas - gastos) / ventas\n3. Escribe informes/margen_$0.md\n\n## Controles antes de entregar\n- [ ] La suma de ventas por cliente coincide con el total del CSV\n- [ ] El margen está entre -100% y 100%\n- [ ] Cada cifra indica su fuente (archivo y columna)\n- Si un control falla: detente y explica la diferencia; no la maquilles."
+            },
+            {
+              "type": "callout",
+              "tone": "finance",
+              "body": "Es el equivalente a la casilla de «revisado por» de un papel de trabajo: el procedimiento incluye cómo demostrar que está bien."
+            }
           ]
         },
         {
@@ -238,10 +515,26 @@
           "starter": "---\nname: informe-margen\ndescription: Genera el informe de margen mensual. Úsala cuando pidan el informe de margen del mes.\n---\n\n1. Lee datos/ventas_$0.csv\n2. Calcula el margen\n3. Escribe informes/margen_$0.md\n",
           "rows": 14,
           "checks": [
-            { "label": "Mantiene un frontmatter válido (--- … ---)", "pattern": "^---\\n[\\s\\S]*?description:.+\\n[\\s\\S]*?---", "flags": "" },
-            { "label": "Incluye una sección de controles", "pattern": "^#+\\s*(controles|validaci|checklist|verificaci|comprobaci)", "hint": "Por ejemplo: ## Controles antes de entregar" },
-            { "label": "Exige un cuadre de totales", "pattern": "(cuadr|coincid|reconcil|concili|suma)", "hint": "Por ejemplo: la suma por cliente coincide con el total." },
-            { "label": "Indica qué hacer si un control falla", "pattern": "(si (un|algún|algun|el) control falla|si falla|si no cuadra|detente|det[eé]n)", "hint": "Por ejemplo: si un control falla, detente y explica la diferencia." }
+            {
+              "label": "Mantiene un frontmatter válido (--- … ---)",
+              "pattern": "^---\\n[\\s\\S]*?description:.+\\n[\\s\\S]*?---",
+              "flags": ""
+            },
+            {
+              "label": "Incluye una sección de controles",
+              "pattern": "^#+\\s*(controles|validaci|checklist|verificaci|comprobaci)",
+              "hint": "Por ejemplo: ## Controles antes de entregar"
+            },
+            {
+              "label": "Exige un cuadre de totales",
+              "pattern": "(cuadr|coincid|reconcil|concili|suma)",
+              "hint": "Por ejemplo: la suma por cliente coincide con el total."
+            },
+            {
+              "label": "Indica qué hacer si un control falla",
+              "pattern": "(si (un|algún|algun|el) control falla|si falla|si no cuadra|detente|det[eé]n)",
+              "hint": "Por ejemplo: si un control falla, detente y explica la diferencia."
+            }
           ],
           "solution": "---\nname: informe-margen\ndescription: Genera el informe de margen mensual. Úsala cuando pidan el informe de margen del mes.\n---\n\n1. Lee datos/ventas_$0.csv\n2. Calcula el margen\n3. Escribe informes/margen_$0.md\n\n## Controles antes de entregar\n- La suma de ventas por cliente coincide con el total del CSV\n- Si un control falla, detente y explica la diferencia\n",
           "explain": "Un procedimiento con controles explícitos y una regla de parada es mucho más fiable que uno que solo describe pasos."
@@ -252,10 +545,22 @@
           "concept": "sk.quality",
           "prompt": "¿Qué hace más robusta una Skill de cierre?",
           "options": [
-            { "text": "Checklist de controles con criterios verificables", "correct": true },
-            { "text": "Instrucción de detenerse y explicar si algo no cuadra", "correct": true },
-            { "text": "Indicar la fuente de cada cifra", "correct": true },
-            { "text": "Pedir que «haga que cuadre» si hay diferencias", "feedback": "Eso invita a maquillar resultados." }
+            {
+              "text": "Checklist de controles con criterios verificables",
+              "correct": true
+            },
+            {
+              "text": "Instrucción de detenerse y explicar si algo no cuadra",
+              "correct": true
+            },
+            {
+              "text": "Indicar la fuente de cada cifra",
+              "correct": true
+            },
+            {
+              "text": "Pedir que «haga que cuadre» si hay diferencias",
+              "feedback": "Eso invita a maquillar resultados."
+            }
           ],
           "explain": "Controles verificables, regla de parada y trazabilidad: lo mismo que pedirías a un equipo humano."
         }
@@ -271,9 +576,18 @@
         "concept": "sk.invocation",
         "prompt": "Una Skill tiene `user-invocable: false`. ¿Qué ocurre?",
         "options": [
-          { "text": "No aparece en el menú / y solo Claude puede usarla", "correct": true },
-          { "text": "Solo tú puedes invocarla", "feedback": "Eso es disable-model-invocation: true." },
-          { "text": "Queda desactivada para todos", "feedback": "Claude sigue pudiendo cargarla." }
+          {
+            "text": "No aparece en el menú / y solo Claude puede usarla",
+            "correct": true
+          },
+          {
+            "text": "Solo tú puedes invocarla",
+            "feedback": "Eso es disable-model-invocation: true."
+          },
+          {
+            "text": "Queda desactivada para todos",
+            "feedback": "Claude sigue pudiendo cargarla."
+          }
         ],
         "explain": "Útil para conocimiento de fondo que no tiene sentido como comando."
       },
@@ -283,10 +597,22 @@
         "concept": "sk.frontmatter",
         "prompt": "Empareja cada campo con su función",
         "pairs": [
-          ["`description`", "Qué hace y cuándo usarla"],
-          ["`argument-hint`", "Pista de autocompletado, p. ej. [periodo]"],
-          ["`allowed-tools`", "Herramientas sin pedir permiso en ese turno"],
-          ["`context: fork`", "Ejecutar la Skill en un subagente"]
+          [
+            "`description`",
+            "Qué hace y cuándo usarla"
+          ],
+          [
+            "`argument-hint`",
+            "Pista de autocompletado, p. ej. [periodo]"
+          ],
+          [
+            "`allowed-tools`",
+            "Herramientas sin pedir permiso en ese turno"
+          ],
+          [
+            "`disable-model-invocation`",
+            "Solo tú puedes invocarla con /nombre"
+          ]
         ],
         "explain": "Los nombres deben escribirse exactamente: Claude Code ignora en silencio los campos desconocidos."
       },
@@ -296,9 +622,18 @@
         "concept": "sk.arguments",
         "prompt": "Tu Skill no contiene `$ARGUMENTS` ni `$0` y la invocas con `/revisar 2026-10`. ¿Qué pasa con «2026-10»?",
         "options": [
-          { "text": "Se añade al final como `ARGUMENTS: 2026-10`", "correct": true },
-          { "text": "Se pierde", "feedback": "Claude Code lo añade para que no se pierda." },
-          { "text": "Da un error", "feedback": "No es un error." }
+          {
+            "text": "Se añade al final como `ARGUMENTS: 2026-10`",
+            "correct": true
+          },
+          {
+            "text": "Se pierde",
+            "feedback": "Claude Code lo añade para que no se pierda."
+          },
+          {
+            "text": "Da un error",
+            "feedback": "No es un error."
+          }
         ],
         "explain": "Si ningún marcador recibe los argumentos, se anexan como `ARGUMENTS: <valor>`."
       }
