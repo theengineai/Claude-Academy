@@ -20,4 +20,4 @@
 - **Haz copias de seguridad.** En Perfil → Tus datos puedes descargar una copia `.json` o copiarla al portapapeles (guárdala en Notas o Archivos) y restaurarla cuando quieras, también en otro dispositivo.
 - iOS puede borrar los datos si borras el historial de Safari o el sistema necesita espacio. La copia de seguridad te protege de eso.
 - Si cambia la dirección de la app (otro repositorio o dominio), se considera otra app: exporta antes tu progreso.
-- Las actualizaciones se descargan solas en segundo plano y se aplican la siguiente vez que abres la app.
+- Las actualizaciones se descargan solas al abrir la app con conexión. Cuando haya una versión nueva verás un aviso con el botón **Actualizar ahora**. También puedes comprobarlo en **Perfil → Versión → Buscar actualizaciones**. No hace falta reinstalar (y no conviene: borrar el icono borra el progreso).

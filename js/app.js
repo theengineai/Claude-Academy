@@ -86,6 +86,9 @@ async function main() {
     clearMistake(id) { clearMistake(state, id); },
     onCommand() { state.stats.commands += 1; },
     applySettings: () => applySettings(state),
+    checkForUpdate: () => checkForUpdate(),
+    installedVersion: () => installedVersion(),
+    showUpdateBanner: () => showUpdateBanner(),
     go(route) {
       if (location.hash === route) render();
       else location.hash = route;
@@ -134,19 +137,58 @@ async function main() {
   registerServiceWorker();
 }
 
+// ---------- Actualizaciones ----------
+// El Service Worker descarga la versión nueva en segundo plano. Cuando toma el control,
+// mostramos un aviso con el botón «Actualizar ahora», que recarga la app con la versión nueva.
+let swRegistration = null;
+
+function showUpdateBanner() {
+  if (document.querySelector('.update-banner')) return;
+  document.getElementById('toasts')?.replaceChildren(); // que no se superponga a otros avisos
+  const banner = h('div', { class: 'update-banner', role: 'status' },
+    icon('refresh', { size: 18 }),
+    h('span', { class: 'grow' }, 'Hay una versión nueva de la academia.'),
+    h('button', { class: 'btn btn-sm btn-update', type: 'button', onclick: () => location.reload() }, 'Actualizar ahora'));
+  document.body.append(banner);
+}
+
+/** Pregunta al servidor si hay versión nueva. Devuelve 'updating', 'latest', 'offline' o 'unsupported'. */
+export async function checkForUpdate() {
+  if (!swRegistration) return 'unsupported';
+  if (!navigator.onLine) return 'offline';
+  try {
+    await swRegistration.update();
+  } catch {
+    return 'offline';
+  }
+  return swRegistration.installing || swRegistration.waiting ? 'updating' : 'latest';
+}
+
+/** Versión instalada, según el Service Worker activo (el despliegue pone el commit). */
+export function installedVersion() {
+  const sw = navigator.serviceWorker?.controller;
+  if (!sw) return Promise.resolve(null);
+  return new Promise(resolve => {
+    const channel = new MessageChannel();
+    const timer = setTimeout(() => resolve(null), 1500);
+    channel.port1.onmessage = e => { clearTimeout(timer); resolve(e.data); };
+    sw.postMessage({ type: 'version' }, [channel.port2]);
+  });
+}
+
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') return;
   // Solo es una actualización si ya había un Service Worker controlando la página.
   const hadController = Boolean(navigator.serviceWorker.controller);
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (hadController) showUpdateBanner();
+  });
   navigator.serviceWorker.register('./sw.js').then(reg => {
-    reg.addEventListener('updatefound', () => {
-      const worker = reg.installing;
-      worker?.addEventListener('statechange', () => {
-        if (worker.state === 'activated' && hadController) {
-          toast('Contenido actualizado. Se aplicará al volver a abrir la app.', { iconName: 'refresh' });
-        }
-      });
+    swRegistration = reg;
+    // En iPhone la app suele «despertar» en lugar de abrirse de cero: comprobamos al volver a ella.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') reg.update().catch(() => {});
     });
   }).catch(() => { /* sin SW la app sigue funcionando online */ });
   navigator.storage?.persist?.().catch(() => {});

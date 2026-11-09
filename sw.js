@@ -73,6 +73,11 @@ self.addEventListener('activate', event => {
   })());
 });
 
+// La app pregunta qué versión está instalada (se muestra en Perfil).
+self.addEventListener('message', event => {
+  if (event.data?.type === 'version') event.ports[0]?.postMessage(VERSION);
+});
+
 self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);

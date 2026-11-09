@@ -90,6 +90,32 @@ export function renderProfile(page, ctx) {
       h('li', {}, 'Confirma con «Añadir» y abre Code Academy desde su icono.')),
     h('p', { class: 'small muted' }, `Funciona sin conexión después de la primera carga completa. ${navigator.serviceWorker?.controller ? 'Contenido offline listo en este dispositivo.' : 'El contenido offline se preparará al recargar con conexión.'}`)));
 
+  // Versión y actualizaciones
+  const versionEl = h('strong', {}, '…');
+  ctx.installedVersion().then(v => {
+    versionEl.textContent = v ? (v === 'dev' ? 'desarrollo' : v) : 'sin datos (abre la app con conexión)';
+  });
+  const checkBtn = h('button', {
+    class: 'btn btn-soft btn-block', type: 'button', onclick: async () => {
+      checkBtn.disabled = true;
+      checkBtn.lastChild.textContent = 'Comprobando…';
+      const result = await ctx.checkForUpdate();
+      checkBtn.disabled = false;
+      checkBtn.lastChild.textContent = 'Buscar actualizaciones';
+      const msg = {
+        updating: ['Descargando la versión nueva… En unos segundos verás el botón «Actualizar ahora».', 'download'],
+        latest: ['Ya tienes la última versión.', 'check'],
+        offline: ['Sin conexión: no se puede comprobar ahora.', 'warn'],
+        unsupported: ['Este navegador no permite comprobarlo.', 'info'],
+      }[result];
+      toast(msg[0], { iconName: msg[1], duration: 3500 });
+    },
+  }, icon('refresh', { size: 18 }), h('span', {}, 'Buscar actualizaciones'));
+  page.append(h('section', { class: 'card' },
+    h('div', { class: 'card-head' }, h('h2', {}, 'Versión'), versionEl),
+    h('p', { class: 'small muted' }, 'La app se actualiza sola al abrirla con conexión. Cuando haya una versión nueva verás un aviso con el botón «Actualizar ahora».'),
+    checkBtn));
+
   page.append(h('section', { class: 'card about' },
     h('h2', {}, 'Acerca de'),
     h('p', { class: 'small muted' }, 'Proyecto educativo independiente, sin relación oficial con Anthropic. Los comandos y conceptos se han contrastado con la documentación oficial de Claude Code (code.claude.com/docs), que puede cambiar: consúltala ante cualquier duda.'),
