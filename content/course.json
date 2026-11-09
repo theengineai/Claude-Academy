@@ -1,0 +1,81 @@
+{
+  "title": "Claude Code Academy",
+  "docsCheckedAt": "2026-11-09",
+  "levels": [
+    { "id": "L2", "title": "Usuario inicial", "description": "Conoces la idea de Claude Code y das tus primeros pasos en la terminal." },
+    { "id": "L3", "title": "Usuario práctico", "description": "Trabajas con proyectos, CLAUDE.md, contexto y un método de plan y validación." },
+    { "id": "L4", "title": "Usuario avanzado", "description": "Creas Skills, conectas servidores MCP y controlas permisos con criterio." },
+    { "id": "L5", "title": "Diseñador de flujos", "description": "Delegas en subagentes, automatizas y construyes proyectos completos con Claude Code." }
+  ],
+  "competencies": [
+    { "id": "entorno", "title": "Entorno y CLI" },
+    { "id": "contexto", "title": "Contexto y memoria" },
+    { "id": "metodo", "title": "Método de trabajo" },
+    { "id": "seguridad", "title": "Permisos y seguridad" },
+    { "id": "skills", "title": "Skills" },
+    { "id": "mcp", "title": "MCP e integraciones" },
+    { "id": "agentes", "title": "Agentes y subagentes" },
+    { "id": "automatizacion", "title": "Automatización" }
+  ],
+  "concepts": [
+    { "id": "env.agent-loop", "competency": "entorno", "title": "Bucle agéntico: reunir contexto, actuar y verificar" },
+    { "id": "env.surfaces", "competency": "entorno", "title": "Superficies: terminal, Desktop, IDE y web" },
+    { "id": "env.shell-vs-session", "competency": "entorno", "title": "Shell frente a sesión de Claude" },
+    { "id": "env.cli-start", "competency": "entorno", "title": "Arranque: claude, -p, -c y -r" },
+    { "id": "env.navigation", "competency": "entorno", "title": "Navegación por archivos (pwd, ls, cd)" },
+    { "id": "env.project-structure", "competency": "entorno", "title": "Estructura de un proyecto" },
+    { "id": "env.git", "competency": "entorno", "title": "Git: status, diff y commit" },
+
+    { "id": "ctx.claude-md", "competency": "contexto", "title": "CLAUDE.md de proyecto" },
+    { "id": "ctx.memory-scopes", "competency": "contexto", "title": "Ámbitos de memoria" },
+    { "id": "ctx.imports-rules", "competency": "contexto", "title": "Imports @ y .claude/rules" },
+    { "id": "ctx.window", "competency": "contexto", "title": "Ventana de contexto" },
+    { "id": "ctx.compact-clear", "competency": "contexto", "title": "/compact, /clear y /context" },
+    { "id": "ctx.mentions", "competency": "contexto", "title": "Referencias con @" },
+    { "id": "ctx.sessions", "competency": "contexto", "title": "Continuar y reanudar sesiones" },
+
+    { "id": "met.explore-plan", "competency": "metodo", "title": "Explorar, planificar, ejecutar" },
+    { "id": "met.plan-mode", "competency": "metodo", "title": "Modo plan" },
+    { "id": "met.verification", "competency": "metodo", "title": "Criterios de verificación" },
+    { "id": "met.prompting", "competency": "metodo", "title": "Peticiones específicas" },
+    { "id": "met.checkpoints", "competency": "metodo", "title": "Checkpoints y /rewind" },
+    { "id": "met.debugging", "competency": "metodo", "title": "Depuración" },
+    { "id": "met.testing", "competency": "metodo", "title": "Tests como red de seguridad" },
+
+    { "id": "sec.permission-modes", "competency": "seguridad", "title": "Modos de permisos" },
+    { "id": "sec.rules", "competency": "seguridad", "title": "Reglas allow, ask y deny" },
+    { "id": "sec.settings-scopes", "competency": "seguridad", "title": "Archivos settings y precedencia" },
+    { "id": "sec.secrets", "competency": "seguridad", "title": "Secretos y datos sensibles" },
+    { "id": "sec.prompt-injection", "competency": "seguridad", "title": "Inyección de instrucciones" },
+
+    { "id": "sk.what", "competency": "skills", "title": "Qué es una Skill" },
+    { "id": "sk.locations", "competency": "skills", "title": "Ubicaciones y prioridad" },
+    { "id": "sk.frontmatter", "competency": "skills", "title": "Frontmatter de SKILL.md" },
+    { "id": "sk.invocation", "competency": "skills", "title": "Invocación automática y manual" },
+    { "id": "sk.arguments", "competency": "skills", "title": "Argumentos en Skills" },
+    { "id": "sk.supporting", "competency": "skills", "title": "Archivos de apoyo y carga progresiva" },
+    { "id": "sk.quality", "competency": "skills", "title": "Skills con controles de calidad" },
+
+    { "id": "mcp.what", "competency": "mcp", "title": "Qué es MCP" },
+    { "id": "mcp.transports", "competency": "mcp", "title": "Transportes: http, stdio y sse" },
+    { "id": "mcp.scopes", "competency": "mcp", "title": "Ámbitos local, project y user" },
+    { "id": "mcp.config", "competency": "mcp", "title": ".mcp.json y variables de entorno" },
+    { "id": "mcp.auth", "competency": "mcp", "title": "Estado y autenticación con /mcp" },
+    { "id": "mcp.security", "competency": "mcp", "title": "Seguridad de servidores MCP" },
+
+    { "id": "ag.what", "competency": "agentes", "title": "Qué es un subagente" },
+    { "id": "ag.definition", "competency": "agentes", "title": "Definir subagentes" },
+    { "id": "ag.least-privilege", "competency": "agentes", "title": "Herramientas y mínimo privilegio" },
+    { "id": "ag.delegation", "competency": "agentes", "title": "Cuándo delegar" },
+    { "id": "ag.builtin", "competency": "agentes", "title": "Subagentes integrados" },
+    { "id": "ag.parallel", "competency": "agentes", "title": "Sesiones en paralelo con worktrees" },
+    { "id": "ag.orchestration", "competency": "agentes", "title": "Orquestación multiagente" },
+
+    { "id": "auto.headless", "competency": "automatizacion", "title": "Modo no interactivo (-p)" },
+    { "id": "auto.output", "competency": "automatizacion", "title": "Salida estructurada" },
+    { "id": "auto.allowed-tools", "competency": "automatizacion", "title": "Herramientas preaprobadas en scripts" },
+    { "id": "auto.hooks", "competency": "automatizacion", "title": "Hooks" },
+    { "id": "auto.ci", "competency": "automatizacion", "title": "Claude Code en GitHub Actions" },
+    { "id": "auto.app-workflow", "competency": "automatizacion", "title": "Desarrollar una aplicación de principio a fin" }
+  ]
+}

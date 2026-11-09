@@ -1,0 +1,160 @@
+[
+  {
+    "id": "lab-explorar",
+    "title": "Explora un proyecto desconocido",
+    "summary": "Sitúate, mira la estructura y encuentra las instrucciones del proyecto.",
+    "requires": ["l1-1"],
+    "exercise": {
+      "type": "terminal",
+      "concept": "env.navigation",
+      "prompt": "Entra en **presupuestos**, muestra su árbol y lee su **CLAUDE.md**",
+      "setup": { "cwd": "~", "files": { "~/presupuestos/CLAUDE.md": "# Presupuestos 2027\n- Escenarios en escenarios/\n", "~/presupuestos/escenarios/base.csv": "partida,importe\nPersonal,120000\n", "~/presupuestos/escenarios/pesimista.csv": "partida,importe\nPersonal,118000\n" } },
+      "goals": [
+        { "type": "cwd", "path": "~/presupuestos", "label": "Estar en ~/presupuestos", "hint": "cd presupuestos" },
+        { "type": "ran", "pattern": "^tree", "label": "Ver el árbol con tree", "hint": "tree" },
+        { "type": "ran", "pattern": "^cat\\s+(\\./)?CLAUDE\\.md$", "label": "Leer CLAUDE.md", "hint": "cat CLAUDE.md" }
+      ],
+      "solution": ["cd presupuestos", "tree", "cat CLAUDE.md"],
+      "suggestions": { "shell": ["ls", "cd presupuestos", "tree", "cat CLAUDE.md"] },
+      "explain": "Leer el CLAUDE.md de un proyecto te dice lo mismo que verá Claude al arrancar."
+    }
+  },
+  {
+    "id": "lab-commit",
+    "title": "Primer commit",
+    "summary": "Pon un proyecto bajo control de versiones.",
+    "requires": ["l1-3"],
+    "exercise": {
+      "type": "terminal",
+      "concept": "env.git",
+      "prompt": "Inicializa Git en **presupuestos** y confirma todos los archivos con un mensaje descriptivo",
+      "setup": { "cwd": "~/presupuestos", "files": { "~/presupuestos/CLAUDE.md": "# Presupuestos\n", "~/presupuestos/escenarios/base.csv": "partida,importe\nPersonal,120000\n" } },
+      "goals": [
+        { "type": "commits", "min": 1, "label": "Al menos un commit", "hint": "git init → git add . → git commit -m \"…\"" },
+        { "type": "clean", "label": "Árbol limpio" }
+      ],
+      "solution": ["git init", "git add .", "git commit -m \"Estado inicial del presupuesto\""],
+      "suggestions": { "shell": ["git init", "git add .", "git commit -m \"\"", "git status", "git log"] },
+      "explain": "Con un commit de partida, cada cambio posterior queda auditado."
+    }
+  },
+  {
+    "id": "lab-init",
+    "title": "CLAUDE.md con /init",
+    "summary": "Genera la memoria del proyecto y complétala.",
+    "requires": ["l2-1"],
+    "exercise": {
+      "type": "terminal",
+      "concept": "ctx.claude-md",
+      "prompt": "Genera un CLAUDE.md con **/init** y añade una regla que diga que **datos/** no se modifica",
+      "setup": { "cwd": "~/ventas", "files": { "~/ventas/datos/2026-10.csv": "cliente,importe\nA,100\n", "~/ventas/scripts/": null } },
+      "goals": [
+        { "type": "ran", "pattern": "^/init$", "label": "Ejecutar /init en una sesión", "hint": "claude y después /init" },
+        { "type": "file", "path": "~/ventas/CLAUDE.md", "checks": [{ "pattern": "(no (modificar|modifiques|tocar|toques)|solo lectura)[^\\n]*datos|datos[^\\n]*(no (se )?(modifica|toca)|solo lectura|original)" }], "label": "CLAUDE.md con la regla sobre datos/", "hint": "!nano CLAUDE.md desde la sesión, o /exit y nano CLAUDE.md" }
+      ],
+      "solution": ["claude", "/init", "/exit", "nano CLAUDE.md"],
+      "solutionFiles": [{ "path": "~/ventas/CLAUDE.md", "content": "# Proyecto\n\n## Reglas\n- No modificar datos/: son los originales\n" }],
+      "suggestions": { "shell": ["claude", "nano CLAUDE.md", "cat CLAUDE.md"], "session": ["/init", "/memory", "/exit"] },
+      "explain": "/init da un punto de partida; las reglas importantes las añades tú."
+    }
+  },
+  {
+    "id": "lab-plan",
+    "title": "Cambia de modo con Shift+Tab",
+    "summary": "Recorre los modos de permisos hasta el modo plan.",
+    "requires": ["l2-3"],
+    "exercise": {
+      "type": "terminal",
+      "concept": "sec.permission-modes",
+      "prompt": "Abre una sesión normal y usa el botón **⇧Tab** hasta llegar al modo **plan**",
+      "setup": { "cwd": "~/ventas", "files": { "~/ventas/CLAUDE.md": "# Ventas\n" } },
+      "goals": [
+        { "type": "session", "label": "Sesión abierta", "hint": "claude" },
+        { "type": "mode", "value": "plan", "label": "Modo plan activo", "hint": "Pulsa ⇧Tab: default → acceptEdits → plan" }
+      ],
+      "solution": ["claude", "⇧Tab", "⇧Tab"],
+      "suggestions": { "shell": ["claude"], "session": ["/help", "/exit"] },
+      "explain": "Observa el indicador: ⏵⏵ en acceptEdits y ⏸ en plan."
+    }
+  },
+  {
+    "id": "lab-skill-args",
+    "title": "Skill con dos argumentos",
+    "summary": "Usa $0 y $1 para comparar dos periodos.",
+    "requires": ["l3-2"],
+    "exercise": {
+      "type": "terminal",
+      "concept": "sk.arguments",
+      "prompt": "Crea la Skill personal **comparar** (en ~/.claude/skills) que use **$0** y **$1**, e invócala con `/comparar 2026-09 2026-10`",
+      "setup": { "cwd": "~/ventas", "files": { "~/ventas/CLAUDE.md": "# Ventas\n" } },
+      "goals": [
+        { "type": "file", "path": "~/.claude/skills/comparar/SKILL.md", "checks": [{ "pattern": "^---\\n[\\s\\S]*?description:.+[\\s\\S]*?\\n---", "flags": "" }, { "pattern": "\\$0" }, { "pattern": "\\$1" }], "label": "SKILL.md personal con description, $0 y $1", "hint": "mkdir -p ~/.claude/skills/comparar y nano ~/.claude/skills/comparar/SKILL.md" },
+        { "type": "ran", "pattern": "^/comparar\\s+2026-09\\s+2026-10$", "label": "Invocar /comparar 2026-09 2026-10", "hint": "claude y /comparar 2026-09 2026-10" }
+      ],
+      "solution": ["mkdir -p ~/.claude/skills/comparar", "nano ~/.claude/skills/comparar/SKILL.md", "claude", "/comparar 2026-09 2026-10"],
+      "solutionFiles": [{ "path": "~/.claude/skills/comparar/SKILL.md", "content": "---\nname: comparar\ndescription: Compara las ventas de dos periodos\n---\n\nCompara datos/$0.csv con datos/$1.csv y explica las variaciones.\n" }],
+      "suggestions": { "shell": ["mkdir -p ~/.claude/skills/comparar", "nano ~/.claude/skills/comparar/SKILL.md", "claude"], "session": ["/skills", "/comparar 2026-09 2026-10"] },
+      "explain": "Al invocarla verás $0 y $1 sustituidos por cada periodo."
+    }
+  },
+  {
+    "id": "lab-mcp-user",
+    "title": "Servidor MCP personal",
+    "summary": "Añade un servidor para ti en todos tus proyectos y luego elimínalo.",
+    "requires": ["l4-2"],
+    "exercise": {
+      "type": "terminal",
+      "concept": "mcp.scopes",
+      "prompt": "Añade **notas** (http, https://mcp.notas.ejemplo.com/mcp) en ámbito **user**, consúltalo con `claude mcp get notas` y después elimínalo",
+      "setup": { "cwd": "~/ventas", "files": {} },
+      "goals": [
+        { "type": "ran", "pattern": "^claude mcp add .*--scope user|^claude mcp add .*-s user", "label": "Añadirlo con --scope user", "hint": "claude mcp add --transport http --scope user notas https://mcp.notas.ejemplo.com/mcp" },
+        { "type": "ran", "pattern": "^claude mcp get notas$", "label": "Consultarlo con claude mcp get notas" },
+        { "type": "json", "path": "~/.claude.json", "expect": { "mcpServers.notas": { "exists": false } }, "label": "Eliminado al final", "hint": "claude mcp remove notas" },
+        { "type": "ran", "pattern": "^claude mcp remove notas", "label": "Usar claude mcp remove" }
+      ],
+      "solution": ["claude mcp add --transport http --scope user notas https://mcp.notas.ejemplo.com/mcp", "claude mcp get notas", "claude mcp remove notas"],
+      "suggestions": { "shell": ["claude mcp add --transport http --scope user notas https://mcp.notas.ejemplo.com/mcp", "claude mcp get notas", "claude mcp remove notas", "cat ~/.claude.json"] },
+      "explain": "Los ámbitos local y user se guardan en ~/.claude.json; el de proyecto, en .mcp.json."
+    }
+  },
+  {
+    "id": "lab-doctor",
+    "title": "Arregla un .mcp.json roto",
+    "summary": "Diagnostica y corrige una entrada sin tipo.",
+    "requires": ["l4-3"],
+    "exercise": {
+      "type": "terminal",
+      "concept": "mcp.config",
+      "prompt": "Ejecuta **claude doctor**, corrige **.mcp.json** y vuelve a diagnosticar hasta que no haya errores",
+      "setup": { "cwd": "~/ventas", "files": { "~/ventas/.mcp.json": "{\n  \"mcpServers\": {\n    \"crm\": { \"url\": \"https://mcp.crm.ejemplo.com/mcp\" }\n  }\n}\n" } },
+      "goals": [
+        { "type": "doctor", "label": "Sin errores de configuración", "hint": "Añade \"type\": \"http\" a la entrada crm" },
+        { "type": "json", "path": "~/ventas/.mcp.json", "expect": { "mcpServers.crm.url": "https://mcp.crm.ejemplo.com/mcp" }, "label": "Mantener el servidor crm" },
+        { "type": "ran", "pattern": "^claude doctor$|^/doctor$", "label": "Usar el diagnóstico" }
+      ],
+      "solution": ["claude doctor", "nano .mcp.json", "claude doctor"],
+      "solutionFiles": [{ "path": "~/ventas/.mcp.json", "content": "{\n  \"mcpServers\": {\n    \"crm\": { \"type\": \"http\", \"url\": \"https://mcp.crm.ejemplo.com/mcp\" }\n  }\n}\n" }],
+      "suggestions": { "shell": ["claude doctor", "cat .mcp.json", "nano .mcp.json"] },
+      "explain": "Una entrada con url pero sin type se lee como stdio y se rechaza."
+    }
+  },
+  {
+    "id": "lab-headless",
+    "title": "Tubería hacia claude -p",
+    "summary": "Encadena un comando con Claude en modo no interactivo.",
+    "requires": ["l6-1"],
+    "exercise": {
+      "type": "terminal",
+      "concept": "auto.headless",
+      "prompt": "Encadena **cat informes/semana.md** con `claude -p` para pedir tres riesgos, con salida **json**",
+      "setup": { "cwd": "~/ventas", "files": { "~/ventas/informes/semana.md": "Cobros retrasados de dos clientes.\nCaja mínima prevista: 4.000 €.\n" } },
+      "goals": [
+        { "type": "ran", "pattern": "^cat\\s+informes/semana\\.md\\s*\\|\\s*claude\\s+(-p|--print)\\b.*--output-format\\s+json", "label": "cat … | claude -p \"…\" --output-format json", "hint": "cat informes/semana.md | claude -p \"lista tres riesgos\" --output-format json" }
+      ],
+      "solution": ["cat informes/semana.md | claude -p \"lista tres riesgos de tesorería\" --output-format json"],
+      "suggestions": { "shell": ["cat informes/semana.md | claude -p \"lista tres riesgos de tesorería\" --output-format json"] },
+      "explain": "Igual que con cualquier herramienta Unix: la salida de un comando es la entrada del siguiente."
+    }
+  }
+]

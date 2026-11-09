@@ -1,0 +1,344 @@
+{
+  "id": "m1",
+  "title": "Claude Code y entorno de trabajo",
+  "subtitle": "Cómo funciona, dónde se usa y cómo moverte por un proyecto.",
+  "level": "L2 → L3",
+  "icon": "terminal",
+  "color": "#C96442",
+  "lessons": [
+    {
+      "id": "l1-1",
+      "title": "Cómo funciona Claude Code",
+      "summary": "Un agente que lee, actúa con herramientas y verifica. No es un chat que solo responde.",
+      "minutes": 5,
+      "objectives": ["Distinguir un chat de un agente", "Conocer el bucle reunir contexto → actuar → verificar", "Saber qué herramientas usa Claude Code"],
+      "steps": [
+        {
+          "type": "card",
+          "kicker": "Idea clave",
+          "title": "Un agente, no un chat",
+          "blocks": [
+            { "type": "text", "body": "En un chat tú copias información, recibes texto y lo aplicas a mano. **Claude Code trabaja dentro de tu proyecto**: puede leer archivos, buscar, editar, ejecutar comandos y comprobar el resultado.\n\nTu papel cambia: dejas de copiar y pegar y pasas a **definir el objetivo, los límites y cómo se comprobará** que el trabajo está bien." },
+            { "type": "compare", "left": { "title": "Chat", "items": ["Respondes con texto", "Tú aplicas los cambios", "No ve tus archivos salvo que los pegues"] }, "right": { "title": "Claude Code", "items": ["Lee el proyecto por sí mismo", "Edita y ejecuta con herramientas", "Puede verificar su propio trabajo"] } }
+          ]
+        },
+        {
+          "type": "card",
+          "kicker": "Arquitectura",
+          "title": "El bucle agéntico",
+          "blocks": [
+            { "type": "flow", "steps": [
+              { "title": "Reunir contexto", "text": "Lee archivos, busca, consulta CLAUDE.md." },
+              { "title": "Actuar", "text": "Edita archivos o ejecuta comandos con sus herramientas." },
+              { "title": "Verificar", "text": "Ejecuta pruebas o revisa el resultado; si falla, vuelve a empezar." }
+            ] },
+            { "type": "text", "body": "Ese ciclo se repite hasta cumplir la tarea. Por eso es tan importante darle **una forma de comprobar** el resultado: unas pruebas, un total esperado, un ejemplo correcto." }
+          ]
+        },
+        {
+          "id": "m1l1e1",
+          "type": "choice",
+          "concept": "env.agent-loop",
+          "prompt": "¿Qué diferencia mejor a Claude Code de un chat convencional?",
+          "options": [
+            { "text": "Escribe respuestas más largas y detalladas", "feedback": "La longitud no es la diferencia: lo es la capacidad de actuar." },
+            { "text": "Puede leer el proyecto, actuar con herramientas y verificar el resultado", "correct": true },
+            { "text": "No necesita que le expliques el objetivo", "feedback": "Al contrario: un objetivo y un criterio de éxito claros son lo que más mejora el resultado." }
+          ],
+          "explain": "Claude Code es un agente: reúne contexto, actúa (edita, ejecuta) y verifica en bucle."
+        },
+        {
+          "type": "card",
+          "kicker": "Herramientas",
+          "title": "Qué puede hacer dentro del proyecto",
+          "blocks": [
+            { "type": "text", "body": "Las acciones se hacen con **herramientas**: leer archivos, buscar en el código, editar, ejecutar comandos de shell, consultar la web… Y puedes ampliarlas con **Skills**, **servidores MCP** y **subagentes** (lo verás en los módulos 3 a 5)." },
+            { "type": "callout", "tone": "warn", "title": "Permisos", "body": "En el modo de permisos **Manual** (`default`), Claude **pide permiso** antes de editar archivos, ejecutar comandos o usar la red; leer no requiere permiso. Hay modos con más autonomía (los verás en el módulo 2): tú decides cuánta das." },
+            { "type": "callout", "tone": "finance", "title": "En finanzas", "body": "Piensa en un analista junior muy rápido: puede preparar la conciliación, pero tú defines el procedimiento y revisas antes de firmar." }
+          ]
+        },
+        {
+          "id": "m1l1e2",
+          "type": "order",
+          "concept": "env.agent-loop",
+          "prompt": "Ordena cómo trabaja Claude Code ante «arregla el cálculo del margen y comprueba que cuadra»",
+          "items": ["Lee el script y los datos para entender el cálculo", "Edita la fórmula del margen", "Ejecuta la prueba con un caso conocido", "Si la prueba falla, analiza el error y vuelve a corregir"],
+          "explain": "Reunir contexto → actuar → verificar, repitiendo si la verificación falla."
+        },
+        {
+          "id": "m1l1e3",
+          "type": "multi",
+          "concept": "env.agent-loop",
+          "prompt": "¿Cuáles de estas acciones puede realizar Claude Code con sus herramientas?",
+          "options": [
+            { "text": "Leer y buscar en los archivos del proyecto", "correct": true },
+            { "text": "Editar archivos", "correct": true },
+            { "text": "Ejecutar comandos de shell (con tu permiso)", "correct": true },
+            { "text": "Saltarse una regla deny configurada por ti", "feedback": "Las reglas deny bloquean en todos los modos." }
+          ],
+          "explain": "Lee, edita y ejecuta con herramientas, siempre dentro de los permisos que tú configures. Las reglas **deny** bloquean incluso en el modo más permisivo."
+        },
+        {
+          "type": "card",
+          "kicker": "Superficies",
+          "title": "El mismo motor, varias ventanas",
+          "blocks": [
+            { "type": "text", "body": "Claude Code está disponible en la **terminal (CLI)**, en la **app Desktop** (pestaña Code), en extensiones de **IDE** como VS Code y JetBrains y en la **web**. Todas comparten la idea de proyecto, permisos y configuración como `CLAUDE.md` o Skills." },
+            { "type": "callout", "tone": "tip", "body": "Esta academia se centra en la terminal porque es donde se ve todo lo que ocurre. Lo aprendido aplica igual a Desktop." }
+          ]
+        },
+        {
+          "id": "m1l1e4",
+          "type": "choice",
+          "concept": "met.verification",
+          "context": "Pides: «Revisa el informe de ventas». Claude responde con un resumen convincente, pero no sabes si ha cuadrado los totales.",
+          "prompt": "¿Cuál es la mejor reformulación?",
+          "options": [
+            { "text": "«Revisa el informe de ventas con mucho cuidado»", "feedback": "«Con cuidado» no es comprobable." },
+            { "text": "«Revisa el informe y comprueba que la suma por cliente coincide con el total de ventas.csv; indica cualquier diferencia»", "correct": true },
+            { "text": "«Eres un experto auditor, revisa el informe»", "feedback": "El rol no sustituye a un criterio de verificación." }
+          ],
+          "explain": "Dar un **criterio verificable** (un total que debe cuadrar) permite que el agente compruebe su trabajo en el bucle."
+        }
+      ]
+    },
+    {
+      "id": "l1-2",
+      "title": "Terminal, CLI y Desktop",
+      "summary": "Dónde se escribe cada cosa: el shell, la sesión de Claude y la app Desktop.",
+      "minutes": 6,
+      "objectives": ["Diferenciar comandos de shell y comandos /", "Arrancar Claude de distintas formas", "Conocer qué aporta Desktop"],
+      "steps": [
+        {
+          "type": "card",
+          "kicker": "Dos niveles",
+          "title": "Shell y sesión de Claude",
+          "blocks": [
+            { "type": "text", "body": "La **terminal** ejecuta un *shell* que entiende comandos como `pwd`, `ls` o `cd`. Cuando escribes `claude`, se abre una **sesión interactiva**: a partir de ahí hablas con Claude y usas comandos que empiezan por `/`, como `/help`, `/init` o `/context`." },
+            { "type": "code", "lang": "terminal", "code": "$ cd ~/proyectos/cierre     # shell: entras en la carpeta\n$ claude                     # shell: abres la sesión\n> /help                      # sesión: comando de Claude Code\n> /exit                      # sesión: vuelves al shell" }
+          ]
+        },
+        {
+          "id": "m1l2e1",
+          "type": "match",
+          "concept": "env.shell-vs-session",
+          "prompt": "Empareja cada comando con dónde se escribe",
+          "pairs": [["`cd informes`", "En el shell"], ["`/context`", "Dentro de la sesión de Claude"], ["`claude`", "En el shell, para abrir la sesión"], ["`/exit`", "Dentro de la sesión, para salir"]],
+          "explain": "Los comandos con `/` solo existen dentro de una sesión de Claude Code; el resto los interpreta el shell."
+        },
+        {
+          "type": "card",
+          "kicker": "Formas de arrancar",
+          "title": "claude, -p, -c y -r",
+          "blocks": [
+            { "type": "code", "lang": "terminal", "code": "claude                         # sesión interactiva\nclaude \"explica este proyecto\"  # sesión con una primera petición\nclaude -p \"resume ventas.csv\"   # no interactivo: responde y sale\nclaude -c                      # continúa la última conversación de esta carpeta\nclaude -r \"cierre-octubre\"     # reanuda una sesión concreta por nombre o ID" },
+            { "type": "callout", "tone": "tip", "body": "`-p` (o `--print`) es la base de la automatización: lo usarás en el módulo 6." }
+          ]
+        },
+        {
+          "id": "m1l2e2",
+          "type": "fill",
+          "concept": "env.cli-start",
+          "prompt": "Completa los comandos",
+          "template": "# Quiero seguir con la conversación de ayer en esta carpeta\nclaude {{0}}\n\n# Quiero una respuesta rápida sin abrir sesión\nclaude {{1}} \"cuenta las filas de ventas.csv\"",
+          "blanks": [
+            { "options": ["-c", "-p", "--init", "/resume"], "answer": "-c" },
+            { "options": ["-p", "-c", "--quiet", "/print"], "answer": "-p" }
+          ],
+          "explain": "`-c` (`--continue`) retoma la conversación más reciente del directorio; `-p` (`--print`) ejecuta sin modo interactivo y sale."
+        },
+        {
+          "id": "m1l2e3",
+          "type": "terminal",
+          "concept": "env.shell-vs-session",
+          "prompt": "Abre una sesión de Claude en el proyecto, consulta la ayuda y vuelve al shell",
+          "setup": { "cwd": "~/cierre", "files": { "~/cierre/README.md": "Proyecto de cierre mensual\n" } },
+          "goals": [
+            { "type": "ran", "pattern": "^claude$", "label": "Abrir la sesión con claude", "hint": "Escribe claude y pulsa enviar." },
+            { "type": "ran", "pattern": "^/help$", "label": "Ver la ayuda dentro de la sesión", "hint": "Dentro de la sesión escribe /help." },
+            { "type": "session", "active": false, "label": "Terminar de vuelta en el shell", "hint": "Sal con /exit." }
+          ],
+          "solution": ["claude", "/help", "/exit"],
+          "suggestions": { "shell": ["claude", "ls", "pwd"], "session": ["/help", "/exit"] },
+          "explain": "Fíjate en cómo cambia el indicador: `$` en el shell y `>` dentro de la sesión."
+        },
+        {
+          "type": "card",
+          "kicker": "App Desktop",
+          "title": "Lo mismo, con interfaz visual",
+          "blocks": [
+            { "type": "text", "body": "En la app Claude Desktop, Claude Code es la pestaña **Code**. Cada conversación es una sesión con su carpeta de proyecto. Aporta:\n- **Revisión visual de cambios** (diff archivo a archivo, con comentarios en líneas concretas)\n- **Sesiones en paralelo**, cada una en su propio *worktree* de Git si lo activas\n- Un **selector de modo de permisos** bajo el cuadro de texto\n- Terminal integrada, editor de archivos y vista previa en navegador\n- Elegir dónde se ejecuta: **local**, **nube** o **SSH**" },
+            { "type": "callout", "tone": "info", "body": "Desktop comparte la configuración de usuario con la CLI, como `~/.claude/settings.json` y tus Skills personales. El modo `dontAsk` solo existe en la CLI." }
+          ]
+        },
+        {
+          "id": "m1l2e4",
+          "type": "choice",
+          "concept": "env.surfaces",
+          "context": "Quieres revisar cómodamente, archivo a archivo, los cambios que Claude ha propuesto y dejar comentarios en líneas concretas.",
+          "prompt": "¿Qué superficie encaja mejor?",
+          "options": [
+            { "text": "La app Desktop, por su revisión visual de diffs con comentarios", "correct": true },
+            { "text": "`claude -p`, porque es más rápido", "feedback": "`-p` es no interactivo: imprime y sale. No sirve para revisar." },
+            { "text": "Ninguna: hay que aceptar los cambios sin revisarlos", "feedback": "Revisar es parte del método, no un extra." }
+          ],
+          "explain": "Desktop abre los cambios en una vista de diff donde puedes comentar líneas y pedir ajustes."
+        },
+        {
+          "id": "m1l2e5",
+          "type": "choice",
+          "concept": "env.shell-vs-session",
+          "prompt": "Escribes `/init` en la terminal y aparece *orden no encontrada*. ¿Por qué?",
+          "options": [
+            { "text": "Porque estás en el shell: `/init` solo existe dentro de una sesión de Claude", "correct": true },
+            { "text": "Porque `/init` no existe en Claude Code", "feedback": "Sí existe: crea un CLAUDE.md inicial." },
+            { "text": "Porque falta escribir sudo delante", "feedback": "No es un problema de privilegios." }
+          ],
+          "explain": "Primero `claude` para abrir la sesión; después `/init`."
+        }
+      ]
+    },
+    {
+      "id": "l1-3",
+      "title": "Archivos, repositorios y proyectos",
+      "summary": "Orientarte en la carpeta correcta y usar Git como red de seguridad.",
+      "minutes": 7,
+      "objectives": ["Moverte con pwd, ls, cd y tree", "Separar datos de origen y resultados", "Usar git status, diff y commit"],
+      "steps": [
+        {
+          "type": "card",
+          "kicker": "Orientación",
+          "title": "Antes de pedir, sitúate",
+          "blocks": [
+            { "type": "text", "body": "Claude Code trabaja en el **directorio donde lo arrancas**. Arrancarlo en la carpeta equivocada significa leer los archivos equivocados." },
+            { "type": "code", "lang": "terminal", "code": "pwd          # ¿dónde estoy?\nls           # ¿qué hay aquí?\nls -a        # incluye ocultos como .claude/\ncd datos     # entra en una carpeta\ncd ..        # sube un nivel\ntree         # vista en árbol" }
+          ]
+        },
+        {
+          "id": "m1l3e1",
+          "type": "terminal",
+          "concept": "env.navigation",
+          "prompt": "Entra en el proyecto `cierre`, muestra su estructura y lee las notas del responsable",
+          "setup": { "cwd": "~", "files": { "~/cierre/notas.md": "Cerrar antes del día 5. Importes en EUR.\n", "~/cierre/datos/ventas.csv": "fecha,importe\n2026-10-01,100\n", "~/cierre/informes/": null } },
+          "goals": [
+            { "type": "cwd", "path": "~/cierre", "label": "Estar dentro de ~/cierre", "hint": "Usa cd cierre." },
+            { "type": "ran", "pattern": "^(tree|ls)", "label": "Ver qué contiene el proyecto", "hint": "Prueba tree o ls." },
+            { "type": "ran", "pattern": "^cat\\s+(\\./)?notas\\.md$", "label": "Leer notas.md", "hint": "cat notas.md" }
+          ],
+          "solution": ["cd cierre", "tree", "cat notas.md"],
+          "suggestions": { "shell": ["pwd", "ls", "cd cierre", "tree", "cat "] },
+          "explain": "Situarte, explorar y leer son los mismos pasos que hará Claude al empezar: tú solo te aseguras de que arranca en el sitio correcto."
+        },
+        {
+          "type": "card",
+          "kicker": "Estructura",
+          "title": "Separa origen, trabajo y resultados",
+          "blocks": [
+            { "type": "tree", "lines": ["cierre/", "├── CLAUDE.md          # instrucciones del proyecto", "├── datos/             # origen: no se modifica", "│   └── ventas.csv", "├── scripts/           # transformaciones", "├── informes/          # resultados generados", "└── .claude/           # skills, agentes y settings del proyecto"] },
+            { "type": "callout", "tone": "finance", "body": "Igual que en un cierre contable: el extracto original no se toca; se trabaja sobre copias y se deja rastro de cada ajuste." }
+          ]
+        },
+        {
+          "id": "m1l3e2",
+          "type": "choice",
+          "concept": "env.project-structure",
+          "prompt": "¿Dónde debería guardar Claude un informe que genera a partir de `datos/ventas.csv`?",
+          "options": [
+            { "text": "Sobrescribiendo `datos/ventas.csv` con el resultado", "feedback": "Perderías el origen y no podrías comprobar nada." },
+            { "text": "En `informes/`, dejando los datos de origen intactos", "correct": true },
+            { "text": "En la carpeta personal, fuera del proyecto", "feedback": "Fuera del proyecto se pierde trazabilidad y control de versiones." }
+          ],
+          "explain": "Separar origen y resultados permite repetir el proceso y verificarlo. Además, conviene dejarlo escrito en `CLAUDE.md`."
+        },
+        {
+          "type": "card",
+          "kicker": "Git",
+          "title": "Tu red de seguridad",
+          "blocks": [
+            { "type": "text", "body": "Un **repositorio Git** guarda el historial de cambios. Antes y después de trabajar con Claude, tres comandos te dan control:" },
+            { "type": "code", "lang": "terminal", "code": "git status              # qué ha cambiado\ngit diff                # qué líneas exactamente\ngit add . && git commit -m \"Corrige fórmula de margen\"" },
+            { "type": "callout", "tone": "tip", "title": "Checkpoints no sustituyen a Git", "body": "Claude Code guarda *checkpoints* de sus ediciones y puedes volver atrás con `/rewind` (o pulsando Esc dos veces). Pero no rastrea los cambios hechos con comandos de shell, y no es un historial permanente. Para eso, Git." }
+          ]
+        },
+        {
+          "id": "m1l3e3",
+          "type": "order",
+          "concept": "env.git",
+          "prompt": "Ordena un cierre de tarea seguro tras trabajar con Claude",
+          "items": ["`git status` para ver qué archivos cambiaron", "`git diff` para revisar las líneas modificadas", "Ejecutar las pruebas o comprobaciones", "`git add` y `git commit -m` con un mensaje claro"],
+          "explain": "Revisar qué cambió, verificar y solo entonces confirmar el cambio en el historial."
+        },
+        {
+          "id": "m1l3e4",
+          "type": "terminal",
+          "concept": "env.git",
+          "prompt": "Inicializa un repositorio en el proyecto y haz el primer commit con todos los archivos",
+          "setup": { "cwd": "~/cierre", "files": { "~/cierre/CLAUDE.md": "# Cierre mensual\n- Importes en EUR\n", "~/cierre/datos/ventas.csv": "fecha,importe\n2026-10-01,100\n" } },
+          "goals": [
+            { "type": "exists", "path": "~/cierre/.git", "kind": "dir", "label": "Repositorio inicializado", "hint": "git init" },
+            { "type": "commits", "min": 1, "label": "Al menos un commit", "hint": "git add . y después git commit -m \"mensaje\"" },
+            { "type": "clean", "label": "Árbol de trabajo limpio (nada pendiente)", "hint": "Comprueba con git status." }
+          ],
+          "solution": ["git init", "git add .", "git commit -m \"Estado inicial del cierre\""],
+          "suggestions": { "shell": ["git init", "git status", "git add .", "git commit -m \"\"", "git log"] },
+          "explain": "Con un commit inicial, cualquier cambio posterior de Claude se puede revisar con `git diff` y deshacer si hace falta."
+        },
+        {
+          "id": "m1l3e5",
+          "type": "choice",
+          "concept": "met.checkpoints",
+          "context": "Claude ejecutó un script de shell que reescribió `informes/resumen.csv`. Quieres deshacerlo.",
+          "prompt": "¿Qué es lo más fiable?",
+          "options": [
+            { "text": "`/rewind`: los checkpoints deshacen cualquier cambio", "feedback": "Los checkpoints no rastrean archivos que solo han cambiado comandos de shell." },
+            { "text": "Recuperar la versión anterior con Git (por ejemplo, desde el último commit)", "correct": true },
+            { "text": "Pedir a Claude que «recuerde» cómo era el archivo", "feedback": "La conversación no es una copia de seguridad fiable." }
+          ],
+          "explain": "Los checkpoints cubren las ediciones de las herramientas de archivos de Claude; los cambios de comandos Bash no se rastrean. Git es la red de seguridad permanente."
+        }
+      ]
+    }
+  ],
+  "exam": {
+    "size": 8,
+    "extra": [
+      {
+        "id": "m1x1",
+        "type": "choice",
+        "concept": "env.cli-start",
+        "prompt": "¿Qué hace `claude -r \"cierre-octubre\"`?",
+        "options": [
+          { "text": "Reanuda la sesión llamada «cierre-octubre»", "correct": true },
+          { "text": "Borra la sesión «cierre-octubre»", "feedback": "-r es --resume, no remove." },
+          { "text": "Ejecuta «cierre-octubre» como petición no interactiva", "feedback": "Eso sería -p." }
+        ],
+        "explain": "`-r` / `--resume` reanuda una sesión por ID o nombre; sin argumento muestra un selector."
+      },
+      {
+        "id": "m1x2",
+        "type": "spot",
+        "concept": "env.shell-vs-session",
+        "prompt": "Este alumno anotó sus pasos. ¿Qué líneas están mal?",
+        "file": "pasos.txt",
+        "lines": ["$ cd ~/cierre", "$ /init", "$ claude", "> /context", "> cd datos"],
+        "faulty": [1, 4],
+        "notes": { "1": "/init se escribe dentro de la sesión, después de claude.", "4": "cd es un comando de shell; dentro de la sesión se pide en lenguaje natural o se sale con /exit." },
+        "fixed": "$ cd ~/cierre\n$ claude\n> /init\n> /context",
+        "explain": "Los comandos `/` van dentro de la sesión; los de shell, fuera."
+      },
+      {
+        "id": "m1x3",
+        "type": "multi",
+        "concept": "env.git",
+        "prompt": "¿Qué te permite Git que no te garantizan los checkpoints de Claude Code?",
+        "options": [
+          { "text": "Historial permanente entre sesiones y días", "correct": true },
+          { "text": "Recuperar archivos modificados por comandos de shell", "correct": true },
+          { "text": "Compartir y revisar cambios con tu equipo", "correct": true },
+          { "text": "Que Claude no pueda equivocarse", "feedback": "Ninguna herramienta lo garantiza; Git te permite deshacer." }
+        ],
+        "explain": "Los checkpoints son para recuperación rápida dentro de la sesión; Git es el historial permanente y colaborativo."
+      }
+    ]
+  }
+}

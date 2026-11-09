@@ -1,0 +1,300 @@
+{
+  "id": "m5",
+  "title": "Agentes y subagentes",
+  "subtitle": "Diseña especialistas, delega con criterio y coordina trabajo en paralelo.",
+  "level": "L4 → L5",
+  "icon": "agents",
+  "color": "#B07A1C",
+  "lessons": [
+    {
+      "id": "l5-1",
+      "title": "Diseño de subagentes",
+      "summary": "Especialistas con su propio contexto, instrucciones y herramientas.",
+      "minutes": 7,
+      "objectives": ["Entender qué aporta un subagente", "Escribir su definición en .claude/agents/", "Aplicar mínimo privilegio"],
+      "steps": [
+        {
+          "type": "card",
+          "kicker": "Concepto",
+          "title": "Un especialista con su propia mesa",
+          "blocks": [
+            { "type": "text", "body": "Un **subagente** es un asistente especializado que trabaja en **su propia ventana de contexto**, con sus instrucciones, herramientas y permisos. Hace la tarea lateral (buscar en muchos archivos, procesar un log enorme) y devuelve **solo un resumen** a tu conversación principal." },
+            { "type": "callout", "tone": "info", "body": "Empieza de cero: no ve tu conversación ni los archivos que ya se han leído. Trabaja con el encargo que Claude le escribe. Por eso la descripción y las instrucciones deben ser claras." }
+          ]
+        },
+        {
+          "id": "m5l1e1",
+          "type": "multi",
+          "concept": "ag.what",
+          "prompt": "¿Qué es cierto sobre los subagentes?",
+          "options": [
+            { "text": "Tienen su propia ventana de contexto", "correct": true },
+            { "text": "Devuelven un resumen a la conversación principal", "correct": true },
+            { "text": "Ven automáticamente toda tu conversación anterior", "feedback": "Empiezan de cero (salvo las bifurcaciones o forks)." },
+            { "text": "Pueden tener herramientas limitadas", "correct": true }
+          ],
+          "explain": "Contexto propio + herramientas acotadas + resumen final: así mantienen limpia la conversación principal."
+        },
+        {
+          "type": "card",
+          "kicker": "Definición",
+          "title": "Un archivo Markdown con frontmatter",
+          "blocks": [
+            { "type": "code", "lang": "markdown", "file": ".claude/agents/revisor-cifras.md", "code": "---\nname: revisor-cifras\ndescription: Revisa informes financieros buscando cifras sin fuente y totales que no cuadran. Úsalo de forma proactiva tras generar un informe.\ntools: Read, Grep, Glob\nmodel: sonnet\n---\n\nEres un revisor de cifras. Para cada importe del informe:\n1. Localiza su fuente en datos/.\n2. Recalcula los totales.\n3. Devuelve una lista de discrepancias con archivo y línea." },
+            { "type": "text", "body": "Solo `name` y `description` son obligatorios. `tools` es una lista blanca: si se omite, **hereda todas** las herramientas disponibles. `model` admite `sonnet`, `opus`, `haiku`, `fable`, un ID completo o `inherit`." },
+            { "type": "tree", "lines": [".claude/agents/     # proyecto: se comparte con el equipo", "~/.claude/agents/   # usuario: todos tus proyectos"] }
+          ]
+        },
+        {
+          "id": "m5l1e2",
+          "type": "fill",
+          "concept": "ag.definition",
+          "prompt": "Completa el frontmatter de un subagente de solo lectura",
+          "template": "---\n{{0}}: auditor\ndescription: Revisa conciliaciones y señala diferencias\n{{1}}: Read, Grep, Glob\n---",
+          "blanks": [
+            { "options": ["name", "id", "title"], "answer": "name" },
+            { "options": ["tools", "allowed-tools", "permissions"], "answer": "tools" }
+          ],
+          "explain": "En subagentes el campo es `tools` (en Skills es `allowed-tools`). Claude Code ignora sin avisar los campos mal escritos."
+        },
+        {
+          "id": "m5l1e3",
+          "type": "choice",
+          "concept": "ag.least-privilege",
+          "context": "Creas un subagente que solo debe revisar informes y señalar errores, nunca corregirlos.",
+          "prompt": "¿Qué configuración de herramientas es la adecuada?",
+          "options": [
+            { "text": "`tools: Read, Grep, Glob`", "correct": true },
+            { "text": "Omitir `tools` para que tenga de todo", "feedback": "Si se omite, hereda todas: podría editar." },
+            { "text": "`tools: Read, Edit, Bash`", "feedback": "Edit y Bash exceden lo que necesita un revisor." }
+          ],
+          "explain": "**Mínimo privilegio**: da solo las herramientas que la tarea requiere."
+        },
+        {
+          "id": "m5l1e4",
+          "type": "terminal",
+          "concept": "ag.definition",
+          "prompt": "Crea el subagente de proyecto `revisor-cifras` (solo lectura) y compruébalo con /agents",
+          "setup": { "cwd": "~/finanzas", "files": { "~/finanzas/CLAUDE.md": "# Finanzas\n", "~/finanzas/informes/": null } },
+          "intro": ["Pista: mkdir -p .claude/agents y después nano .claude/agents/revisor-cifras.md"],
+          "goals": [
+            { "type": "frontmatter", "path": "~/finanzas/.claude/agents/revisor-cifras.md", "expect": { "name": "revisor-cifras", "description": { "pattern": ".{20,}" } }, "label": "Frontmatter con name revisor-cifras y una description útil", "hint": "---\\nname: revisor-cifras\\ndescription: ...\\n---" },
+            { "type": "frontmatter", "path": "~/finanzas/.claude/agents/revisor-cifras.md", "expect": { "tools": { "pattern": "^(?!.*\\b(Edit|Write|Bash)\\b).*Read" } }, "label": "tools de solo lectura (incluye Read, sin Edit/Write/Bash)", "hint": "tools: Read, Grep, Glob" },
+            { "type": "ran", "pattern": "^/agents$", "label": "Comprobarlo con /agents en una sesión", "hint": "claude y después /agents" }
+          ],
+          "solution": ["mkdir -p .claude/agents", "nano .claude/agents/revisor-cifras.md", "claude", "/agents"],
+          "solutionFiles": [{ "path": "~/finanzas/.claude/agents/revisor-cifras.md", "content": "---\nname: revisor-cifras\ndescription: Revisa informes financieros buscando cifras sin fuente y totales que no cuadran\ntools: Read, Grep, Glob\n---\n\nRevisa cada importe, localiza su fuente en datos/ y devuelve las discrepancias.\n" }],
+          "suggestions": { "shell": ["mkdir -p .claude/agents", "nano .claude/agents/revisor-cifras.md", "claude"], "session": ["/agents", "/exit"] },
+          "explain": "En Claude Code real, `/agents` recuerda que puedes pedirle a Claude que cree el subagente o editar `.claude/agents/` directamente."
+        }
+      ]
+    },
+    {
+      "id": "l5-2",
+      "title": "Delegación y coordinación",
+      "summary": "Cuándo delegar, cómo se activa un subagente y qué ofrecen los integrados.",
+      "minutes": 6,
+      "objectives": ["Decidir cuándo conviene un subagente", "Invocar subagentes de varias formas", "Conocer Explore, Plan y general-purpose"],
+      "steps": [
+        {
+          "type": "card",
+          "kicker": "Criterio",
+          "title": "¿Delegar o no?",
+          "blocks": [
+            { "type": "compare", "left": { "title": "No delegues", "items": ["Un cambio pequeño e iterativo", "Preguntas sobre lo que ya está en la conversación"] }, "right": { "title": "Delega", "items": ["Búsquedas que leerían decenas de archivos", "Procesar logs o salidas de tests muy largas", "Una revisión independiente con criterios propios"] } },
+            { "type": "text", "body": "Cada subagente consume sus propios tokens y devuelve resultados a tu conversación: usa el paralelismo con intención, no por defecto." }
+          ]
+        },
+        {
+          "id": "m5l2e1",
+          "type": "choice",
+          "concept": "ag.delegation",
+          "prompt": "¿En cuál de estos casos aporta más un subagente?",
+          "options": [
+            { "text": "Revisar 60 archivos de configuración para encontrar dónde se define el tipo de IVA", "correct": true },
+            { "text": "Cambiar el título de un informe que tienes abierto", "feedback": "Es un cambio pequeño: mejor en la conversación principal." },
+            { "text": "Preguntar qué significa una cifra que Claude acaba de calcular", "feedback": "Esa información ya está en la conversación." }
+          ],
+          "explain": "La búsqueda masiva llenaría tu contexto; el subagente la hace aparte y te devuelve solo el hallazgo."
+        },
+        {
+          "type": "card",
+          "kicker": "Invocación",
+          "title": "Cuatro formas de activarlo",
+          "blocks": [
+            { "type": "text", "body": "1. **Automática**: Claude compara tu petición con la `description` (ayuda escribir «úsalo de forma proactiva…»).\n2. **Lenguaje natural**: «Usa el subagente revisor-cifras para revisar el informe».\n3. **Mención @**: escribe `@` y elige el agente; garantiza que se use.\n4. **Toda la sesión**: `claude --agent revisor-cifras`." },
+            { "type": "text", "body": "**Integrados**: *Explore* (búsqueda y análisis de solo lectura), *Plan* (investigación de solo lectura en modo plan) y *general-purpose* (tareas de varios pasos que exploran y modifican)." }
+          ]
+        },
+        {
+          "id": "m5l2e2",
+          "type": "match",
+          "concept": "ag.builtin",
+          "prompt": "Empareja cada subagente integrado con su función",
+          "pairs": [
+            ["Explore", "Búsqueda y análisis rápidos de solo lectura"],
+            ["Plan", "Investigación de solo lectura durante el modo plan"],
+            ["general-purpose", "Tareas de varios pasos que exploran y modifican"]
+          ],
+          "explain": "Explore y Plan no pueden editar archivos; general-purpose tiene todas las herramientas disponibles para subagentes."
+        },
+        {
+          "id": "m5l2e3",
+          "type": "choice",
+          "concept": "ag.definition",
+          "prompt": "Quieres garantizar que la próxima petición la haga el subagente `revisor-cifras`, no que Claude decida. ¿Qué usas?",
+          "options": [
+            { "text": "Mencionarlo con @ y elegir el agente", "correct": true },
+            { "text": "Confiar en la delegación automática", "feedback": "La automática depende de que Claude considere que encaja." },
+            { "text": "Escribir /revisor-cifras", "feedback": "La barra lanza Skills y comandos, no subagentes." }
+          ],
+          "explain": "La mención @ garantiza que ese subagente se ejecute; Claude sigue redactando el encargo."
+        },
+        {
+          "id": "m5l2e4",
+          "type": "spot",
+          "concept": "ag.least-privilege",
+          "prompt": "Este subagente debe *solo* revisar. ¿Qué líneas sobran o están mal?",
+          "file": ".claude/agents/revisor.md",
+          "lines": ["---", "name: revisor", "description: Revisa informes y señala errores, sin modificarlos", "tools: Read, Grep, Edit, Bash", "modelo: haiku", "---"],
+          "faulty": [3, 4],
+          "notes": { "3": "Edit y Bash permiten modificar: incoherente con «sin modificarlos».", "4": "El campo es model (en inglés); «modelo» se ignora en silencio." },
+          "fixed": "---\nname: revisor\ndescription: Revisa informes y señala errores, sin modificarlos\ntools: Read, Grep\nmodel: haiku\n---",
+          "explain": "Herramientas coherentes con la función y nombres de campo exactos."
+        },
+        {
+          "id": "m5l2e5",
+          "type": "choice",
+          "concept": "ag.delegation",
+          "prompt": "Un subagente de revisión tarda y genera mucho texto. ¿Qué modelo tiene sentido para tareas simples y repetitivas?",
+          "options": [
+            { "text": "Uno más ligero, por ejemplo `model: haiku`", "correct": true },
+            { "text": "Siempre el más grande", "feedback": "Para trabajo sencillo y voluminoso, un modelo ligero es más eficiente." },
+            { "text": "No se puede elegir modelo para un subagente", "feedback": "Sí: con el campo model." }
+          ],
+          "explain": "La documentación recomienda enviar el trabajo barato a modelos baratos."
+        }
+      ]
+    },
+    {
+      "id": "l5-3",
+      "title": "Flujos multiagente",
+      "summary": "Paralelismo con worktrees, orquestación y revisión independiente.",
+      "minutes": 7,
+      "objectives": ["Trabajar en paralelo sin colisiones", "Diseñar una orquestación por fases", "Separar quien hace de quien revisa"],
+      "steps": [
+        {
+          "type": "card",
+          "kicker": "Paralelo",
+          "title": "Worktrees: una copia por tarea",
+          "blocks": [
+            { "type": "text", "body": "Un **git worktree** es otra copia de trabajo del repositorio en su propia rama. Permite que dos sesiones de Claude editen a la vez sin pisarse." },
+            { "type": "code", "lang": "terminal", "code": "# terminal 1\nclaude --worktree informe-iva\n# terminal 2\nclaude --worktree conciliacion-bancos" },
+            { "type": "callout", "tone": "info", "body": "Necesita un repositorio con al menos un commit. En Desktop se activa con el interruptor **Worktree** de cada sesión; un subagente también puede usar `isolation: worktree`." }
+          ]
+        },
+        {
+          "id": "m5l3e1",
+          "type": "choice",
+          "concept": "ag.parallel",
+          "context": "Quieres que una sesión prepare el informe de IVA mientras otra corrige la conciliación, en el mismo repositorio.",
+          "prompt": "¿Qué evita que se pisen los cambios?",
+          "options": [
+            { "text": "Una sesión en cada worktree: `claude --worktree <nombre>`", "correct": true },
+            { "text": "Abrir dos sesiones en la misma carpeta", "feedback": "Editarían los mismos archivos a la vez." },
+            { "text": "Usar /compact en ambas", "feedback": "Compactar no aísla archivos." }
+          ],
+          "explain": "Cada worktree es una copia aislada en su propia rama; después integras con Git."
+        },
+        {
+          "type": "card",
+          "kicker": "Orquestación",
+          "title": "Fases con responsables",
+          "blocks": [
+            { "type": "flow", "title": "Cierre mensual con varios agentes", "steps": [
+              { "title": "Investigar (Explore)", "text": "Localiza fuentes y estructura de los datos." },
+              { "title": "Preparar (principal)", "text": "Genera el informe con la Skill de cierre." },
+              { "title": "Revisar (revisor-cifras)", "text": "Revisión independiente, solo lectura." },
+              { "title": "Decidir (tú)", "text": "Apruebas, pides cambios o descartas." }
+            ] },
+            { "type": "callout", "tone": "finance", "body": "Segregación de funciones: quien prepara no es quien revisa. El revisor sin permisos de edición no puede «arreglar» lo que debería señalar." }
+          ]
+        },
+        {
+          "id": "m5l3e2",
+          "type": "order",
+          "concept": "ag.orchestration",
+          "prompt": "Ordena una orquestación sensata para auditar todos los informes trimestrales",
+          "items": ["Un subagente Explore localiza los informes y sus fuentes", "Subagentes revisores analizan los informes en paralelo", "La sesión principal consolida los hallazgos", "Tú revisas el resumen y decides qué corregir"],
+          "explain": "Exploración → trabajo en paralelo con contexto propio → consolidación → decisión humana."
+        },
+        {
+          "id": "m5l3e3",
+          "type": "multi",
+          "concept": "ag.orchestration",
+          "prompt": "¿Qué buenas prácticas aplican a un flujo multiagente?",
+          "options": [
+            { "text": "Descripciones cortas y claras para cada subagente", "correct": true },
+            { "text": "Revisor con herramientas de solo lectura", "correct": true },
+            { "text": "Lanzar todos los subagentes posibles por si acaso", "feedback": "Cada uno consume tokens y devuelve texto a tu conversación." },
+            { "text": "Un criterio de aceptación explícito para el resultado final", "correct": true }
+          ],
+          "explain": "Paralelismo selectivo, roles claros y verificación final."
+        },
+        {
+          "id": "m5l3e4",
+          "type": "choice",
+          "concept": "ag.what",
+          "prompt": "Por defecto, ¿puede un subagente lanzar a su vez otros subagentes?",
+          "options": [
+            { "text": "Sí, hasta un límite de profundidad (tres niveles por debajo de la conversación principal)", "correct": true },
+            { "text": "No, nunca", "feedback": "Pueden anidarse hasta cierto límite." },
+            { "text": "Sí, sin límite", "feedback": "Hay un límite configurable." }
+          ],
+          "explain": "Para impedirlo en un subagente concreto, quita la herramienta Agent de su lista `tools`."
+        }
+      ]
+    }
+  ],
+  "exam": {
+    "size": 8,
+    "extra": [
+      {
+        "id": "m5x1",
+        "type": "choice",
+        "concept": "ag.definition",
+        "prompt": "¿Qué campos son obligatorios en la definición de un subagente?",
+        "options": [
+          { "text": "name y description", "correct": true },
+          { "text": "name, tools y model", "feedback": "tools y model son opcionales: si omites tools hereda todas." },
+          { "text": "Ninguno", "feedback": "name y description son obligatorios." }
+        ],
+        "explain": "El resto (tools, model, permissionMode, skills, mcpServers…) es opcional."
+      },
+      {
+        "id": "m5x2",
+        "type": "match",
+        "concept": "ag.definition",
+        "prompt": "Empareja cada ubicación con su alcance",
+        "pairs": [
+          ["`.claude/agents/`", "Proyecto actual (compartible)"],
+          ["`~/.claude/agents/`", "Todos tus proyectos"],
+          ["`claude --agents '{…}'`", "Solo esta sesión"]
+        ],
+        "explain": "La prioridad, de mayor a menor: gestionados, --agents, proyecto, usuario y plugins."
+      },
+      {
+        "id": "m5x3",
+        "type": "choice",
+        "concept": "ag.delegation",
+        "prompt": "¿Qué recibe tu conversación principal cuando termina un subagente?",
+        "options": [
+          { "text": "Un resumen de su trabajo", "correct": true },
+          { "text": "Todo lo que leyó, archivo por archivo", "feedback": "Precisamente se evita eso." },
+          { "text": "Nada", "feedback": "Devuelve sus resultados." }
+        ],
+        "explain": "Así el ruido se queda en el contexto del subagente."
+      }
+    ]
+  }
+}
