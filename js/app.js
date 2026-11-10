@@ -11,6 +11,7 @@ import { renderAcademy } from './views/academy.js';
 import { renderLab, openLabChallenge } from './views/lab.js';
 import { renderMissions, openMission } from './views/missions.js';
 import { renderProfile } from './views/profile.js';
+import { openAssistant } from './views/assistant.js';
 import { openLesson, openExam, openReview } from './views/activities.js';
 
 const TABS = [
@@ -35,7 +36,8 @@ async function loadContent() {
   const [course, missions, lab, ...modules] = await Promise.all([
     get(CONTENT_FILES.course), get(CONTENT_FILES.missions), get(CONTENT_FILES.lab), ...CONTENT_FILES.modules.map(get),
   ]);
-  return buildCourse({ course, missions, lab, modules });
+  const glossary = await get(CONTENT_FILES.glossary).then(g => g.entries).catch(() => []);
+  return { ...buildCourse({ course, missions, lab, modules }), glossary };
 }
 
 function applySettings(state) {
@@ -102,6 +104,7 @@ async function main() {
     checkForUpdate: () => checkForUpdate(),
     installedVersion: () => installedVersion(),
     showUpdateBanner: () => showUpdateBanner(),
+    openAssistant: (opts) => openAssistant(ctx, opts),
     go(route) {
       if (location.hash === route) render();
       else location.hash = route;
@@ -123,7 +126,7 @@ async function main() {
     const hash = location.hash || '#/home';
     const [, section = 'home', param] = hash.split('/');
     // Volver atrás con el navegador cierra una actividad abierta.
-    document.querySelectorAll('.activity, .editor, .sheet, .sheet-backdrop').forEach(el => el.remove());
+    document.querySelectorAll('.activity, .editor, .sheet, .sheet-backdrop, .assistant, .assistant-fab').forEach(el => el.remove());
     document.body.classList.remove('in-activity');
 
     const activities = { lesson: openLesson, exam: openExam, review: openReview, mission: openMission, challenge: openLabChallenge };
@@ -137,6 +140,9 @@ async function main() {
     const tab = TABS.find(t => t.id === section) || TABS[0];
     paintNav(tab.id);
     clear(view);
+    if (!document.querySelector('.assistant-fab')) {
+      document.body.append(h('button', { class: 'assistant-fab', type: 'button', 'aria-label': 'Preguntar una duda', onclick: () => ctx.openAssistant() }, icon('chat', { size: 22 })));
+    }
     const page = h('div', { class: 'page enter' });
     view.append(page);
     tab.render(page, ctx);

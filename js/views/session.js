@@ -52,7 +52,8 @@ export function runSession(ctx, options) {
       h('button', { class: 'icon-btn close', type: 'button', 'aria-label': 'Salir', onclick: exit }, icon('x')),
       backBtn,
       h('div', { class: 'progress', role: 'progressbar', 'aria-label': 'Progreso' }, bar),
-      counter),
+      counter,
+      h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Preguntar una duda', onclick: () => ctx.openAssistant({ lessonId: options.lessonId || null }) }, icon('chat', { size: 20 }))),
     body, footer);
   document.body.append(root);
   document.body.classList.add('in-activity');

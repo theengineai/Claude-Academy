@@ -138,3 +138,9 @@ El recorrido de navegador necesita Playwright y Chromium en tu entorno de desarr
 
 ## Privacidad
 No hay telemetría, cookies de seguimiento ni llamadas de red salvo la descarga de la propia app. Todo el contenido usa datos ficticios. No añadas datos reales de clientes, extractos ni credenciales al temario: el repositorio es compartible.
+
+## Asistente de dudas (sin IA)
+
+El botón de ayuda (esquina inferior derecha, y el icono de globo en la cabecera de cada lección) abre un chat que responde con `content/glossary.json`. No usa IA ni red: busca por coincidencia de palabras, tolera erratas y, si no sabe, ofrece **Guardar mi duda** (se guardan en el dispositivo; «Mis dudas» las copia para añadirlas al glosario).
+
+Cada entrada: `id`, `term`, `aliases[]` (formas de preguntarlo), `category`, `short`, `long?`, `example?`, `related[]`, `lessons[]` (lecciones donde se explica), `concepts[]` (ids de `course.json`) y `popular?`. `tests/assistant.test.mjs` exige que todo concepto del curso y todo comando de los bloques `cmds` tengan respuesta, y que cada término se encuentre a sí mismo.

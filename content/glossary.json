@@ -1,0 +1,3270 @@
+{
+ "version": 1,
+ "entries": [
+  {
+   "id": "terminal",
+   "term": "terminal",
+   "aliases": [
+    "consola",
+    "ventana de comandos",
+    "linea de comandos"
+   ],
+   "category": "Terminal básica",
+   "short": "Una ventana donde das órdenes al ordenador **escribiéndolas** en lugar de pulsar botones. El ordenador responde con texto.",
+   "long": "Piensa en Excel: puedes usar los menús o escribir una fórmula en la barra. La terminal es «solo barra de fórmulas». Cada orden que escribes es un **comando** y se ejecuta al pulsar Enter.",
+   "example": "En la academia, la terminal es **simulada**: no toca archivos reales, así que puedes equivocarte sin miedo.",
+   "related": [
+    "shell",
+    "comando",
+    "simulador"
+   ],
+   "lessons": [
+    "l1-t"
+   ],
+   "concepts": [
+    "env.terminal-basics"
+   ],
+   "popular": true
+  },
+  {
+   "id": "shell",
+   "term": "shell",
+   "aliases": [
+    "el shell",
+    "bash",
+    "zsh",
+    "interprete de comandos",
+    "diferencia entre shell y claude"
+   ],
+   "category": "Terminal básica",
+   "short": "El programa que vive dentro de la terminal y **entiende los comandos** (`cd`, `ls`, `git`…).",
+   "long": "Cuando abres Claude Code hay dos lugares distintos: el **shell** (la terminal normal, línea acabada en `$`) y la **sesión de Claude** (la conversación, línea con `>`). Los comandos con `/` (como `/help`) solo existen dentro de la sesión de Claude.",
+   "example": "`cd proyecto` → shell. `/context` → sesión de Claude.",
+   "related": [
+    "sesion",
+    "terminal",
+    "prompt"
+   ],
+   "lessons": [
+    "l1-t",
+    "l1-2"
+   ],
+   "concepts": [
+    "env.shell-vs-session"
+   ],
+   "popular": true
+  },
+  {
+   "id": "cli",
+   "term": "CLI",
+   "aliases": [
+    "interfaz de linea de comandos",
+    "command line interface",
+    "linea de comandos cli"
+   ],
+   "category": "Terminal básica",
+   "short": "**CLI** = *command-line interface*: usar un programa escribiendo comandos en la terminal. Claude Code en la terminal es su versión CLI.",
+   "example": "Otras formas de usar Claude Code: la app Desktop, extensiones de editores (IDE) y la web.",
+   "related": [
+    "terminal",
+    "desktop",
+    "ide"
+   ],
+   "lessons": [
+    "l1-1",
+    "l1-2"
+   ],
+   "concepts": [
+    "env.surfaces"
+   ]
+  },
+  {
+   "id": "comando",
+   "term": "comando",
+   "aliases": [
+    "orden",
+    "ordenes",
+    "que es un comando"
+   ],
+   "category": "Terminal básica",
+   "short": "Una **orden escrita** que el ordenador ejecuta al pulsar Enter. Suele tener tres partes: el comando, las opciones y el argumento.",
+   "long": "Ejemplo: `ls -l datos`. `ls` es el comando (qué hacer), `-l` la opción (cómo) y `datos` el argumento (sobre qué).",
+   "related": [
+    "argumento",
+    "opcion",
+    "terminal"
+   ],
+   "lessons": [
+    "l1-t"
+   ],
+   "concepts": [
+    "env.terminal-basics"
+   ],
+   "popular": true
+  },
+  {
+   "id": "argumento",
+   "term": "argumento",
+   "aliases": [
+    "parametro",
+    "sobre que actua"
+   ],
+   "category": "Terminal básica",
+   "short": "La parte del comando que dice **sobre qué** actúa: un archivo, una carpeta, un texto.",
+   "example": "En `cat informe.txt`, `informe.txt` es el argumento.",
+   "related": [
+    "comando",
+    "opcion"
+   ],
+   "lessons": [
+    "l1-t"
+   ],
+   "concepts": [
+    "env.terminal-basics"
+   ]
+  },
+  {
+   "id": "opcion",
+   "term": "opción",
+   "aliases": [
+    "flag",
+    "flags",
+    "opciones",
+    "guion",
+    "interruptor"
+   ],
+   "category": "Terminal básica",
+   "short": "Una parte del comando que cambia **cómo** se hace. Empieza por un guion: `-l`, `-p`, `--output-format`.",
+   "long": "No hace falta memorizarlas: la academia te las irá enseñando con su explicación.",
+   "example": "`ls -a` muestra también los archivos ocultos.",
+   "related": [
+    "comando",
+    "argumento"
+   ],
+   "lessons": [
+    "l1-t",
+    "l1-2"
+   ],
+   "concepts": [
+    "env.terminal-basics"
+   ]
+  },
+  {
+   "id": "prompt",
+   "term": "prompt",
+   "aliases": [
+    "simbolo dolar",
+    "signo dolar",
+    "simbolo mayor que",
+    "indicador de la terminal"
+   ],
+   "category": "Terminal básica",
+   "short": "El texto que aparece **antes** de lo que escribes. Te indica dónde estás.",
+   "long": "En el shell acaba en `$` (por ejemplo `alumno@academy ~ $`). Dentro de una sesión de Claude aparece `>`. Así sabes si escribes un comando de shell o hablas con Claude.",
+   "related": [
+    "shell",
+    "sesion"
+   ],
+   "lessons": [
+    "l1-2"
+   ],
+   "concepts": [
+    "env.shell-vs-session"
+   ]
+  },
+  {
+   "id": "enter",
+   "term": "Enter / enviar",
+   "aliases": [
+    "enviar comando",
+    "como envio un comando",
+    "no se envia",
+    "ejecutar comando",
+    "return",
+    "boton enviar"
+   ],
+   "category": "Terminal básica",
+   "short": "Un comando **no se ejecuta hasta que lo envías**: pulsa Enter en el teclado o el botón **Enviar** del simulador.",
+   "long": "Si lo dejas escrito sin enviar, no ha ocurrido nada. Al pulsar *Comprobar* en un ejercicio de terminal, lo que quede escrito se envía solo.",
+   "related": [
+    "terminal"
+   ],
+   "lessons": [
+    "l1-t"
+   ]
+  },
+  {
+   "id": "ruta",
+   "term": "ruta",
+   "aliases": [
+    "path",
+    "direccion de un archivo",
+    "ruta relativa",
+    "ruta absoluta",
+    "tilde",
+    "~",
+    "carpeta personal"
+   ],
+   "category": "Terminal básica",
+   "short": "La **dirección** de un archivo o carpeta, como `/home/alumno/proyecto/datos/ventas.csv`.",
+   "long": "`~` significa tu carpeta personal. `..` significa «la carpeta de arriba». Una ruta **relativa** (`datos/ventas.csv`) empieza desde la carpeta donde estás; una **absoluta** empieza en `/`.",
+   "related": [
+    "directorio",
+    "cd",
+    "pwd"
+   ],
+   "lessons": [
+    "l1-t",
+    "l1-3"
+   ],
+   "concepts": [
+    "env.navigation"
+   ]
+  },
+  {
+   "id": "directorio",
+   "term": "directorio / carpeta",
+   "aliases": [
+    "carpeta",
+    "folder",
+    "directorio de trabajo",
+    "carpeta de trabajo",
+    "donde estoy trabajando"
+   ],
+   "category": "Terminal básica",
+   "short": "Una **carpeta**. El **directorio de trabajo** es la carpeta donde está ahora la terminal.",
+   "long": "Claude Code trabaja en el directorio **donde lo arrancas**: si lo abres en la carpeta equivocada, leerá los archivos equivocados.",
+   "related": [
+    "pwd",
+    "cd",
+    "ruta"
+   ],
+   "lessons": [
+    "l1-t",
+    "l1-3"
+   ],
+   "concepts": [
+    "env.navigation",
+    "env.project-structure"
+   ],
+   "popular": true
+  },
+  {
+   "id": "pwd",
+   "term": "pwd",
+   "aliases": [
+    "donde estoy",
+    "en que carpeta estoy"
+   ],
+   "category": "Terminal básica",
+   "short": "Muestra **dónde estás**: la ruta de la carpeta actual.",
+   "example": "`pwd` → `/home/alumno/proyecto`",
+   "related": [
+    "ls",
+    "cd"
+   ],
+   "lessons": [
+    "l1-t"
+   ],
+   "concepts": [
+    "env.navigation"
+   ]
+  },
+  {
+   "id": "ls",
+   "term": "ls",
+   "aliases": [
+    "listar archivos",
+    "ver archivos",
+    "que hay en la carpeta",
+    "ls -a",
+    "ls -l",
+    "archivos ocultos"
+   ],
+   "category": "Terminal básica",
+   "short": "Lista **qué hay** en la carpeta actual (archivos y carpetas).",
+   "long": "`ls -a` incluye también los archivos **ocultos** (los que empiezan por un punto, como `.claude/`).",
+   "related": [
+    "pwd",
+    "cd",
+    "tree"
+   ],
+   "lessons": [
+    "l1-t",
+    "l1-3"
+   ],
+   "concepts": [
+    "env.navigation"
+   ]
+  },
+  {
+   "id": "cd",
+   "term": "cd",
+   "aliases": [
+    "entrar en una carpeta",
+    "cambiar de carpeta",
+    "cd ..",
+    "volver a la carpeta anterior",
+    "subir de carpeta"
+   ],
+   "category": "Terminal básica",
+   "short": "**Entra** en una carpeta. `cd ..` sube a la carpeta de arriba.",
+   "example": "`cd proyecto` y después `cd datos` te lleva a `proyecto/datos`.",
+   "related": [
+    "pwd",
+    "ls",
+    "ruta"
+   ],
+   "lessons": [
+    "l1-t",
+    "l1-3"
+   ],
+   "concepts": [
+    "env.navigation"
+   ]
+  },
+  {
+   "id": "tree",
+   "term": "tree",
+   "aliases": [
+    "arbol de carpetas",
+    "estructura del proyecto"
+   ],
+   "category": "Terminal básica",
+   "short": "Muestra el contenido del proyecto como un **árbol** de carpetas y archivos.",
+   "related": [
+    "ls"
+   ],
+   "lessons": [
+    "l1-3"
+   ],
+   "concepts": [
+    "env.navigation"
+   ]
+  },
+  {
+   "id": "cat",
+   "term": "cat",
+   "aliases": [
+    "leer un archivo",
+    "mostrar contenido de un archivo",
+    "ver el contenido de un archivo"
+   ],
+   "category": "Terminal básica",
+   "short": "Muestra por pantalla **lo que contiene** un archivo de texto.",
+   "example": "`cat notas.md` muestra las notas del proyecto.",
+   "related": [
+    "ls"
+   ],
+   "lessons": [
+    "l1-3"
+   ],
+   "concepts": [
+    "env.navigation",
+    "env.create-files"
+   ]
+  },
+  {
+   "id": "mkdir",
+   "term": "mkdir",
+   "aliases": [
+    "crear carpeta",
+    "crear una carpeta",
+    "mkdir -p"
+   ],
+   "category": "Terminal básica",
+   "short": "Crea una **carpeta**. Con `-p` crea también las carpetas intermedias.",
+   "long": "En la práctica, lo normal es **pedírselo a Claude** y revisar el resultado.",
+   "related": [
+    "claude-crea-archivos"
+   ],
+   "lessons": [
+    "l1-3"
+   ],
+   "concepts": [
+    "env.create-files"
+   ]
+  },
+  {
+   "id": "nano",
+   "term": "nano",
+   "aliases": [
+    "editor de texto",
+    "editar un archivo a mano",
+    "editar archivo"
+   ],
+   "category": "Terminal básica",
+   "short": "Un editor de texto sencillo para terminal. En el simulador abre una ventana con botón **Guardar**.",
+   "long": "La academia **no te obliga a usarlo**: para crear o cambiar archivos se los pides a Claude y revisas el resultado.",
+   "related": [
+    "claude-crea-archivos"
+   ],
+   "lessons": [
+    "l1-3"
+   ]
+  },
+  {
+   "id": "claude-crea-archivos",
+   "term": "pedirle a Claude que cree archivos",
+   "aliases": [
+    "crear archivos con claude",
+    "claude escribe los archivos",
+    "como creo un archivo",
+    "tengo que escribir los archivos yo",
+    "delegar escribir archivos"
+   ],
+   "category": "Claude Code",
+   "short": "Normalmente **no escribes tú** los archivos: se lo pides a Claude dentro de la sesión y **revisas** lo que ha escrito.",
+   "long": "Una buena petición dice **qué** quieres, **dónde** va y **qué debe contener**. Para revisar: `cat archivo` o `git diff`. Esto vale para CLAUDE.md, Skills, permisos, hooks o subagentes.",
+   "example": "«Crea una carpeta informes y dentro un archivo nota.txt con la frase…»",
+   "related": [
+    "claude-md",
+    "git-diff"
+   ],
+   "lessons": [
+    "l1-3",
+    "l2-1",
+    "l3-2"
+   ],
+   "concepts": [
+    "env.create-files",
+    "met.prompting"
+   ],
+   "popular": true
+  },
+  {
+   "id": "clear-terminal",
+   "term": "clear",
+   "aliases": [
+    "limpiar la pantalla",
+    "limpiar terminal"
+   ],
+   "category": "Terminal básica",
+   "short": "Limpia la pantalla de la terminal. No borra nada del proyecto.",
+   "related": [
+    "terminal"
+   ]
+  },
+  {
+   "id": "history",
+   "term": "history",
+   "aliases": [
+    "historial de comandos",
+    "comandos anteriores",
+    "flecha arriba"
+   ],
+   "category": "Terminal básica",
+   "short": "Muestra los comandos que has escrito. En el simulador, el botón **↑** recupera el anterior.",
+   "related": [
+    "terminal"
+   ]
+  },
+  {
+   "id": "simulador",
+   "term": "terminal simulada",
+   "aliases": [
+    "simulador",
+    "es real",
+    "esto es real",
+    "ejecuta de verdad",
+    "puedo romper algo",
+    "claude simulado",
+    "es una ia",
+    "esto es ia"
+   ],
+   "category": "La academia",
+   "short": "La terminal de la academia es **simulada**: no ejecuta nada real ni usa IA.",
+   "long": "Reproduce la **forma** de los comandos de Claude Code. En los ejercicios donde «Claude crea archivos», la respuesta está **preparada en el temario**: sirve para practicar a pedir con claridad y a revisar. El Claude real redactaría el texto a su manera.",
+   "related": [
+    "terminal"
+   ],
+   "lessons": [
+    "l1-t"
+   ],
+   "popular": true
+  },
+  {
+   "id": "datos",
+   "term": "datos/",
+   "aliases": [
+    "carpeta datos",
+    "carpeta de datos",
+    "que es datos",
+    "datos originales",
+    "extractos originales"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "La carpeta donde van los **datos de origen**: extractos, CSV originales… Por regla, **no se modifican**.",
+   "long": "Es una convención del curso (y de buenas prácticas): separar **origen** (`datos/`), **trabajo** (`scripts/`) y **resultados** (`informes/`). Igual que en un cierre contable: el extracto original no se toca.",
+   "example": "Puedes protegerla con una regla deny: `Edit(./datos/**)`.",
+   "related": [
+    "informes",
+    "scripts",
+    "deny"
+   ],
+   "lessons": [
+    "l1-3",
+    "l2-1b"
+   ],
+   "concepts": [
+    "env.project-structure"
+   ],
+   "popular": true
+  },
+  {
+   "id": "informes",
+   "term": "informes/",
+   "aliases": [
+    "carpeta informes",
+    "carpeta de resultados",
+    "resultados"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "La carpeta donde se guardan los **resultados generados** (informes, resúmenes). Así los datos de origen quedan intactos.",
+   "related": [
+    "datos",
+    "scripts"
+   ],
+   "lessons": [
+    "l1-3"
+   ],
+   "concepts": [
+    "env.project-structure"
+   ]
+  },
+  {
+   "id": "scripts",
+   "term": "scripts/",
+   "aliases": [
+    "carpeta scripts",
+    "programas",
+    "script"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "La carpeta con **programas** que procesan los datos, normalmente en Python.",
+   "long": "No necesitas saber programar: Claude los escribe y tú **compruebas el resultado**.",
+   "related": [
+    "python",
+    "tests-carpeta"
+   ],
+   "lessons": [
+    "l1-3"
+   ],
+   "concepts": [
+    "env.project-structure"
+   ]
+  },
+  {
+   "id": "tests-carpeta",
+   "term": "tests/ y pruebas",
+   "aliases": [
+    "pruebas automaticas",
+    "test",
+    "tests",
+    "carpeta tests",
+    "para que sirven los tests"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "Comprobaciones automáticas con **resultados que ya conoces**. Si fallan, algo no cuadra.",
+   "long": "Son el criterio de éxito del trabajo de Claude: él ejecuta, compara y corrige hasta que pasen.",
+   "example": "Ventas 200 y costes 150 → el margen debe ser 25 %.",
+   "related": [
+    "verificacion",
+    "bucle-agentico"
+   ],
+   "lessons": [
+    "l6-2"
+   ],
+   "concepts": [
+    "met.testing",
+    "met.verification"
+   ]
+  },
+  {
+   "id": "docs-carpeta",
+   "term": "docs/",
+   "aliases": [
+    "carpeta docs",
+    "glosario de proyecto",
+    "documentacion del proyecto"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "La carpeta con documentación del proyecto, como un glosario que CLAUDE.md puede importar con `@docs/glosario.md`.",
+   "related": [
+    "imports"
+   ],
+   "lessons": [
+    "l2-1c"
+   ],
+   "concepts": [
+    "ctx.imports-rules"
+   ]
+  },
+  {
+   "id": "readme",
+   "term": "README.md",
+   "aliases": [
+    "readme",
+    "archivo readme",
+    "notas.md",
+    "traspaso.md"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "El archivo que **presenta el proyecto**: qué es y cómo se usa. Los archivos de notas (`notas.md`) funcionan igual.",
+   "related": [
+    "markdown",
+    "claude-md"
+   ],
+   "lessons": [
+    "l1-3"
+   ]
+  },
+  {
+   "id": "proyecto",
+   "term": "proyecto",
+   "aliases": [
+    "carpeta del proyecto",
+    "estructura de un proyecto",
+    "que es un proyecto"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "Una carpeta de trabajo con tus archivos. Claude Code trabaja **dentro del proyecto** donde lo abres.",
+   "long": "Una estructura típica: `CLAUDE.md`, `datos/`, `scripts/`, `informes/` y `.claude/`.",
+   "related": [
+    "datos",
+    "informes",
+    "scripts",
+    "claude-carpeta"
+   ],
+   "lessons": [
+    "l1-3"
+   ],
+   "concepts": [
+    "env.project-structure"
+   ]
+  },
+  {
+   "id": "origen-resultados",
+   "term": "separar origen y resultados",
+   "aliases": [
+    "origen y resultados",
+    "no sobrescribir datos",
+    "datos de origen"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "Guarda los resultados en otra carpeta y **no sobrescribas** los datos de origen: así puedes repetir y verificar el proceso.",
+   "related": [
+    "datos",
+    "informes"
+   ],
+   "lessons": [
+    "l1-3"
+   ],
+   "concepts": [
+    "env.project-structure"
+   ]
+  },
+  {
+   "id": "csv",
+   "term": "CSV",
+   "aliases": [
+    "archivo csv",
+    "csv",
+    "tabla en texto",
+    "que es un csv"
+   ],
+   "category": "Formatos",
+   "short": "Una **tabla en texto**: cada línea es una fila y los valores se separan con comas. Excel lo abre sin problema.",
+   "example": "`fecha,cliente,importe` y debajo una fila por movimiento.",
+   "related": [
+    "datos"
+   ],
+   "lessons": [
+    "l1-3"
+   ]
+  },
+  {
+   "id": "txt-md",
+   "term": ".txt y .md",
+   "aliases": [
+    "archivo de texto",
+    "extension",
+    "que es un .md"
+   ],
+   "category": "Formatos",
+   "short": "`.txt` es texto plano. `.md` es **Markdown**: texto con marcas simples para títulos y listas.",
+   "related": [
+    "markdown"
+   ]
+  },
+  {
+   "id": "python",
+   "term": "Python / .py",
+   "aliases": [
+    "python",
+    "archivo py",
+    "lenguaje python",
+    "tengo que saber programar",
+    "necesito programar",
+    "saber programar"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "Un lenguaje de programación muy usado para analizar datos. Los archivos acaban en `.py`.",
+   "long": "**No necesitas saber escribirlo**: Claude escribe los programas y tú compruebas que el resultado es correcto (cuadres, casos conocidos).",
+   "related": [
+    "scripts",
+    "tests-carpeta"
+   ],
+   "lessons": [
+    "l1-3"
+   ],
+   "popular": true
+  },
+  {
+   "id": "claude-carpeta",
+   "term": ".claude/",
+   "aliases": [
+    "carpeta .claude",
+    "carpeta oculta del proyecto",
+    "archivos ocultos del proyecto",
+    "punto claude"
+   ],
+   "category": "Proyecto y archivos",
+   "short": "La carpeta **oculta** del proyecto donde viven las Skills, los subagentes y los ajustes (`settings.json`).",
+   "long": "Empieza por un punto, por eso `ls` no la muestra: usa `ls -a`.",
+   "example": "`.claude/skills/`, `.claude/agents/`, `.claude/settings.json`.",
+   "related": [
+    "skill",
+    "subagente",
+    "settings-json"
+   ],
+   "lessons": [
+    "l3-1",
+    "l5-1"
+   ]
+  },
+  {
+   "id": "archivo-oculto",
+   "term": "archivos ocultos",
+   "aliases": [
+    "empieza por punto",
+    "punto delante",
+    "archivos con punto"
+   ],
+   "category": "Terminal básica",
+   "short": "Los que empiezan por un **punto** (`.claude/`, `.env`, `.gitignore`). `ls` no los muestra; `ls -a` sí.",
+   "related": [
+    "ls",
+    "claude-carpeta"
+   ],
+   "lessons": [
+    "l1-3"
+   ]
+  },
+  {
+   "id": "git",
+   "term": "Git",
+   "aliases": [
+    "que es git",
+    "control de versiones",
+    "historial del proyecto"
+   ],
+   "category": "Git",
+   "short": "El programa que guarda el **historial** de un proyecto y te deja volver a versiones anteriores.",
+   "long": "Antes y después de trabajar con Claude, `git status` y `git diff` te dicen qué ha cambiado. Es tu red de seguridad permanente.",
+   "related": [
+    "repositorio",
+    "commit",
+    "git-diff"
+   ],
+   "lessons": [
+    "l1-3b"
+   ],
+   "concepts": [
+    "env.git"
+   ],
+   "popular": true
+  },
+  {
+   "id": "repositorio",
+   "term": "repositorio",
+   "aliases": [
+    "repo",
+    "repositorio git",
+    "que es un repositorio"
+   ],
+   "category": "Git",
+   "short": "Un proyecto que **tiene historial** gracias a Git. Se crea una vez con `git init`.",
+   "related": [
+    "git",
+    "git-init"
+   ],
+   "lessons": [
+    "l1-3b"
+   ],
+   "concepts": [
+    "env.git"
+   ]
+  },
+  {
+   "id": "commit",
+   "term": "commit",
+   "aliases": [
+    "guardar una version",
+    "confirmar cambios",
+    "que es un commit",
+    "version del proyecto"
+   ],
+   "category": "Git",
+   "short": "Una **«foto»** del proyecto con nombre y fecha, a la que puedes volver. Se hace con `git commit -m \"mensaje\"`.",
+   "long": "El mensaje debe contar **qué cambió y por qué**.",
+   "example": "«Corrige el margen: se calcula sobre ventas, no sobre costes».",
+   "related": [
+    "git-add",
+    "git-diff"
+   ],
+   "lessons": [
+    "l1-3b"
+   ],
+   "concepts": [
+    "env.git"
+   ],
+   "popular": true
+  },
+  {
+   "id": "git-init",
+   "term": "git init",
+   "aliases": [
+    "inicializar git",
+    "crear repositorio"
+   ],
+   "category": "Git",
+   "short": "Convierte la carpeta en un **repositorio**. Se hace **una sola vez** por proyecto.",
+   "related": [
+    "repositorio"
+   ],
+   "lessons": [
+    "l1-3b"
+   ],
+   "concepts": [
+    "env.git"
+   ]
+  },
+  {
+   "id": "git-status",
+   "term": "git status",
+   "aliases": [
+    "estado de git",
+    "que ha cambiado",
+    "cambios sin guardar"
+   ],
+   "category": "Git",
+   "short": "Te dice **qué archivos han cambiado** desde la última versión guardada.",
+   "related": [
+    "git-diff",
+    "git-add"
+   ],
+   "lessons": [
+    "l1-3b"
+   ],
+   "concepts": [
+    "env.git"
+   ]
+  },
+  {
+   "id": "git-diff",
+   "term": "git diff",
+   "aliases": [
+    "diff",
+    "ver cambios",
+    "que lineas han cambiado",
+    "diferencias"
+   ],
+   "category": "Git",
+   "short": "Muestra **qué líneas** han cambiado exactamente: lo quitado (`-`) y lo añadido (`+`).",
+   "long": "Es la forma de revisar lo que ha hecho Claude antes de aceptarlo.",
+   "related": [
+    "git-status",
+    "commit"
+   ],
+   "lessons": [
+    "l1-3b"
+   ],
+   "concepts": [
+    "env.git"
+   ]
+  },
+  {
+   "id": "git-add",
+   "term": "git add",
+   "aliases": [
+    "preparar cambios",
+    "git add .",
+    "staging"
+   ],
+   "category": "Git",
+   "short": "**Prepara** los cambios para guardarlos en el próximo commit. El punto (`git add .`) significa «todo lo de esta carpeta».",
+   "related": [
+    "commit"
+   ],
+   "lessons": [
+    "l1-3b"
+   ],
+   "concepts": [
+    "env.git"
+   ]
+  },
+  {
+   "id": "git-log",
+   "term": "git log",
+   "aliases": [
+    "historial de commits",
+    "ver el historial"
+   ],
+   "category": "Git",
+   "short": "Lista los commits (versiones guardadas) del proyecto, el más reciente primero.",
+   "related": [
+    "commit"
+   ],
+   "lessons": [
+    "l1-3b"
+   ],
+   "concepts": [
+    "env.git"
+   ]
+  },
+  {
+   "id": "rama",
+   "term": "rama (branch)",
+   "aliases": [
+    "branch",
+    "ramas",
+    "que es una rama"
+   ],
+   "category": "Git",
+   "short": "Una **línea de trabajo paralela** dentro de Git: puede tener cambios distintos sin afectar a las demás; luego se integra.",
+   "related": [
+    "worktree",
+    "git"
+   ],
+   "lessons": [
+    "l5-3"
+   ],
+   "concepts": [
+    "ag.parallel"
+   ]
+  },
+  {
+   "id": "gitignore",
+   "term": ".gitignore",
+   "aliases": [
+    "gitignore",
+    "no subir archivos",
+    "excluir archivos de git",
+    "ignorar archivos"
+   ],
+   "category": "Git",
+   "short": "Un archivo donde listas lo que Git **no debe guardar ni compartir** (notas personales, claves).",
+   "example": "`CLAUDE.local.md` y `.env` suelen ir ahí.",
+   "related": [
+    "claude-local",
+    "env"
+   ],
+   "lessons": [
+    "l2-1c"
+   ],
+   "concepts": [
+    "ctx.memory-scopes"
+   ]
+  },
+  {
+   "id": "checkpoint",
+   "term": "checkpoint / rewind",
+   "aliases": [
+    "checkpoints",
+    "rewind",
+    "deshacer",
+    "volver atras cambios de claude",
+    "esc esc",
+    "restaurar",
+    "deshacer cambios de claude"
+   ],
+   "category": "Claude Code",
+   "short": "Una **copia rápida** de tus archivos que Claude Code guarda en cada petición. `/rewind` (o Esc dos veces) restaura código, conversación o ambos.",
+   "long": "Solo cubre las **ediciones de Claude**; no los cambios hechos por comandos de shell. Para eso y para el historial permanente: Git.",
+   "related": [
+    "git"
+   ],
+   "lessons": [
+    "l1-3b",
+    "l2-3c"
+   ],
+   "concepts": [
+    "met.checkpoints"
+   ],
+   "popular": true
+  },
+  {
+   "id": "claude-code",
+   "term": "Claude Code",
+   "aliases": [
+    "que es claude code",
+    "claude code",
+    "para que sirve claude code"
+   ],
+   "category": "Claude Code",
+   "short": "Un **agente** que trabaja dentro de tu proyecto: lee archivos, edita, ejecuta comandos y comprueba el resultado.",
+   "long": "A diferencia de un chat, puede **actuar**. Tú defines el objetivo, los límites y cómo se comprobará que está bien.",
+   "related": [
+    "bucle-agentico",
+    "herramientas",
+    "permisos"
+   ],
+   "lessons": [
+    "l1-1"
+   ],
+   "concepts": [
+    "env.agent-loop"
+   ],
+   "popular": true
+  },
+  {
+   "id": "bucle-agentico",
+   "term": "bucle agéntico",
+   "aliases": [
+    "agente",
+    "que es un agente",
+    "reunir contexto actuar verificar"
+   ],
+   "category": "Claude Code",
+   "short": "El ciclo de Claude Code: **reunir contexto → actuar → verificar**, repetido hasta cumplir la tarea.",
+   "long": "Por eso conviene darle una forma de comprobar el resultado.",
+   "related": [
+    "claude-code",
+    "verificacion"
+   ],
+   "lessons": [
+    "l1-1"
+   ],
+   "concepts": [
+    "env.agent-loop"
+   ]
+  },
+  {
+   "id": "herramientas",
+   "term": "herramientas de Claude",
+   "aliases": [
+    "herramientas",
+    "grep",
+    "glob",
+    "read",
+    "write",
+    "edit",
+    "bash",
+    "read grep glob edit write bash",
+    "que herramientas tiene claude",
+    "tools"
+   ],
+   "category": "Claude Code",
+   "short": "Las «manos» de Claude Code: **Read** (leer), **Grep** (buscar un texto), **Glob** (buscar archivos por nombre), **Edit** (modificar), **Write** (crear) y **Bash** (ejecutar comandos).",
+   "long": "Las verás al decidir permisos y al crear subagentes.",
+   "related": [
+    "permisos",
+    "subagente"
+   ],
+   "lessons": [
+    "l1-1"
+   ],
+   "concepts": [
+    "env.agent-loop"
+   ]
+  },
+  {
+   "id": "desktop",
+   "term": "Claude Desktop",
+   "aliases": [
+    "app desktop",
+    "aplicacion de escritorio",
+    "desktop"
+   ],
+   "category": "Claude Code",
+   "short": "La app de escritorio de Claude; su pestaña **Code** ofrece Claude Code con revisión visual de cambios y sesiones en paralelo.",
+   "related": [
+    "cli",
+    "ide"
+   ],
+   "lessons": [
+    "l1-2"
+   ],
+   "concepts": [
+    "env.surfaces"
+   ]
+  },
+  {
+   "id": "ide",
+   "term": "IDE",
+   "aliases": [
+    "editor de codigo",
+    "vs code",
+    "jetbrains",
+    "extension de editor"
+   ],
+   "category": "Claude Code",
+   "short": "Un **editor de código** (VS Code, JetBrains). Claude Code tiene extensiones para ellos.",
+   "related": [
+    "cli",
+    "desktop"
+   ],
+   "lessons": [
+    "l1-1"
+   ],
+   "concepts": [
+    "env.surfaces"
+   ]
+  },
+  {
+   "id": "sesion",
+   "term": "sesión de Claude",
+   "aliases": [
+    "sesion",
+    "conversacion con claude",
+    "dentro de claude",
+    "claude interactivo"
+   ],
+   "category": "Claude Code",
+   "short": "La **conversación** con Claude dentro de un proyecto. Se abre escribiendo `claude` y se cierra con `/exit`.",
+   "long": "En la sesión hablas con Claude y usas comandos con `/`. Se puede continuar más tarde con `claude -c` o `claude -r`.",
+   "related": [
+    "shell",
+    "claude-arrancar"
+   ],
+   "lessons": [
+    "l1-2",
+    "l2-2b"
+   ],
+   "concepts": [
+    "env.shell-vs-session",
+    "ctx.sessions"
+   ]
+  },
+  {
+   "id": "claude-arrancar",
+   "term": "claude",
+   "aliases": [
+    "abrir claude",
+    "arrancar claude",
+    "como abro claude code",
+    "comando claude"
+   ],
+   "category": "Claude Code",
+   "short": "Abre una sesión de Claude Code en la carpeta donde estás. La forma normal de empezar.",
+   "long": "Con una petición entre comillas (`claude \"explica este proyecto\"`) abre la sesión y ya le hace esa petición.",
+   "related": [
+    "sesion",
+    "claude-p",
+    "claude-c"
+   ],
+   "lessons": [
+    "l1-2"
+   ],
+   "concepts": [
+    "env.cli-start"
+   ],
+   "popular": true
+  },
+  {
+   "id": "claude-p",
+   "term": "claude -p",
+   "aliases": [
+    "modo no interactivo",
+    "print",
+    "-p",
+    "una sola respuesta",
+    "sin abrir sesion",
+    "headless",
+    "modo p"
+   ],
+   "category": "Automatización",
+   "short": "Hace **una sola petición**, muestra la respuesta y se cierra, sin abrir conversación. Sirve para automatizar.",
+   "long": "Se puede encadenar con otros comandos: `cat datos.csv | claude -p \"resume\"`.",
+   "related": [
+    "tuberia",
+    "output-format",
+    "allowed-tools"
+   ],
+   "lessons": [
+    "l6-1"
+   ],
+   "concepts": [
+    "auto.headless"
+   ]
+  },
+  {
+   "id": "claude-c",
+   "term": "claude -c",
+   "aliases": [
+    "-c",
+    "continuar conversacion",
+    "continuar la ultima sesion"
+   ],
+   "category": "Claude Code",
+   "short": "**Continúa** la conversación más reciente de la carpeta actual.",
+   "long": "Si no hay ninguna, responde «No conversation found to continue».",
+   "related": [
+    "claude-r",
+    "sesion"
+   ],
+   "lessons": [
+    "l2-2b"
+   ],
+   "concepts": [
+    "ctx.sessions"
+   ]
+  },
+  {
+   "id": "claude-r",
+   "term": "claude -r",
+   "aliases": [
+    "-r",
+    "reanudar sesion",
+    "resume sesion",
+    "reanudar una conversacion",
+    "retomar sesion"
+   ],
+   "category": "Claude Code",
+   "short": "**Reanuda** una sesión concreta por su nombre. Ponle nombre al abrirla con `claude -n nombre`.",
+   "example": "`claude -n cierre-octubre` y después `claude -r cierre-octubre`.",
+   "related": [
+    "claude-c",
+    "sesion"
+   ],
+   "lessons": [
+    "l2-2b"
+   ],
+   "concepts": [
+    "ctx.sessions"
+   ]
+  },
+  {
+   "id": "barra-comandos",
+   "term": "comandos con /",
+   "aliases": [
+    "comandos barra",
+    "slash commands",
+    "comandos que empiezan por barra",
+    "comandos de claude"
+   ],
+   "category": "Claude Code",
+   "short": "Comandos que empiezan por `/` y **solo funcionan dentro de una sesión de Claude** (`/help`, `/init`, `/context`…).",
+   "related": [
+    "sesion",
+    "shell"
+   ],
+   "lessons": [
+    "l1-2"
+   ],
+   "concepts": [
+    "env.shell-vs-session"
+   ]
+  },
+  {
+   "id": "help",
+   "term": "/help",
+   "aliases": [
+    "ayuda de claude",
+    "lista de comandos",
+    "que comandos hay"
+   ],
+   "category": "Claude Code",
+   "short": "Muestra la ayuda y los comandos disponibles dentro de la sesión.",
+   "related": [
+    "barra-comandos"
+   ],
+   "lessons": [
+    "l1-2"
+   ]
+  },
+  {
+   "id": "exit",
+   "term": "/exit",
+   "aliases": [
+    "salir de claude",
+    "cerrar la sesion",
+    "volver al shell",
+    "exit"
+   ],
+   "category": "Claude Code",
+   "short": "Sale de la sesión de Claude y **vuelves al shell**.",
+   "related": [
+    "sesion",
+    "shell"
+   ],
+   "lessons": [
+    "l1-2"
+   ],
+   "concepts": [
+    "env.shell-vs-session"
+   ]
+  },
+  {
+   "id": "init",
+   "term": "/init",
+   "aliases": [
+    "generar claude.md",
+    "crear claude.md automaticamente",
+    "init"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Claude **analiza el proyecto y genera un CLAUDE.md inicial**. Si ya existe, propone mejoras en lugar de sobrescribirlo.",
+   "long": "Revisa siempre el resultado: es lo que Claude obedecerá en cada sesión.",
+   "related": [
+    "claude-md",
+    "memory"
+   ],
+   "lessons": [
+    "l2-1"
+   ],
+   "concepts": [
+    "ctx.claude-md"
+   ]
+  },
+  {
+   "id": "memory",
+   "term": "/memory",
+   "aliases": [
+    "ver la memoria",
+    "archivos de memoria cargados",
+    "editar claude.md desde claude"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Muestra qué archivos de memoria están cargados y te deja **editarlos** tú.",
+   "related": [
+    "claude-md",
+    "init"
+   ],
+   "lessons": [
+    "l2-1"
+   ],
+   "concepts": [
+    "ctx.claude-md"
+   ]
+  },
+  {
+   "id": "context-cmd",
+   "term": "/context",
+   "aliases": [
+    "uso de contexto",
+    "cuanto contexto llevo",
+    "ver el contexto",
+    "medir el contexto"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Muestra **cómo se reparte** el espacio de contexto (memoria, Skills, herramientas, conversación).",
+   "related": [
+    "contexto",
+    "compact"
+   ],
+   "lessons": [
+    "l2-2"
+   ],
+   "concepts": [
+    "ctx.window",
+    "ctx.compact-clear"
+   ]
+  },
+  {
+   "id": "compact",
+   "term": "/compact",
+   "aliases": [
+    "compactar",
+    "resumir la conversacion",
+    "liberar contexto"
+   ],
+   "category": "Memoria y contexto",
+   "short": "**Resume** la conversación para liberar espacio. Puedes decirle qué conservar: `/compact conserva los totales`.",
+   "long": "Las decisiones importantes, mejor en archivos: el resumen no las garantiza.",
+   "related": [
+    "clear",
+    "contexto"
+   ],
+   "lessons": [
+    "l2-2b"
+   ],
+   "concepts": [
+    "ctx.compact-clear"
+   ]
+  },
+  {
+   "id": "clear",
+   "term": "/clear",
+   "aliases": [
+    "empezar de cero",
+    "conversacion nueva",
+    "vaciar el contexto"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Empieza una **conversación nueva** con el contexto vacío. Úsalo al cambiar de tarea.",
+   "related": [
+    "compact",
+    "contexto"
+   ],
+   "lessons": [
+    "l2-2b"
+   ],
+   "concepts": [
+    "ctx.compact-clear"
+   ]
+  },
+  {
+   "id": "btw",
+   "term": "/btw",
+   "aliases": [
+    "pregunta lateral",
+    "pregunta aparte"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Una **pregunta lateral** que no entra en la conversación ni ocupa contexto.",
+   "related": [
+    "context-cmd"
+   ],
+   "lessons": [
+    "l2-2b"
+   ]
+  },
+  {
+   "id": "resume-cmd",
+   "term": "/resume",
+   "aliases": [
+    "lista de sesiones",
+    "elegir sesion"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Abre una **lista de sesiones** anteriores para elegir una, ya dentro de Claude.",
+   "related": [
+    "claude-r"
+   ],
+   "lessons": [
+    "l2-2b"
+   ],
+   "concepts": [
+    "ctx.sessions"
+   ]
+  },
+  {
+   "id": "rewind-cmd",
+   "term": "/rewind",
+   "aliases": [
+    "menu de checkpoints"
+   ],
+   "category": "Claude Code",
+   "short": "Abre el menú de **checkpoints** (igual que pulsar Esc dos veces con la línea vacía).",
+   "related": [
+    "checkpoint"
+   ],
+   "lessons": [
+    "l2-3c"
+   ],
+   "concepts": [
+    "met.checkpoints"
+   ]
+  },
+  {
+   "id": "plan-cmd",
+   "term": "/plan",
+   "aliases": [
+    "entrar en modo plan"
+   ],
+   "category": "Claude Code",
+   "short": "Entra en **modo plan** desde dentro de la sesión, opcionalmente con una tarea: `/plan revisa el cálculo del margen`.",
+   "related": [
+    "modo-plan"
+   ],
+   "lessons": [
+    "l2-3"
+   ],
+   "concepts": [
+    "met.plan-mode"
+   ]
+  },
+  {
+   "id": "doctor",
+   "term": "claude doctor",
+   "aliases": [
+    "/doctor",
+    "diagnostico",
+    "diagnosticar configuracion",
+    "doctor",
+    "comprobar la configuracion"
+   ],
+   "category": "Claude Code",
+   "short": "Un **diagnóstico** de la instalación y la configuración (ajustes, CLAUDE.md, MCP, Skills…). Ofrece correcciones tras pedirte confirmación.",
+   "related": [
+    "settings-json"
+   ],
+   "lessons": [
+    "l6-2"
+   ],
+   "concepts": [
+    "met.debugging"
+   ]
+  },
+  {
+   "id": "skills-cmd",
+   "term": "/skills",
+   "aliases": [
+    "lista de skills",
+    "ver skills"
+   ],
+   "category": "Skills",
+   "short": "Lista las **Skills** disponibles en la sesión.",
+   "related": [
+    "skill"
+   ],
+   "lessons": [
+    "l3-2"
+   ]
+  },
+  {
+   "id": "agents-cmd",
+   "term": "/agents",
+   "aliases": [
+    "lista de subagentes",
+    "ver subagentes",
+    "gestionar subagentes"
+   ],
+   "category": "Subagentes",
+   "short": "Te recuerda que puedes pedirle a Claude que cree y gestione **subagentes**, o editar `.claude/agents/` directamente.",
+   "related": [
+    "subagente"
+   ],
+   "lessons": [
+    "l5-1"
+   ]
+  },
+  {
+   "id": "mcp-cmd",
+   "term": "/mcp",
+   "aliases": [
+    "estado de los servidores",
+    "autenticar mcp",
+    "iniciar sesion mcp"
+   ],
+   "category": "MCP",
+   "short": "Dentro de la sesión, muestra el **estado** de los servidores MCP y permite iniciar sesión (OAuth).",
+   "related": [
+    "mcp",
+    "oauth"
+   ],
+   "lessons": [
+    "l4-2"
+   ],
+   "concepts": [
+    "mcp.auth"
+   ]
+  },
+  {
+   "id": "hooks-cmd",
+   "term": "/hooks",
+   "aliases": [
+    "ver hooks"
+   ],
+   "category": "Automatización",
+   "short": "Muestra los **hooks** configurados, para comprobar que el tuyo aparece.",
+   "related": [
+    "hook"
+   ],
+   "lessons": [
+    "l6-1b"
+   ]
+  },
+  {
+   "id": "permissions-cmd",
+   "term": "/permissions",
+   "aliases": [
+    "gestionar permisos",
+    "ver reglas de permisos"
+   ],
+   "category": "Permisos",
+   "short": "Un panel para **ver y gestionar** las reglas allow, ask y deny.",
+   "related": [
+    "reglas-permisos"
+   ],
+   "lessons": [
+    "l4-3"
+   ],
+   "concepts": [
+    "sec.rules"
+   ]
+  },
+  {
+   "id": "mencion",
+   "term": "@archivo",
+   "aliases": [
+    "arroba",
+    "mencionar un archivo",
+    "referenciar archivo",
+    "anadir un archivo al contexto",
+    "@"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Escribir `@ruta` en tu petición **incluye ese archivo** en el contexto. Con una carpeta, incluye su **listado**, no el contenido.",
+   "long": "Señala lo que importa en lugar de volcar todo.",
+   "example": "`revisa @scripts/margen.py`",
+   "related": [
+    "contexto"
+   ],
+   "lessons": [
+    "l2-2b"
+   ],
+   "concepts": [
+    "ctx.mentions"
+   ]
+  },
+  {
+   "id": "modelo",
+   "term": "modelo",
+   "aliases": [
+    "sonnet",
+    "opus",
+    "haiku",
+    "fable",
+    "que modelo usar",
+    "model"
+   ],
+   "category": "Claude Code",
+   "short": "El «cerebro» que usa Claude. Hay alias como `sonnet`, `opus`, `haiku` o `fable`. Uno ligero (`haiku`) sirve para tareas sencillas y baratas.",
+   "related": [
+    "subagente"
+   ],
+   "lessons": [
+    "l5-1"
+   ]
+  },
+  {
+   "id": "claude-n",
+   "term": "claude -n",
+   "aliases": [
+    "-n",
+    "nombre de sesion",
+    "poner nombre a la sesion"
+   ],
+   "category": "Claude Code",
+   "short": "**Pone nombre** a la sesión (`-n` = nombre) para encontrarla luego con `claude -r nombre`.",
+   "related": [
+    "claude-r"
+   ],
+   "lessons": [
+    "l2-2b"
+   ],
+   "concepts": [
+    "ctx.sessions"
+   ]
+  },
+  {
+   "id": "claude-md",
+   "term": "CLAUDE.md",
+   "aliases": [
+    "claudemd",
+    "claude md",
+    "archivo de instrucciones",
+    "memoria del proyecto",
+    "que es claude.md"
+   ],
+   "category": "Memoria y contexto",
+   "short": "El archivo de **instrucciones del proyecto** que Claude lee al empezar cada sesión: estructura, reglas, cómo validar.",
+   "long": "Normalmente **se lo pides a Claude** (`/init`, o «añade esto a CLAUDE.md»). Que sea corto (menos de 200 líneas), concreto y **sin secretos**. Es contexto, **no una barrera**: para garantizar algo, usa permisos o hooks.",
+   "related": [
+    "init",
+    "claude-local",
+    "contexto"
+   ],
+   "lessons": [
+    "l2-1",
+    "l2-1b"
+   ],
+   "concepts": [
+    "ctx.claude-md"
+   ],
+   "popular": true
+  },
+  {
+   "id": "claude-local",
+   "term": "CLAUDE.local.md",
+   "aliases": [
+    "memoria local",
+    "claude local",
+    "instrucciones personales del proyecto"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Tus instrucciones **personales** para este proyecto. No se comparte: se añade a `.gitignore`.",
+   "related": [
+    "claude-md",
+    "gitignore",
+    "memoria-ambitos"
+   ],
+   "lessons": [
+    "l2-1c"
+   ],
+   "concepts": [
+    "ctx.memory-scopes"
+   ]
+  },
+  {
+   "id": "memoria-ambitos",
+   "term": "ámbitos de memoria",
+   "aliases": [
+    "usuario proyecto local",
+    "donde pongo una instruccion",
+    "memoria de usuario",
+    "~/.claude/claude.md"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Tres sitios: **usuario** (`~/.claude/CLAUDE.md`, tus preferencias en todos los proyectos), **proyecto** (`CLAUDE.md`, el equipo) y **local** (`CLAUDE.local.md`, solo tú en este proyecto).",
+   "long": "Se **suman**, no se sustituyen.",
+   "related": [
+    "claude-md",
+    "claude-local"
+   ],
+   "lessons": [
+    "l2-1c"
+   ],
+   "concepts": [
+    "ctx.memory-scopes"
+   ]
+  },
+  {
+   "id": "imports",
+   "term": "imports @ y rules",
+   "aliases": [
+    "importar archivo",
+    "@docs",
+    "claude/rules",
+    "reglas por carpeta",
+    "rules",
+    "importar glosario"
+   ],
+   "category": "Memoria y contexto",
+   "short": "`@ruta` dentro de CLAUDE.md **incluye otro archivo**. `.claude/rules/` guarda reglas temáticas en archivos aparte.",
+   "long": "Sirven para mantener CLAUDE.md corto.",
+   "example": "`@docs/glosario.md`",
+   "related": [
+    "claude-md"
+   ],
+   "lessons": [
+    "l2-1c"
+   ],
+   "concepts": [
+    "ctx.imports-rules"
+   ]
+  },
+  {
+   "id": "contexto",
+   "term": "ventana de contexto",
+   "aliases": [
+    "contexto",
+    "contexto lleno",
+    "que es el contexto",
+    "memoria de la conversacion",
+    "limite de contexto"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Lo que Claude «tiene delante» en cada momento: instrucciones, CLAUDE.md, herramientas, conversación y archivos leídos. Es **limitado**.",
+   "long": "Cuando se llena de ruido, la calidad baja. Mejor el contexto **adecuado** que mucho contexto.",
+   "related": [
+    "token",
+    "context-cmd",
+    "compact"
+   ],
+   "lessons": [
+    "l2-2"
+   ],
+   "concepts": [
+    "ctx.window"
+   ],
+   "popular": true
+  },
+  {
+   "id": "token",
+   "term": "token",
+   "aliases": [
+    "tokens",
+    "que es un token"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Un trozo de texto, algo más corto que una palabra. Con tokens se mide el espacio de contexto.",
+   "related": [
+    "contexto"
+   ],
+   "lessons": [
+    "l2-2"
+   ],
+   "concepts": [
+    "ctx.window"
+   ]
+  },
+  {
+   "id": "instrucciones-concretas",
+   "term": "instrucciones concretas",
+   "aliases": [
+    "instruccion vaga",
+    "se preciso",
+    "como escribir buenas instrucciones",
+    "instruccion comprobable"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Claude sigue mejor lo que **se puede comprobar**: «importes en EUR con 2 decimales» en lugar de «sé preciso».",
+   "long": "La prueba: ¿puedes responder sí o no a «¿lo ha cumplido?».",
+   "related": [
+    "claude-md"
+   ],
+   "lessons": [
+    "l2-1b"
+   ],
+   "concepts": [
+    "ctx.claude-md",
+    "met.prompting"
+   ]
+  },
+  {
+   "id": "auto-memoria",
+   "term": "auto memoria",
+   "aliases": [
+    "automemory",
+    "claude recuerda",
+    "recuerda cosas"
+   ],
+   "category": "Memoria y contexto",
+   "short": "Notas que Claude **escribe por sí mismo** a partir de tus correcciones. Se gestiona con `/memory`.",
+   "related": [
+    "claude-md"
+   ],
+   "lessons": [
+    "l2-1c"
+   ]
+  },
+  {
+   "id": "modo-plan",
+   "term": "modo plan",
+   "aliases": [
+    "plan mode",
+    "investigar sin tocar",
+    "plan"
+   ],
+   "category": "Claude Code",
+   "short": "Claude **lee e investiga y propone un plan**, pero **no edita** hasta que lo apruebes.",
+   "long": "Empieza con `claude --permission-mode plan`, con `/plan` o con Mayús+Tab (en el simulador, el botón **⇧Tab**).",
+   "example": "Útil antes de cambios que tocan varios archivos o datos importantes.",
+   "related": [
+    "explorar-planificar",
+    "modos-permisos"
+   ],
+   "lessons": [
+    "l2-3"
+   ],
+   "concepts": [
+    "met.plan-mode"
+   ],
+   "popular": true
+  },
+  {
+   "id": "explorar-planificar",
+   "term": "explorar, planificar, ejecutar, verificar",
+   "aliases": [
+    "metodo de trabajo",
+    "ciclo de trabajo",
+    "como trabajar con claude",
+    "flujo de trabajo"
+   ],
+   "category": "Claude Code",
+   "short": "El método: **explorar** (leer sin cambiar), **planificar**, **ejecutar** en pasos pequeños y **verificar** con evidencia.",
+   "related": [
+    "modo-plan",
+    "verificacion"
+   ],
+   "lessons": [
+    "l2-3"
+   ],
+   "concepts": [
+    "met.explore-plan"
+   ]
+  },
+  {
+   "id": "verificacion",
+   "term": "verificación",
+   "aliases": [
+    "verificar",
+    "comprobar el trabajo de claude",
+    "criterio de verificacion",
+    "evidencia",
+    "como se que esta bien"
+   ],
+   "category": "Claude Code",
+   "short": "Pedir **evidencia**: un resultado que ya conoces (un caso de prueba, un cuadre de totales) en vez de fiarte de «ya está».",
+   "example": "«Con ventas 200 y costes 150 el margen debe ser 25 %».",
+   "related": [
+    "tests-carpeta"
+   ],
+   "lessons": [
+    "l2-3c"
+   ],
+   "concepts": [
+    "met.verification"
+   ],
+   "popular": true
+  },
+  {
+   "id": "peticion-clara",
+   "term": "peticiones específicas",
+   "aliases": [
+    "como pedir cosas a claude",
+    "buena peticion",
+    "prompt",
+    "como redactar una peticion",
+    "pedir con claridad"
+   ],
+   "category": "Claude Code",
+   "short": "Una buena petición dice **qué** quieres, **dónde** y **con qué criterios**, y cómo se comprobará.",
+   "example": "«Revisa @scripts/margen.py: el margen debe calcularse sobre ventas».",
+   "related": [
+    "verificacion",
+    "mencion"
+   ],
+   "lessons": [
+    "l1-1",
+    "l2-1b"
+   ],
+   "concepts": [
+    "met.prompting"
+   ]
+  },
+  {
+   "id": "depurar",
+   "term": "depurar",
+   "aliases": [
+    "debug",
+    "debugging",
+    "arreglar un error",
+    "como depuro",
+    "bug"
+   ],
+   "category": "Claude Code",
+   "short": "Dale a Claude el **error exacto** y cómo reproducirlo: el comando, el mensaje, qué esperabas y qué obtuviste. Corrige, y deja un test que lo blinde.",
+   "related": [
+    "tests-carpeta"
+   ],
+   "lessons": [
+    "l6-2"
+   ],
+   "concepts": [
+    "met.debugging"
+   ]
+  },
+  {
+   "id": "permisos",
+   "term": "permisos",
+   "aliases": [
+    "permiso",
+    "pide permiso",
+    "por que pide permiso",
+    "autonomia de claude"
+   ],
+   "category": "Permisos",
+   "short": "Por defecto, Claude **pide permiso** antes de editar archivos, ejecutar comandos o usar la red; leer no lo necesita. Tú decides cuánta autonomía das.",
+   "related": [
+    "modos-permisos",
+    "reglas-permisos"
+   ],
+   "lessons": [
+    "l1-1",
+    "l2-3b"
+   ],
+   "concepts": [
+    "sec.permission-modes"
+   ],
+   "popular": true
+  },
+  {
+   "id": "modos-permisos",
+   "term": "modos de permisos",
+   "aliases": [
+    "permission mode",
+    "default manual",
+    "acceptedits",
+    "dontask",
+    "bypasspermissions",
+    "auto mode",
+    "shift tab",
+    "mayus tab",
+    "modo auto",
+    "modos"
+   ],
+   "category": "Permisos",
+   "short": "Seis modos: **default** (pide permiso), **acceptEdits** (edita sin preguntar), **plan** (solo investiga), **auto** (un revisor automático decide), **dontAsk** (deniega lo no preaprobado) y **bypassPermissions** (sin comprobaciones, solo en entornos aislados).",
+   "long": "Mayús+Tab recorre default → acceptEdits → plan → (auto). Las reglas **deny** bloquean en todos los modos.",
+   "related": [
+    "permisos",
+    "deny",
+    "modo-plan"
+   ],
+   "lessons": [
+    "l2-3b"
+   ],
+   "concepts": [
+    "sec.permission-modes"
+   ],
+   "popular": true
+  },
+  {
+   "id": "reglas-permisos",
+   "term": "reglas allow, ask y deny",
+   "aliases": [
+    "allow",
+    "ask",
+    "reglas de permisos",
+    "permitir preguntar prohibir",
+    "bash(git diff *)",
+    "patron de permisos"
+   ],
+   "category": "Permisos",
+   "short": "**allow** permite sin preguntar, **ask** obliga a preguntar y **deny** prohíbe. Se escriben `Herramienta(patrón)`.",
+   "long": "`Bash(git diff *)` = la herramienta Bash y, entre paréntesis, qué comandos; el `*` significa «cualquier cosa a continuación». `Edit(./datos/**)` = todo lo que hay dentro de datos.",
+   "related": [
+    "deny",
+    "settings-json"
+   ],
+   "lessons": [
+    "l4-3"
+   ],
+   "concepts": [
+    "sec.rules"
+   ],
+   "popular": true
+  },
+  {
+   "id": "deny",
+   "term": "deny",
+   "aliases": [
+    "prohibir",
+    "regla deny",
+    "bloquear siempre"
+   ],
+   "category": "Permisos",
+   "short": "La regla que **prohíbe**. Bloquea en cualquier modo, incluso `bypassPermissions`: es tu última línea de defensa.",
+   "example": "`Read(./.env)` impide leer el archivo de claves.",
+   "related": [
+    "reglas-permisos"
+   ],
+   "lessons": [
+    "l4-3"
+   ],
+   "concepts": [
+    "sec.rules"
+   ]
+  },
+  {
+   "id": "settings-json",
+   "term": "settings.json",
+   "aliases": [
+    "archivo de ajustes",
+    "ajustes",
+    "settings",
+    "settings.local.json",
+    "precedencia",
+    "donde viven los permisos",
+    "settings error"
+   ],
+   "category": "Permisos",
+   "short": "El archivo de **ajustes** de Claude Code. Hay uno de usuario (`~/.claude/settings.json`), uno de proyecto (`.claude/settings.json`, compartido) y uno local (`.claude/settings.local.json`).",
+   "long": "Si una clave está en varios sitios gana el nivel más alto: **gestionado > línea de comandos > local > proyecto > usuario**. Las listas de permisos se **combinan**. Es JSON estricto: una coma de más lo rompe. Lo normal es **pedirle a Claude** que lo escriba y revisarlo.",
+   "related": [
+    "reglas-permisos",
+    "json",
+    "doctor"
+   ],
+   "lessons": [
+    "l4-3"
+   ],
+   "concepts": [
+    "sec.settings-scopes"
+   ]
+  },
+  {
+   "id": "minimo-privilegio",
+   "term": "mínimo privilegio",
+   "aliases": [
+    "privilegio minimo",
+    "solo lo necesario",
+    "herramientas minimas"
+   ],
+   "category": "Permisos",
+   "short": "Dar **solo las herramientas y permisos que la tarea exige**: un revisor lee, no edita.",
+   "related": [
+    "subagente",
+    "permisos"
+   ],
+   "lessons": [
+    "l5-1"
+   ],
+   "concepts": [
+    "ag.least-privilege"
+   ]
+  },
+  {
+   "id": "secretos",
+   "term": "secretos y claves",
+   "aliases": [
+    "secreto",
+    "contrasena",
+    "credenciales",
+    "clave",
+    "token",
+    "api key",
+    "apikey",
+    "datos sensibles",
+    "api_key"
+   ],
+   "category": "Seguridad",
+   "short": "Claves, contraseñas y tokens **nunca** van en archivos que se comparten (CLAUDE.md, `.mcp.json`) ni se escriben en el chat.",
+   "long": "Una **API key** es un código personal que identifica tu cuenta para usar un servicio: se trata como una contraseña. Si una clave se filtra, hay que darla por comprometida y **revocarla**: borrar el archivo no la quita del historial de Git.",
+   "related": [
+    "env",
+    "variable-entorno",
+    "deny"
+   ],
+   "lessons": [
+    "l4-3b"
+   ],
+   "concepts": [
+    "sec.secrets"
+   ],
+   "popular": true
+  },
+  {
+   "id": "env",
+   "term": ".env",
+   "aliases": [
+    "archivo env",
+    "archivo de claves"
+   ],
+   "category": "Seguridad",
+   "short": "Un archivo donde suelen guardarse **claves y contraseñas**. Se protege con `deny` sobre `Read(./.env)` y se mantiene fuera de Git.",
+   "related": [
+    "secretos",
+    "gitignore"
+   ],
+   "lessons": [
+    "l4-3"
+   ],
+   "concepts": [
+    "sec.secrets"
+   ]
+  },
+  {
+   "id": "inyeccion",
+   "term": "inyección de instrucciones",
+   "aliases": [
+    "prompt injection",
+    "inyeccion",
+    "texto que da ordenes",
+    "contenido externo malicioso"
+   ],
+   "category": "Seguridad",
+   "short": "Un documento, una web o la respuesta de un servidor MCP puede contener texto que **intenta dar órdenes a Claude**. Es contenido externo: son **datos, no instrucciones**.",
+   "long": "Por eso se conectan solo servidores de confianza y se limitan los permisos.",
+   "related": [
+    "mcp-seguridad",
+    "deny"
+   ],
+   "lessons": [
+    "l4-3b"
+   ],
+   "concepts": [
+    "sec.prompt-injection"
+   ]
+  },
+  {
+   "id": "skill",
+   "term": "Skill",
+   "aliases": [
+    "skills",
+    "que es una skill",
+    "habilidad",
+    "procedimiento reutilizable"
+   ],
+   "category": "Skills",
+   "short": "Un **procedimiento reutilizable** que Claude carga cuando es relevante o cuando lo invocas con `/nombre`: una conciliación, un informe mensual, un checklist.",
+   "long": "Si te descubres pegando las mismas instrucciones una y otra vez, eso debería ser una Skill.",
+   "related": [
+    "skill-md",
+    "claude-md"
+   ],
+   "lessons": [
+    "l3-1"
+   ],
+   "concepts": [
+    "sk.what"
+   ],
+   "popular": true
+  },
+  {
+   "id": "skill-md",
+   "term": "SKILL.md",
+   "aliases": [
+    "skillmd",
+    "archivo de la skill",
+    "estructura de una skill",
+    "carpeta de la skill"
+   ],
+   "category": "Skills",
+   "short": "El archivo de una Skill: **frontmatter** (nombre y descripción) + instrucciones. Vive en `.claude/skills/<nombre>/SKILL.md`.",
+   "long": "Se lo puedes pedir a Claude y revisar que la `description` diga **qué hace y cuándo usarla**.",
+   "related": [
+    "frontmatter",
+    "skill",
+    "skill-ubicaciones"
+   ],
+   "lessons": [
+    "l3-1"
+   ],
+   "concepts": [
+    "sk.frontmatter"
+   ]
+  },
+  {
+   "id": "skill-ubicaciones",
+   "term": "ubicación de una Skill",
+   "aliases": [
+    "skill personal",
+    "skill de proyecto",
+    "~/.claude/skills",
+    "donde guardo una skill"
+   ],
+   "category": "Skills",
+   "short": "**Personal** (`~/.claude/skills/`): en todos tus proyectos. **De proyecto** (`.claude/skills/`): se sube al repositorio y la comparte el equipo.",
+   "long": "Si dos se llaman igual, gana la de mayor prioridad: empresa > personal > proyecto.",
+   "related": [
+    "skill-md"
+   ],
+   "lessons": [
+    "l3-1",
+    "l3-2"
+   ],
+   "concepts": [
+    "sk.locations"
+   ]
+  },
+  {
+   "id": "frontmatter",
+   "term": "frontmatter",
+   "aliases": [
+    "yaml",
+    "cabecera del archivo",
+    "campos entre guiones",
+    "entre los tres guiones"
+   ],
+   "category": "Formatos",
+   "short": "Los datos de un archivo escritos entre dos líneas `---` como «etiqueta: valor» (formato **YAML**).",
+   "long": "En una Skill: `name`, `description`… Un campo mal escrito se **ignora sin avisar**.",
+   "related": [
+    "skill-md"
+   ],
+   "lessons": [
+    "l3-1"
+   ],
+   "concepts": [
+    "sk.frontmatter"
+   ]
+  },
+  {
+   "id": "description",
+   "term": "description",
+   "aliases": [
+    "descripcion de la skill",
+    "campo description",
+    "cuando se activa una skill"
+   ],
+   "category": "Skills",
+   "short": "El campo que dice **qué hace** la Skill y **cuándo usarla**. Claude lo lee para decidir si cargarla sola.",
+   "related": [
+    "skill-md"
+   ],
+   "lessons": [
+    "l3-1"
+   ],
+   "concepts": [
+    "sk.frontmatter"
+   ]
+  },
+  {
+   "id": "arguments",
+   "term": "$ARGUMENTS",
+   "aliases": [
+    "argumentos de una skill",
+    "$0",
+    "$1",
+    "argument-hint",
+    "parametros de una skill",
+    "pasar un periodo a la skill"
+   ],
+   "category": "Skills",
+   "short": "Marcadores de una Skill que se sustituyen por lo que escribes después del nombre. `/cierre 2026-10` sustituye `$ARGUMENTS` por `2026-10`; `$0` es el primero, `$1` el segundo.",
+   "long": "Si la Skill no usa ningún marcador, se añade `ARGUMENTS: valor` al final.",
+   "related": [
+    "skill-md"
+   ],
+   "lessons": [
+    "l3-2"
+   ],
+   "concepts": [
+    "sk.arguments"
+   ]
+  },
+  {
+   "id": "disable-model",
+   "term": "disable-model-invocation",
+   "aliases": [
+    "solo yo puedo invocar",
+    "user-invocable",
+    "impedir que claude use una skill",
+    "invocacion manual"
+   ],
+   "category": "Skills",
+   "short": "`disable-model-invocation: true` hace que **solo tú** puedas lanzar la Skill con `/nombre`. `user-invocable: false` hace lo contrario: solo Claude.",
+   "related": [
+    "skill-md"
+   ],
+   "lessons": [
+    "l3-2"
+   ],
+   "concepts": [
+    "sk.invocation"
+   ]
+  },
+  {
+   "id": "allowed-tools",
+   "term": "allowed-tools",
+   "aliases": [
+    "herramientas permitidas skill",
+    "preaprobar herramientas",
+    "--allowedtools",
+    "allowedtools"
+   ],
+   "category": "Permisos",
+   "short": "Herramientas que Claude puede usar **sin pedir permiso** (en una Skill, durante ese turno; en la línea de comandos, con `--allowedTools`).",
+   "long": "`Bash(git diff *)` = solo comandos que empiezan por `git diff`.",
+   "related": [
+    "reglas-permisos"
+   ],
+   "lessons": [
+    "l3-3",
+    "l6-1"
+   ],
+   "concepts": [
+    "sk.frontmatter",
+    "auto.allowed-tools"
+   ]
+  },
+  {
+   "id": "carga-progresiva",
+   "term": "carga progresiva",
+   "aliases": [
+    "archivos de apoyo",
+    "skill larga",
+    "divulgacion progresiva"
+   ],
+   "category": "Skills",
+   "short": "La `description` está siempre en contexto; el cuerpo de SKILL.md entra al invocarla; los **archivos de apoyo** solo cuando hacen falta.",
+   "related": [
+    "skill-md"
+   ],
+   "lessons": [
+    "l3-3"
+   ],
+   "concepts": [
+    "sk.supporting"
+   ]
+  },
+  {
+   "id": "skill-controles",
+   "term": "controles de calidad en una Skill",
+   "aliases": [
+    "checklist en la skill",
+    "skill que se audita",
+    "controles antes de entregar"
+   ],
+   "category": "Skills",
+   "short": "Una sección de **controles** (cuadres, fuentes) y una regla de parada («si falla, detente y explica la diferencia») hacen la Skill fiable y auditable.",
+   "related": [
+    "skill-md"
+   ],
+   "lessons": [
+    "l3-3"
+   ],
+   "concepts": [
+    "sk.quality"
+   ]
+  },
+  {
+   "id": "markdown",
+   "term": "Markdown",
+   "aliases": [
+    "que es markdown",
+    "formato md"
+   ],
+   "category": "Formatos",
+   "short": "Texto normal con marcas simples: `#` para un título, `-` para una lista. Así se escriben CLAUDE.md y SKILL.md.",
+   "related": [
+    "claude-md"
+   ],
+   "lessons": [
+    "l2-1"
+   ]
+  },
+  {
+   "id": "mcp",
+   "term": "MCP",
+   "aliases": [
+    "model context protocol",
+    "que es mcp",
+    "servidor mcp",
+    "integraciones",
+    "conectar herramientas"
+   ],
+   "category": "MCP",
+   "short": "Un protocolo para **conectar Claude Code con herramientas y datos externos**. Cada integración es un **servidor MCP**; Claude Code es el **cliente**.",
+   "long": "MCP da **acceso** a sistemas; una Skill aporta el **cómo**. Se complementan.",
+   "related": [
+    "transportes-mcp",
+    "mcp-seguridad",
+    "claude-mcp-add"
+   ],
+   "lessons": [
+    "l4-1"
+   ],
+   "concepts": [
+    "mcp.what"
+   ],
+   "popular": true
+  },
+  {
+   "id": "transportes-mcp",
+   "term": "transportes: http, stdio, sse",
+   "aliases": [
+    "http",
+    "stdio",
+    "sse",
+    "transporte",
+    "servidor remoto",
+    "servidor local"
+   ],
+   "category": "MCP",
+   "short": "**http**: servidor en internet (lo normal). **stdio**: programa que se ejecuta en tu ordenador. **sse**: forma antigua de conexión remota, en desuso.",
+   "related": [
+    "claude-mcp-add"
+   ],
+   "lessons": [
+    "l4-1"
+   ],
+   "concepts": [
+    "mcp.transports"
+   ]
+  },
+  {
+   "id": "claude-mcp-add",
+   "term": "claude mcp add",
+   "aliases": [
+    "añadir un servidor mcp",
+    "conectar un servidor",
+    "claude mcp list",
+    "claude mcp remove",
+    "claude mcp get"
+   ],
+   "category": "MCP",
+   "short": "El comando para conectar servidores. Remoto: `claude mcp add --transport http nombre url`. Local: `claude mcp add nombre -- comando`.",
+   "long": "Lo que va tras `--` es el comando del servidor. Otros: `claude mcp list`, `get`, `remove`.",
+   "related": [
+    "ambitos-mcp",
+    "mcp-json"
+   ],
+   "lessons": [
+    "l4-2"
+   ],
+   "concepts": [
+    "mcp.scopes",
+    "mcp.transports"
+   ]
+  },
+  {
+   "id": "ambitos-mcp",
+   "term": "ámbitos local, project y user",
+   "aliases": [
+    "scope",
+    "--scope",
+    "para quien es el servidor",
+    "local project user"
+   ],
+   "category": "MCP",
+   "short": "**local** (por defecto): solo tú y este proyecto. **project**: todo el equipo (`.mcp.json`). **user**: solo tú, en todos tus proyectos.",
+   "long": "Si el nombre existe en varios, gana local > project > user.",
+   "related": [
+    "mcp-json"
+   ],
+   "lessons": [
+    "l4-2"
+   ],
+   "concepts": [
+    "mcp.scopes"
+   ]
+  },
+  {
+   "id": "mcp-json",
+   "term": ".mcp.json",
+   "aliases": [
+    "mcpjson",
+    "archivo mcp",
+    "configuracion mcp compartida",
+    "${var}"
+   ],
+   "category": "MCP",
+   "short": "El archivo del proyecto con los servidores MCP **compartidos con el equipo**. Una entrada con `url` necesita `\"type\": \"http\"`.",
+   "long": "Las credenciales se escriben como `${VARIABLE}` para que no queden en el archivo.",
+   "related": [
+    "variable-entorno",
+    "json"
+   ],
+   "lessons": [
+    "l4-2"
+   ],
+   "concepts": [
+    "mcp.config"
+   ]
+  },
+  {
+   "id": "variable-entorno",
+   "term": "variable de entorno",
+   "aliases": [
+    "variables de entorno",
+    "${variable}",
+    "environment variable",
+    "valor guardado con un nombre"
+   ],
+   "category": "MCP",
+   "short": "Un valor guardado en tu ordenador **con un nombre** (como una clave). Los archivos pueden usarlo con `${NOMBRE}` sin escribir el valor.",
+   "related": [
+    "secretos",
+    "mcp-json"
+   ],
+   "lessons": [
+    "l4-2"
+   ],
+   "concepts": [
+    "mcp.config"
+   ]
+  },
+  {
+   "id": "oauth",
+   "term": "OAuth",
+   "aliases": [
+    "iniciar sesion en el navegador",
+    "autenticar",
+    "login mcp"
+   ],
+   "category": "MCP",
+   "short": "El sistema por el que un servicio te pide **iniciar sesión en el navegador** para autorizar a Claude. En MCP: `/mcp` o `claude mcp login`.",
+   "related": [
+    "mcp-cmd"
+   ],
+   "lessons": [
+    "l4-2"
+   ],
+   "concepts": [
+    "mcp.auth"
+   ]
+  },
+  {
+   "id": "mcp-seguridad",
+   "term": "seguridad de MCP",
+   "aliases": [
+    "servidor de confianza",
+    "es seguro un servidor mcp",
+    "confiar en un servidor"
+   ],
+   "category": "MCP",
+   "short": "Verifica que **confías en cada servidor** antes de conectarlo: ve lo que le envías y puede traer contenido con instrucciones maliciosas.",
+   "related": [
+    "inyeccion",
+    "mcp"
+   ],
+   "lessons": [
+    "l4-2",
+    "l4-3b"
+   ],
+   "concepts": [
+    "mcp.security"
+   ]
+  },
+  {
+   "id": "npx",
+   "term": "npx",
+   "aliases": [
+    "npm",
+    "node",
+    "node.js",
+    "npx -y"
+   ],
+   "category": "MCP",
+   "short": "Ejecuta programas hechos en **Node.js** sin instalarlos antes. En MCP aparece como ejemplo de comando que arranca un servidor local.",
+   "long": "Si no vas a usar servidores locales, no necesitas saber más.",
+   "related": [
+    "transportes-mcp"
+   ],
+   "lessons": [
+    "l4-1"
+   ]
+  },
+  {
+   "id": "json",
+   "term": "JSON",
+   "aliases": [
+    "formato json",
+    "que es json",
+    "comillas dobles",
+    "coma final",
+    "llaves"
+   ],
+   "category": "Formatos",
+   "short": "Un formato de texto para guardar **configuración** como una ficha con campos: entre llaves `{ }`, con `\"nombre\": valor`.",
+   "long": "Reglas: comillas **dobles**, comas entre datos pero **no después del último**, y **sin comentarios**. Un fallo rompe el archivo entero.",
+   "related": [
+    "settings-json",
+    "mcp-json"
+   ],
+   "lessons": [
+    "l4-2"
+   ],
+   "concepts": [
+    "mcp.config"
+   ]
+  },
+  {
+   "id": "subagente",
+   "term": "subagente",
+   "aliases": [
+    "subagentes",
+    "que es un subagente",
+    "agente especialista",
+    "agentes"
+   ],
+   "category": "Subagentes",
+   "short": "Un asistente especializado con **su propio contexto**, sus instrucciones y sus herramientas. Hace una tarea aparte y devuelve **un resumen**.",
+   "long": "Empieza de cero: no ve tu conversación. Por eso su `description` y sus instrucciones deben ser claras.",
+   "related": [
+    "subagente-archivo",
+    "delegar",
+    "minimo-privilegio"
+   ],
+   "lessons": [
+    "l5-1"
+   ],
+   "concepts": [
+    "ag.what"
+   ],
+   "popular": true
+  },
+  {
+   "id": "subagente-archivo",
+   "term": "archivo de un subagente",
+   "aliases": [
+    ".claude/agents",
+    "definir un subagente",
+    "campos del subagente",
+    "tools y model",
+    "name y description"
+   ],
+   "category": "Subagentes",
+   "short": "Un Markdown en `.claude/agents/` con frontmatter: `name` y `description` (obligatorios), `tools` (lista de herramientas; si se omite, hereda todas) y `model`.",
+   "long": "Se lo puedes pedir a Claude; tú **lees** el archivo para revisar que sus herramientas encajan con su función.",
+   "related": [
+    "subagente",
+    "herramientas"
+   ],
+   "lessons": [
+    "l5-1"
+   ],
+   "concepts": [
+    "ag.definition",
+    "ag.least-privilege"
+   ]
+  },
+  {
+   "id": "delegar",
+   "term": "cuándo delegar",
+   "aliases": [
+    "delegacion",
+    "cuando usar un subagente",
+    "delegar tareas"
+   ],
+   "category": "Subagentes",
+   "short": "Delega búsquedas masivas, procesar logs o una **revisión independiente**. No delegues retoques pequeños: el subagente empieza sin tu contexto.",
+   "related": [
+    "subagente"
+   ],
+   "lessons": [
+    "l5-2"
+   ],
+   "concepts": [
+    "ag.delegation"
+   ]
+  },
+  {
+   "id": "subagentes-integrados",
+   "term": "Explore, Plan y general-purpose",
+   "aliases": [
+    "explore",
+    "general-purpose",
+    "subagentes integrados"
+   ],
+   "category": "Subagentes",
+   "short": "Tres subagentes integrados: **Explore** (buscar y analizar, solo lectura), **Plan** (investigar en modo plan, solo lectura) y **general-purpose** (tareas de varios pasos que modifican).",
+   "related": [
+    "subagente"
+   ],
+   "lessons": [
+    "l5-2"
+   ],
+   "concepts": [
+    "ag.builtin"
+   ]
+  },
+  {
+   "id": "invocar-subagente",
+   "term": "invocar un subagente",
+   "aliases": [
+    "usar un subagente",
+    "@ de agente",
+    "--agent",
+    "mencionar un subagente"
+   ],
+   "category": "Subagentes",
+   "short": "Cuatro formas: automática (por su descripción), pidiéndolo en lenguaje natural, con **@** (garantiza que se use) o con `claude --agent nombre` para toda la sesión.",
+   "related": [
+    "subagente"
+   ],
+   "lessons": [
+    "l5-2"
+   ],
+   "concepts": [
+    "ag.builtin"
+   ]
+  },
+  {
+   "id": "worktree",
+   "term": "worktree",
+   "aliases": [
+    "git worktree",
+    "claude --worktree",
+    "sesiones en paralelo",
+    "trabajar en paralelo",
+    "copia aislada del proyecto"
+   ],
+   "category": "Subagentes",
+   "short": "Una **copia aislada** del proyecto en su propia rama. Permite dos sesiones de Claude a la vez sin pisarse: `claude --worktree nombre`.",
+   "long": "Necesita un repositorio con al menos un commit.",
+   "related": [
+    "rama"
+   ],
+   "lessons": [
+    "l5-3"
+   ],
+   "concepts": [
+    "ag.parallel"
+   ]
+  },
+  {
+   "id": "orquestacion",
+   "term": "flujos multiagente",
+   "aliases": [
+    "orquestacion",
+    "varios agentes",
+    "quien prepara y quien revisa",
+    "segregacion de funciones"
+   ],
+   "category": "Subagentes",
+   "short": "Un flujo por fases con responsables: **explorar**, **preparar**, **revisar** (con un subagente de solo lectura) y **decidir** tú. Quien prepara no es quien revisa.",
+   "related": [
+    "subagente",
+    "worktree"
+   ],
+   "lessons": [
+    "l5-3"
+   ],
+   "concepts": [
+    "ag.orchestration"
+   ]
+  },
+  {
+   "id": "tuberia",
+   "term": "tubería |",
+   "aliases": [
+    "pipe",
+    "barra vertical",
+    "|",
+    "encadenar comandos",
+    "que significa la barra"
+   ],
+   "category": "Automatización",
+   "short": "La barra vertical `|` pasa el **resultado de un comando como entrada del siguiente**. Así le das a Claude datos de otro comando.",
+   "example": "`cat datos/gastos.csv | claude -p \"resume\"`",
+   "related": [
+    "claude-p"
+   ],
+   "lessons": [
+    "l6-1"
+   ],
+   "concepts": [
+    "auto.headless"
+   ]
+  },
+  {
+   "id": "output-format",
+   "term": "--output-format",
+   "aliases": [
+    "salida json",
+    "formato de salida",
+    "output format",
+    "result json"
+   ],
+   "category": "Automatización",
+   "short": "Con `-p`, elige el formato de la respuesta. `json` devuelve datos estructurados (el texto va en el campo `result`), fáciles de leer para otros programas.",
+   "related": [
+    "claude-p",
+    "json"
+   ],
+   "lessons": [
+    "l6-1"
+   ],
+   "concepts": [
+    "auto.output"
+   ]
+  },
+  {
+   "id": "jq",
+   "term": "jq",
+   "aliases": [
+    "extraer campo json"
+   ],
+   "category": "Automatización",
+   "short": "Una herramienta de terminal para **extraer campos** de un JSON. Ejemplo: `… | jq -r '.result'`.",
+   "related": [
+    "json"
+   ],
+   "lessons": [
+    "l6-1"
+   ],
+   "concepts": [
+    "auto.output"
+   ]
+  },
+  {
+   "id": "bare",
+   "term": "--bare y --max-turns",
+   "aliases": [
+    "bare",
+    "max-turns",
+    "limitar turnos",
+    "arranque limpio",
+    "sin cargar configuracion"
+   ],
+   "category": "Automatización",
+   "short": "`--bare` arranca sin cargar hooks, Skills, MCP ni CLAUDE.md de la máquina (mismo resultado en cualquier equipo). `--max-turns` limita las iteraciones.",
+   "related": [
+    "claude-p"
+   ],
+   "lessons": [
+    "l6-1"
+   ],
+   "concepts": [
+    "auto.headless"
+   ]
+  },
+  {
+   "id": "hook",
+   "term": "hook",
+   "aliases": [
+    "hooks",
+    "que es un hook",
+    "accion automatica",
+    "automatizar acciones"
+   ],
+   "category": "Automatización",
+   "short": "Un comando que Claude Code ejecuta **siempre** en un momento concreto (antes o después de usar una herramienta, al empezar…). A diferencia de CLAUDE.md, no es una sugerencia.",
+   "long": "Puedes pedirle a Claude que lo escriba describiendo qué quieres, y comprobar con `/hooks`. Si algo **debe** ocurrir siempre, usa un hook o un permiso.",
+   "related": [
+    "pretooluse",
+    "matcher",
+    "claude-md"
+   ],
+   "lessons": [
+    "l6-1b"
+   ],
+   "concepts": [
+    "auto.hooks"
+   ],
+   "popular": true
+  },
+  {
+   "id": "pretooluse",
+   "term": "PreToolUse y PostToolUse",
+   "aliases": [
+    "pretooluse",
+    "posttooluse",
+    "eventos de hook",
+    "evento antes de la herramienta"
+   ],
+   "category": "Automatización",
+   "short": "**PreToolUse** ocurre **antes** de usar una herramienta y puede bloquearla. **PostToolUse**, **después** de usarla con éxito.",
+   "long": "Otros eventos: `SessionStart`, `UserPromptSubmit`, `Stop`, `Notification`.",
+   "related": [
+    "hook",
+    "exit-code"
+   ],
+   "lessons": [
+    "l6-1b"
+   ],
+   "concepts": [
+    "auto.hooks"
+   ]
+  },
+  {
+   "id": "matcher",
+   "term": "matcher",
+   "aliases": [
+    "a que herramientas se aplica un hook",
+    "edit|write"
+   ],
+   "category": "Automatización",
+   "short": "En un hook, dice **a qué herramientas** se aplica. `Edit|Write` significa «Edit o Write».",
+   "related": [
+    "hook"
+   ],
+   "lessons": [
+    "l6-1b"
+   ],
+   "concepts": [
+    "auto.hooks"
+   ]
+  },
+  {
+   "id": "exit-code",
+   "term": "código de salida",
+   "aliases": [
+    "exit code",
+    "codigo 2",
+    "bloquear con codigo 2",
+    "numero al terminar"
+   ],
+   "category": "Automatización",
+   "short": "Todo programa devuelve un número al acabar: **0** significa «todo bien». En un hook `PreToolUse`, **terminar con 2 bloquea** la acción.",
+   "related": [
+    "hook",
+    "pretooluse"
+   ],
+   "lessons": [
+    "l6-1b"
+   ],
+   "concepts": [
+    "auto.hooks"
+   ]
+  },
+  {
+   "id": "ci",
+   "term": "CI (integración continua)",
+   "aliases": [
+    "ci",
+    "integracion continua",
+    "ejecuciones automaticas en servidor"
+   ],
+   "category": "Automatización",
+   "short": "Ejecuciones **automáticas** en un servidor cada vez que ocurre algo (subir un cambio, abrir una propuesta). En el modo `dontAsk` se piensa para ello.",
+   "related": [
+    "github-actions"
+   ],
+   "lessons": [
+    "l2-3b",
+    "l6-3"
+   ],
+   "concepts": [
+    "auto.ci"
+   ]
+  },
+  {
+   "id": "github-actions",
+   "term": "GitHub Actions",
+   "aliases": [
+    "github action",
+    "claude en github",
+    "@claude en una pr",
+    "install-github-app",
+    "workflow"
+   ],
+   "category": "Automatización",
+   "short": "Tareas automáticas en GitHub. Con `anthropics/claude-code-action@v1` puedes mencionar `@claude` en una issue o pull request. Se configura con `/install-github-app`.",
+   "long": "La clave va como **secreto del repositorio**, nunca en el código.",
+   "related": [
+    "issue-pr",
+    "secretos"
+   ],
+   "lessons": [
+    "l6-3"
+   ],
+   "concepts": [
+    "auto.ci"
+   ]
+  },
+  {
+   "id": "issue-pr",
+   "term": "issue y pull request",
+   "aliases": [
+    "issue",
+    "pull request",
+    "pr",
+    "que es una pr",
+    "incidencia"
+   ],
+   "category": "Automatización",
+   "short": "Una **issue** es una incidencia o tarea en GitHub. Una **pull request** es una propuesta de cambios para **revisar** antes de integrarlos.",
+   "related": [
+    "github-actions"
+   ],
+   "lessons": [
+    "l6-3"
+   ],
+   "concepts": [
+    "auto.ci"
+   ]
+  },
+  {
+   "id": "app-de-principio-a-fin",
+   "term": "desarrollar una aplicación con Claude",
+   "aliases": [
+    "crear una app con claude",
+    "proyecto de principio a fin",
+    "como empiezo un proyecto"
+   ],
+   "category": "Automatización",
+   "short": "Especificación → CLAUDE.md → plan → incrementos pequeños con su test → verificación → commit → repetir.",
+   "related": [
+    "modo-plan",
+    "tests-carpeta"
+   ],
+   "lessons": [
+    "l6-3"
+   ],
+   "concepts": [
+    "auto.app-workflow"
+   ]
+  },
+  {
+   "id": "xp",
+   "term": "XP y niveles",
+   "aliases": [
+    "xp",
+    "puntos",
+    "experiencia",
+    "como se gana xp",
+    "rango",
+    "nivel l2 l3 l4 l5",
+    "niveles",
+    "l2",
+    "l3",
+    "l4",
+    "l5"
+   ],
+   "category": "La academia",
+   "short": "La **XP** se gana al acertar a la primera. Repetir una actividad solo suma si **mejoras**. El **nivel de dominio** (L2→L5) sube al superar las evaluaciones de módulo.",
+   "long": "L5 exige además el proyecto final.",
+   "related": [
+    "evaluacion",
+    "repaso"
+   ],
+   "popular": true
+  },
+  {
+   "id": "racha",
+   "term": "racha y objetivo diario",
+   "aliases": [
+    "racha",
+    "objetivo diario",
+    "dias seguidos"
+   ],
+   "category": "La academia",
+   "short": "La **racha** cuenta los días seguidos con alguna actividad completada. El objetivo diario se cambia en Perfil → Ajustes.",
+   "related": [
+    "xp"
+   ]
+  },
+  {
+   "id": "evaluacion",
+   "term": "evaluaciones de módulo",
+   "aliases": [
+    "evaluacion",
+    "examen",
+    "aprobar",
+    "desbloquear modulo",
+    "no puedo abrir el modulo"
+   ],
+   "category": "La academia",
+   "short": "Al final de cada módulo hay una **evaluación**: con un **75 %** la superas y se desbloquea el siguiente módulo. Puedes repetirla.",
+   "long": "Si sales a mitad, tu avance se guarda.",
+   "related": [
+    "xp"
+   ],
+   "popular": true
+  },
+  {
+   "id": "mision",
+   "term": "misiones",
+   "aliases": [
+    "mision",
+    "proyecto final",
+    "retos"
+   ],
+   "category": "La academia",
+   "short": "Casos prácticos en varios pasos que combinan lo aprendido. La última, el **proyecto final**, se desbloquea al superar las seis evaluaciones.",
+   "related": [
+    "xp"
+   ]
+  },
+  {
+   "id": "laboratorio",
+   "term": "laboratorio",
+   "aliases": [
+    "practica libre",
+    "terminal libre",
+    "retos del laboratorio"
+   ],
+   "category": "La academia",
+   "short": "Una terminal libre con un proyecto de práctica y retos rápidos. Tu sistema de archivos se guarda en el dispositivo.",
+   "related": [
+    "simulador"
+   ]
+  },
+  {
+   "id": "repaso",
+   "term": "repaso inteligente",
+   "aliases": [
+    "repaso",
+    "errores anteriores",
+    "repasar",
+    "repeticion espaciada",
+    "dominio por competencia"
+   ],
+   "category": "La academia",
+   "short": "Recoge **tus errores** y los conceptos que toca recordar según un calendario de repetición espaciada. Acertarlos los espacia más.",
+   "related": [
+    "xp"
+   ]
+  },
+  {
+   "id": "atras-continuar",
+   "term": "volver atrás y continuar",
+   "aliases": [
+    "flecha atras",
+    "volver a una tarjeta anterior",
+    "continuar donde lo deje",
+    "salir de una leccion",
+    "perder el avance",
+    "he salido de la leccion"
+   ],
+   "category": "La academia",
+   "short": "La flecha **←** de la lección vuelve a pasos anteriores (las preguntas ya respondidas se ven en modo repaso). Si sales, tu avance **se guarda** y al volver puedes **continuar donde lo dejaste**.",
+   "related": [
+    "evaluacion"
+   ],
+   "popular": true
+  },
+  {
+   "id": "instalar",
+   "term": "instalar en el iPhone",
+   "aliases": [
+    "instalar",
+    "añadir a pantalla de inicio",
+    "icono",
+    "como instalo la app",
+    "safari"
+   ],
+   "category": "La academia",
+   "short": "En **Safari**: Compartir → **Añadir a pantalla de inicio**. Funciona sin conexión después de la primera carga.",
+   "long": "No la reinstales para actualizarla: borrar el icono **borra el progreso** guardado en esa app.",
+   "related": [
+    "actualizar",
+    "copia-seguridad"
+   ]
+  },
+  {
+   "id": "actualizar",
+   "term": "actualizar la app",
+   "aliases": [
+    "actualizacion",
+    "nueva version",
+    "actualizar ahora",
+    "version"
+   ],
+   "category": "La academia",
+   "short": "La app se actualiza sola al abrirla con conexión. Verás un aviso con **Actualizar ahora**. En Perfil → Versión puedes **buscar actualizaciones**.",
+   "related": [
+    "instalar"
+   ]
+  },
+  {
+   "id": "copia-seguridad",
+   "term": "copia de seguridad",
+   "aliases": [
+    "exportar progreso",
+    "restaurar progreso",
+    "guardar mi progreso",
+    "perder el progreso",
+    "reiniciar progreso",
+    "borrar progreso",
+    "backup"
+   ],
+   "category": "La academia",
+   "short": "En **Perfil → Tus datos** puedes descargar una copia (.json), copiarla y restaurarla. El progreso **solo vive en tu dispositivo**: haz copias de vez en cuando.",
+   "related": [
+    "instalar"
+   ],
+   "popular": true
+  },
+  {
+   "id": "offline",
+   "term": "sin conexión",
+   "aliases": [
+    "offline",
+    "sin internet",
+    "funciona sin wifi",
+    "modo avion"
+   ],
+   "category": "La academia",
+   "short": "Tras la primera carga completa, la academia funciona **sin conexión**, incluidas las lecciones y la terminal simulada.",
+   "related": [
+    "instalar"
+   ]
+  },
+  {
+   "id": "dudas",
+   "term": "mis dudas",
+   "aliases": [
+    "ayuda",
+    "no entiendo",
+    "no me sale",
+    "tengo una duda",
+    "soporte"
+   ],
+   "category": "La academia",
+   "short": "Pregúntame con tus palabras. Si no tengo la respuesta, puedes **guardar la duda** para que se añada al glosario.",
+   "related": [
+    "simulador"
+   ]
+  }
+ ]
+}

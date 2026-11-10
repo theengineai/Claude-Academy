@@ -282,6 +282,27 @@ async function openRoute(page, route) {
   await page.evaluate(() => document.querySelector('.chip-test').remove());
   log('atajo con texto: rellena, no ejecuta');
 
+  console.log('9c. Asistente de dudas');
+  await openRoute(page, '#/home');
+  await page.locator('.assistant-fab').click();
+  const asIn = page.locator('.as-input');
+  await asIn.fill('¿Qué es el shell?'); await asIn.press('Enter');
+  await page.locator('.as-card', { hasText: 'entiende los comandos' }).waitFor();
+  await asIn.fill('qué es datos/'); await asIn.press('Enter');
+  await page.locator('.as-card', { hasText: 'datos de origen' }).waitFor();
+  await asIn.fill('receta de paella'); await asIn.press('Enter');
+  await page.locator('.as-msg', { hasText: 'No tengo eso todavía' }).waitFor();
+  await page.locator('.as-msg .chip', { hasText: 'Guardar mi duda' }).click();
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('cca.state')).doubts.length), 1);
+  await page.locator('.as-head .icon-btn').click();
+  assert.equal(await page.locator('.assistant').count(), 0);
+  await openRoute(page, '#/lesson/l1-t');
+  await page.locator('.act-head button[aria-label="Preguntar una duda"]').click();
+  await page.locator('.assistant .as-chips .chip').first().waitFor();
+  await page.locator('.as-head .icon-btn').click();
+  await page.evaluate(() => { location.hash = '#/home'; });
+  log('asistente: responde, guarda dudas y abre desde la lección');
+
   console.log('10. Funcionamiento sin conexión');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   await page.reload({ waitUntil: 'networkidle' }); // asegura que el SW controla la página

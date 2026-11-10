@@ -5,7 +5,7 @@
   "description": "PWA de aprendizaje interactivo de Claude Code (sin dependencias en producción).",
   "type": "module",
   "scripts": {
-    "test": "node --test tests/engine.test.mjs tests/content.test.mjs tests/pwa.test.mjs",
+    "test": "node --test tests/engine.test.mjs tests/content.test.mjs tests/pwa.test.mjs tests/assistant.test.mjs",
     "test:e2e": "node tests/e2e.cjs",
     "start": "python3 -m http.server 4173",
     "icons": "node scripts/make-icons.cjs"

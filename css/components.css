@@ -211,3 +211,25 @@ input[type="checkbox"][role="switch"]:checked::after { transform: translateX(20p
 .msg-system { align-self: center; background: transparent; color: var(--ink-3); font-size: .8rem; }
 .msg-role { display: block; font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); margin-bottom: 2px; }
 .blk-video video { width: 100%; border-radius: var(--radius-sm); background: #000; }
+
+/* ---------- Asistente de dudas ---------- */
+.assistant-fab { position: fixed; z-index: 40; right: 16px; bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 16px); width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; display: grid; place-items: center; box-shadow: var(--shadow); cursor: pointer; }
+.assistant { position: fixed; inset: 0; z-index: 70; background: var(--bg); display: flex; flex-direction: column; max-width: 760px; margin: 0 auto; animation: enter .25s var(--ease) both; }
+.as-head { display: flex; align-items: center; gap: 10px; padding: calc(var(--safe-top) + 10px) 14px 10px; border-bottom: 1px solid var(--line); }
+.as-head .grow { flex: 1; }
+.as-log { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; -webkit-overflow-scrolling: touch; }
+.as-msg { max-width: 92%; padding: 10px 13px; border-radius: 16px; line-height: 1.45; font-size: 15px; }
+.as-msg.bot { align-self: flex-start; background: var(--surface); border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+.as-msg.me { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+.as-card .as-term { display: block; margin-bottom: 4px; }
+.as-card p { margin: 0 0 6px; }
+.as-long { margin-top: 6px; }
+.as-example { margin-top: 6px; padding: 8px 10px; border-left: 3px solid var(--accent); background: var(--bg); border-radius: 6px; font-size: 14px; }
+.as-lessons { margin-top: 8px; }
+.as-lessons a { color: var(--accent); }
+.as-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+.assistant > .as-chips { margin: 0; padding: 6px 14px; max-height: 96px; overflow-y: auto; border-top: 1px solid var(--line); }
+.as-form { display: flex; gap: 8px; padding: 10px 14px calc(var(--safe-bottom) + 10px); border-top: 1px solid var(--line); }
+.as-input { flex: 1; min-width: 0; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 16px; font-family: var(--font-sans); }
+.as-form .term-send { padding: 0 16px; border-radius: 12px; background: var(--accent); color: #fff; }
+body.in-activity .assistant-fab, body.in-assistant .assistant-fab { display: none; }

@@ -5,6 +5,7 @@ export const CONTENT_FILES = {
   course: 'content/course.json',
   missions: 'content/missions.json',
   lab: 'content/lab.json',
+  glossary: 'content/glossary.json',
   modules: ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'].map(id => `content/modules/${id}.json`),
 };
 

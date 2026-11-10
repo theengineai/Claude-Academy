@@ -13,6 +13,7 @@ export function openLesson(ctx, lessonId) {
   if (!lesson || !isLessonUnlocked(state, course, lessonId)) return false;
   runSession(ctx, {
     kind: 'lesson',
+    lessonId: lesson.id,
     title: lesson.title,
     steps: lesson.steps,
     exitRoute: '#/academy',
