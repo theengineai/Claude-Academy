@@ -261,6 +261,27 @@ async function openRoute(page, route) {
   await playActivity(page);
   await finishResults(page);
 
+  console.log('9b. Los atajos que necesitan texto rellenan la línea y no se ejecutan');
+  await page.evaluate(async () => {
+    const { renderExercise } = await import('./js/exercises/render.js'); const { h } = await import('./js/ui/dom.js');
+    const m1 = await fetch('content/modules/m1.json').then(r => r.json());
+    const ex = m1.lessons.find(l => l.id === 'l1-3b').steps.find(s => s.id === 'm1l3e4');
+    const ctrl = renderExercise(ex, { onCommand() {} });
+    document.body.append(h('div', { class: 'activity chip-test' }, h('main', { class: 'act-body' }, h('div', { class: 'act-step' }, ctrl.el))));
+    window.__chipTest = ctrl;
+  });
+  const tin = page.locator('.chip-test .term-input');
+  for (const c of ['git init', 'git add .']) { await tin.fill(c); await tin.press('Enter'); }
+  const lines = await page.locator('.chip-test .tl').count();
+  await page.locator('.chip-test .chip', { hasText: 'git commit -m' }).click();
+  assert.equal(await tin.inputValue(), 'git commit -m ""');
+  assert.equal(await page.locator('.chip-test .tl').count(), lines, 'el atajo no se ejecuta solo');
+  await page.keyboard.type('Estado inicial del cierre');
+  await tin.press('Enter');
+  assert.equal(await page.evaluate(() => window.__chipTest.check().ok), true);
+  await page.evaluate(() => document.querySelector('.chip-test').remove());
+  log('atajo con texto: rellena, no ejecuta');
+
   console.log('10. Funcionamiento sin conexión');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   await page.reload({ waitUntil: 'networkidle' }); // asegura que el SW controla la página

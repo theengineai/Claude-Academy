@@ -39,10 +39,18 @@ export function createTerminal({ shell, suggestions = [], intro = [], onRun, com
     const list = shell.mode === 'claude' ? (suggestions.session || ['/help', '/context', '/memory', '/exit']) : (suggestions.shell || suggestions);
     clear(chips);
     for (const s of (Array.isArray(list) ? list : [])) {
-      // Un atajo que termina en espacio se escribe para completarlo; si no, se ejecuta directamente.
+      // Un atajo que necesita texto tuyo (acaba en espacio o lleva comillas vacías) solo RELLENA la línea
+      // y deja el cursor donde debes escribir; el resto se ejecuta directamente.
+      const needsText = s.endsWith(' ') || s.includes('""');
       chips.append(h('button', {
         class: 'chip', type: 'button',
-        onclick: () => { if (s.endsWith(' ')) { input.value = s; input.focus(); } else exec(s); },
+        onclick: () => {
+          if (!needsText) { exec(s); return; }
+          input.value = s;
+          input.focus();
+          const at = s.includes('""') ? s.indexOf('""') + 1 : s.length;
+          input.setSelectionRange(at, at);
+        },
       }, s.trim()));
     }
   }
