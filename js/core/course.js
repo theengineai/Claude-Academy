@@ -10,6 +10,11 @@ export const CONTENT_FILES = {
 
 export const EXERCISE_TYPES = ['choice', 'multi', 'order', 'match', 'fill', 'spot', 'editor', 'terminal'];
 
+/** Huella de los pasos de una actividad: si cambia el contenido, un avance guardado deja de ser válido. */
+export function stepsSignature(steps) {
+  return steps.map(s => s.id || s.title || s.type).join('|');
+}
+
 export function isExercise(step) {
   return EXERCISE_TYPES.includes(step.type);
 }

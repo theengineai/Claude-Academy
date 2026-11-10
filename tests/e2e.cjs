@@ -205,8 +205,8 @@ async function openRoute(page, route) {
   await page.locator('.act-head .close').click();
   log('atrás, modo repaso y reanudación correctos');
 
-  console.log('4. Lecciones de terminal (l1-t, l1-2, l1-3) y evaluación del módulo 1');
-  for (const id of ['l1-t', 'l1-2', 'l1-3']) {
+  console.log('4. Lecciones de terminal (l1-t, l1-2, l1-3, l1-3b) y evaluación del módulo 1');
+  for (const id of ['l1-t', 'l1-2', 'l1-3', 'l1-3b']) {
     await openRoute(page, `#/lesson/${id}`);
     await playActivity(page);
     await finishResults(page);

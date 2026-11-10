@@ -176,6 +176,22 @@
           },
           "fixed": "---\nname: informe-iva\ndescription: Prepara el borrador del IVA trimestral. Úsala cuando el usuario pida preparar o revisar el IVA del trimestre.\n---\n\nPrepara el borrador del modelo de IVA trimestral.",
           "explain": "Delimitadores `---` correctos y una description que explique qué hace y cuándo usarla."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Saber qué es una Skill y cuándo crearla\n- Conocer la estructura de SKILL.md\n- Conocer las ubicaciones personal y de proyecto"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
@@ -257,11 +273,6 @@
             {
               "type": "text",
               "body": "`/cierre 2026-10` sustituye `$ARGUMENTS` por `2026-10`. También existen `$0`, `$1`… (posición, empezando en 0). Si la Skill no usa ningún marcador, Claude Code añade `ARGUMENTS: <valor>` al final."
-            },
-            {
-              "type": "callout",
-              "tone": "tip",
-              "body": "Para crear una Skill en la práctica de abajo: `mkdir -p .claude/skills/cierre` crea la carpeta (con `-p` crea también las intermedias) y `nano .claude/skills/cierre/SKILL.md` abre el editor para escribir el archivo. Lo viste en el módulo 1."
             }
           ]
         },
@@ -300,28 +311,73 @@
           "explain": "Las posiciones empiezan en 0 y `$ARGUMENTS` es todo lo escrito tras el nombre."
         },
         {
+          "type": "card",
+          "kicker": "En la práctica",
+          "title": "Crear una Skill: tú pides, Claude escribe",
+          "blocks": [
+            {
+              "type": "chat",
+              "messages": [
+                {
+                  "role": "user",
+                  "text": "Crea una Skill de proyecto llamada cierre que prepare el cierre del periodo que le pase como argumento."
+                },
+                {
+                  "role": "claude",
+                  "text": "He creado `.claude/skills/cierre/SKILL.md` con una descripción y el periodo como argumento."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "La documentación oficial enseña a crear una Skill a mano para que entiendas su estructura. En el día a día puedes **pedirle a Claude que la escriba** (es un archivo de texto) y dedicarte a lo importante: definir el procedimiento y **revisar el resultado**."
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Revisa siempre que la `description` diga **qué hace y cuándo usarla**: de ella depende que se active."
+            }
+          ]
+        },
+        {
           "id": "m3l2e3",
           "type": "terminal",
           "concept": "sk.locations",
-          "prompt": "Crea la Skill de proyecto `cierre` con su frontmatter y pruébala con /cierre 2026-10",
+          "prompt": "Pídele a Claude que cree la Skill de proyecto **cierre**: prepara el cierre mensual del periodo que le pases como argumento. Compruébala con /skills y ejecútala con `/cierre 2026-10`",
           "setup": {
             "cwd": "~/finanzas",
             "files": {
               "~/finanzas/CLAUDE.md": "# Finanzas\n- Importes en EUR\n",
               "~/finanzas/datos/": null
-            }
-          },
-          "intro": [
-            "Pista: mkdir -p .claude/skills/cierre y después nano .claude/skills/cierre/SKILL.md"
-          ],
-          "goals": [
-            {
-              "type": "exists",
-              "path": "~/finanzas/.claude/skills/cierre/SKILL.md",
-              "kind": "file",
-              "label": "Existe .claude/skills/cierre/SKILL.md",
-              "hint": "Crea la carpeta con mkdir -p y el archivo con nano."
             },
+            "claudeActions": [
+              {
+                "id": "skill-cierre",
+                "when": [
+                  [
+                    "skill"
+                  ],
+                  [
+                    "cierre"
+                  ],
+                  [
+                    "argument",
+                    "periodo",
+                    "par.metro"
+                  ]
+                ],
+                "reply": "He creado la Skill «cierre» en el proyecto.",
+                "writes": [
+                  {
+                    "path": "~/finanzas/.claude/skills/cierre/SKILL.md",
+                    "content": "---\nname: cierre\ndescription: Prepara el cierre mensual de un periodo con margen bruto\nargument-hint: [periodo]\n---\n\nPrepara el cierre del periodo $ARGUMENTS y deja el informe en informes/.\n"
+                  }
+                ]
+              }
+            ]
+          },
+          "goals": [
             {
               "type": "frontmatter",
               "path": "~/finanzas/.claude/skills/cierre/SKILL.md",
@@ -330,8 +386,8 @@
                   "pattern": ".{20,}"
                 }
               },
-              "label": "Frontmatter con una description útil (20+ caracteres)",
-              "hint": "Empieza con --- , añade description: ... y cierra con ---"
+              "label": "Existe la Skill con una description útil",
+              "hint": "Pídeselo a Claude: nombre, para qué sirve y que reciba el periodo como argumento."
             },
             {
               "type": "file",
@@ -341,41 +397,44 @@
                   "pattern": "\\$ARGUMENTS|\\$0"
                 }
               ],
-              "label": "Las instrucciones usan $ARGUMENTS (o $0)",
-              "hint": "Por ejemplo: Prepara el cierre del periodo $ARGUMENTS"
+              "label": "Usa el periodo como argumento ($ARGUMENTS)",
+              "hint": "Dile que el periodo es un argumento."
+            },
+            {
+              "type": "ran",
+              "pattern": "^/skills$",
+              "label": "Comprobarla con /skills",
+              "hint": "/skills"
             },
             {
               "type": "ran",
               "pattern": "^/cierre\\s+2026-10$",
-              "label": "Probarla con /cierre 2026-10 dentro de una sesión",
-              "hint": "claude y después /cierre 2026-10"
+              "label": "Ejecutarla con /cierre 2026-10",
+              "hint": "/cierre 2026-10"
             }
           ],
           "solution": [
-            "mkdir -p .claude/skills/cierre",
-            "nano .claude/skills/cierre/SKILL.md",
             "claude",
+            "Crea una Skill de proyecto llamada cierre que prepare el cierre mensual del periodo que le pase como argumento",
+            "/skills",
             "/cierre 2026-10"
           ],
-          "solutionFiles": [
-            {
-              "path": "~/finanzas/.claude/skills/cierre/SKILL.md",
-              "content": "---\nname: cierre\ndescription: Prepara el cierre mensual de un periodo con margen bruto\nargument-hint: [periodo]\n---\n\nPrepara el cierre del periodo $ARGUMENTS y deja el informe en informes/.\n"
-            }
-          ],
+          "explain": "Tú defines el procedimiento y Claude escribe el archivo; tú lo revisas. Al invocarla verás cómo `$ARGUMENTS` se sustituye por el periodo: así se reutiliza cada mes.",
           "suggestions": {
             "shell": [
-              "mkdir -p .claude/skills/cierre",
-              "nano .claude/skills/cierre/SKILL.md",
-              "claude"
+              "claude",
+              "ls",
+              "cat "
             ],
             "session": [
               "/skills",
-              "/cierre 2026-10",
+              "/agents",
               "/exit"
             ]
           },
-          "explain": "Al invocarla verás cómo `$ARGUMENTS` se sustituye por el periodo: así se reutiliza el mismo procedimiento cada mes."
+          "intro": [
+            "Dentro de la sesión, pídeselo a Claude como se lo pedirías a una persona: qué crear, cómo se llama y qué debe contener."
+          ]
         },
         {
           "id": "m3l2e4",
@@ -397,6 +456,22 @@
             }
           ],
           "explain": "Las Skills personales viven en `~/.claude/skills/` y están disponibles en todos tus proyectos."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Controlar quién puede invocar una Skill\n- Pasar argumentos con $ARGUMENTS\n- Crear una Skill desde la terminal"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
@@ -510,34 +585,34 @@
           "id": "m3l3e3",
           "type": "editor",
           "concept": "sk.quality",
-          "prompt": "Añade a esta Skill una sección de controles de calidad con al menos un cuadre y qué hacer si falla",
-          "file": ".claude/skills/informe-margen/SKILL.md",
-          "starter": "---\nname: informe-margen\ndescription: Genera el informe de margen mensual. Úsala cuando pidan el informe de margen del mes.\n---\n\n1. Lee datos/ventas_$0.csv\n2. Calcula el margen\n3. Escribe informes/margen_$0.md\n",
-          "rows": 14,
+          "prompt": "Pídele a Claude que añada a la Skill informe-margen una sección de **controles de calidad**. Escribe tu petición: qué debe comprobar y qué hacer si algo falla",
+          "file": "Tu petición a Claude",
+          "starter": "Mejora la Skill informe-margen.",
+          "rows": 7,
           "checks": [
             {
-              "label": "Mantiene un frontmatter válido (--- … ---)",
-              "pattern": "^---\\n[\\s\\S]*?description:.+\\n[\\s\\S]*?---",
-              "flags": ""
+              "label": "Pide una sección de controles o comprobaciones",
+              "pattern": "(control|comprobaci|verificaci|checklist|validaci)",
+              "hint": "Por ejemplo: «una sección de controles antes de entregar»."
             },
             {
-              "label": "Incluye una sección de controles",
-              "pattern": "^#+\\s*(controles|validaci|checklist|verificaci|comprobaci)",
-              "hint": "Por ejemplo: ## Controles antes de entregar"
-            },
-            {
-              "label": "Exige un cuadre de totales",
+              "label": "Pide cuadrar totales",
               "pattern": "(cuadr|coincid|reconcil|concili|suma)",
-              "hint": "Por ejemplo: la suma por cliente coincide con el total."
+              "hint": "Por ejemplo: «la suma por cliente coincide con el total»."
             },
             {
               "label": "Indica qué hacer si un control falla",
-              "pattern": "(si (un|algún|algun|el) control falla|si falla|si no cuadra|detente|det[eé]n)",
-              "hint": "Por ejemplo: si un control falla, detente y explica la diferencia."
+              "pattern": "(si (un|algun|alguno|el) (control )?(falla|no cuadra)|si falla|si no cuadra|detente|detenerse|parar)",
+              "hint": "Por ejemplo: «si un control falla, detente»."
+            },
+            {
+              "label": "Pide no maquillar el resultado",
+              "pattern": "(sin maquill|no (lo )?(maquilles|fuerces|ajustes|tapes)|explica la diferencia|explicar la diferencia)",
+              "hint": "Por ejemplo: «explica la diferencia, sin maquillarla»."
             }
           ],
-          "solution": "---\nname: informe-margen\ndescription: Genera el informe de margen mensual. Úsala cuando pidan el informe de margen del mes.\n---\n\n1. Lee datos/ventas_$0.csv\n2. Calcula el margen\n3. Escribe informes/margen_$0.md\n\n## Controles antes de entregar\n- La suma de ventas por cliente coincide con el total del CSV\n- Si un control falla, detente y explica la diferencia\n",
-          "explain": "Un procedimiento con controles explícitos y una regla de parada es mucho más fiable que uno que solo describe pasos."
+          "solution": "Añade a la Skill informe-margen una sección de controles antes de entregar: la suma de ventas por cliente debe coincidir con el total del CSV. Si un control falla, detente y explica la diferencia, sin maquillarla.",
+          "explain": "Una buena petición dice **qué** quieres y **con qué criterios**. Claude redacta el archivo; tú compruebas que cumple lo que pediste."
         },
         {
           "id": "m3l3e4",
@@ -563,6 +638,22 @@
             }
           ],
           "explain": "Controles verificables, regla de parada y trazabilidad: lo mismo que pedirías a un equipo humano."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Usar archivos de apoyo y carga progresiva\n- Inyectar contexto con !`comando`\n- Diseñar controles de calidad dentro de la Skill"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     }

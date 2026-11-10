@@ -250,3 +250,19 @@ test('terminal: el estado del laboratorio se serializa y restaura', () => {
   assert.equal(copy.cwd, '/home/alumno/demo');
   assert.ok(copy.fs.isDir('/home/alumno/demo'));
 });
+
+test('Claude simulado: una petición clara escribe archivos; una vaga no; en modo plan solo propone', () => {
+  const actions = [{ id: 'a', when: [['skill'], ['cierre']], reply: 'Hecho.', writes: [{ path: '~/p/.claude/skills/cierre/SKILL.md', content: '---\nname: cierre\n---\n' }, { path: '~/p/notas.md', append: true, content: '- regla\n' }] }];
+  const mk = () => new Shell({ cwd: '~/p', files: { '~/p/': null, '~/p/notas.md': 'inicio\n' }, claudeActions: actions });
+  const sh = mk();
+  sh.run('claude');
+  assert.match(sh.run('haz algo útil').lines[0].text, /más detalle/);
+  assert.ok(!sh.fs.isFile('/home/alumno/p/.claude/skills/cierre/SKILL.md'), 'la petición vaga no escribe');
+  sh.run('Crea una Skill llamada Cierre');
+  assert.ok(sh.fs.isFile('/home/alumno/p/.claude/skills/cierre/SKILL.md'));
+  assert.equal(sh.fs.read('/home/alumno/p/notas.md'), 'inicio\n- regla\n', 'append conserva el contenido previo');
+  const plan = mk();
+  plan.run('claude --permission-mode plan');
+  assert.match(plan.run('crea la skill cierre').lines.map(l => l.text).join(' '), /Modo plan/);
+  assert.ok(!plan.fs.isFile('/home/alumno/p/.claude/skills/cierre/SKILL.md'), 'en modo plan no escribe');
+});

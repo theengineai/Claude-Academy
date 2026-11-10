@@ -1,7 +1,8 @@
 // Simulación educativa de Claude Code dentro del laboratorio.
 // No hay IA ni red: reproduce la FORMA de los comandos (flags, ámbitos, archivos que se leen
 // y escriben) según la documentación oficial, y lo deja claro en cada salida.
-import { HOME, dirname, displayPath, basename } from './fs.js';
+import { HOME, dirname, displayPath, basename, resolvePath } from './fs.js';
+import { normalize } from '../core/util.js';
 import { parseFrontmatter, parseJson } from './parse.js';
 
 const line = (text, kind = 'out') => ({ text, kind });
@@ -341,6 +342,12 @@ function answerPrompt(sh, text) {
   }
   const named = agents(sh).find(a => new RegExp(`subagente\\s+${a.name}|subagent\\s+${a.name}`, 'i').test(text));
   if (named) out.push(line(`→ Delegaría en el subagente "${named.name}": trabaja con su propio contexto y devuelve un resumen.`, 'claude'));
+  // Ejercicios con «trabajo simulado»: si la petición es lo bastante clara, Claude (simulado) escribe los archivos.
+  if (sh.claudeActions?.length) {
+    out.push(...simulatedWork(sh, text));
+    out.push(line(`${SIM} · contexto acumulado ~${(s.tokens += tokens).toLocaleString('es-ES')} tokens`, 'dim'));
+    return { lines: out };
+  }
   const behaviour = {
     default: 'Investigaría y te pediría permiso antes de editar archivos o ejecutar comandos.',
     acceptEdits: 'Editaría archivos del proyecto sin preguntar; los comandos de shell seguirían pidiendo permiso. Revisa después con git diff.',
@@ -352,6 +359,43 @@ function answerPrompt(sh, text) {
   out.push(line(behaviour[s.permissionMode], 'claude'));
   out.push(line(`${SIM} · contexto acumulado ~${(s.tokens += tokens).toLocaleString('es-ES')} tokens`, 'dim'));
   return { lines: out };
+}
+
+/**
+ * «Claude simulado» para los ejercicios: NO hay IA. Cada ejercicio declara qué peticiones sabe atender
+ * (`when`: lista de grupos; hay que cumplir todos los grupos y, dentro de cada uno, al menos una alternativa)
+ * y qué archivos escribe. Así se practica lo importante: pedir con claridad y revisar el resultado.
+ */
+function simulatedWork(sh, text) {
+  const t = normalize(text);
+  const matched = sh.claudeActions.filter(a => a.when.every(group => group.some(p => new RegExp(p, 'i').test(t))));
+  const out = [];
+  if (!matched.length) {
+    out.push(line('Claude (simulado): necesito más detalle para actuar. Dime qué quieres que cree o cambie, cómo se llama y qué debe contener.', 'warn'));
+    return out;
+  }
+  const mode = sh.session.permissionMode;
+  for (const action of matched) {
+    const targets = action.writes.map(w => resolvePath(w.path, sh.cwd));
+    if (mode === 'plan') {
+      out.push(line('⏸ Modo plan (simulado): propondría crear o modificar:', 'claude'));
+      targets.forEach(p => out.push(line(`   ${displayPath(p)}`)));
+      out.push(line('No escribe nada hasta que apruebes el plan. Sal del modo plan con ⇧Tab y repite la petición.', 'dim'));
+      continue;
+    }
+    out.push(line(`Claude (simulado): ${action.reply || 'Hecho.'}`, 'claude'));
+    if (mode === 'default') out.push(line('  (En el modo Manual pediría permiso antes de escribir; aquí se concede automáticamente.)', 'dim'));
+    action.writes.forEach((w, i) => {
+      const path = targets[i];
+      sh.fs.mkdir(dirname(path), { parents: true });
+      const prev = w.append ? (sh.fs.read(path) || '') : '';
+      sh.fs.write(path, prev + w.content);
+      out.push(line(`✎ ${displayPath(path)}`, 'ok'));
+      w.content.replace(/\n$/, '').split('\n').forEach(l => out.push(line(`+ ${l}`, 'ok')));
+    });
+    out.push(line('Revisa siempre lo que escribe Claude: con cat <archivo> o git diff.', 'dim'));
+  }
+  return out;
 }
 
 function substituteArguments(body, rawArgs) {

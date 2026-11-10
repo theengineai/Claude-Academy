@@ -1,5 +1,5 @@
 // Arranque de la aplicación: carga el temario, el progreso y gestiona la navegación.
-import { buildCourse, CONTENT_FILES } from './core/course.js';
+import { buildCourse, CONTENT_FILES, stepsSignature } from './core/course.js';
 import { loadState, saveState } from './core/state.js';
 import { recordAnswer, clearMistake } from './core/progress.js';
 import { checkAchievements } from './core/achievements.js';
@@ -44,6 +44,18 @@ function applySettings(state) {
   root.dataset.motion = state.settings.reducedMotion ? 'reduced' : 'auto';
 }
 
+/** Descarta avances guardados que ya no corresponden al temario actual (lección borrada o modificada). */
+function pruneInProgress(state, course) {
+  let changed = false;
+  for (const [k, saved] of Object.entries(state.inProgress || {})) {
+    const [kind, id] = k.split(':');
+    const target = kind === 'lesson' ? course.lessonById[id] : kind === 'mission' ? course.missionById[id] : kind === 'exam' ? course.moduleById[id] : null;
+    const stale = !target || (kind !== 'exam' && saved.sig && saved.sig !== stepsSignature(target.steps));
+    if (stale) { delete state.inProgress[k]; changed = true; }
+  }
+  if (changed && storage) saveState(storage, state);
+}
+
 async function main() {
   const app = document.getElementById('app');
   let course;
@@ -58,6 +70,7 @@ async function main() {
 
   const state = storage ? loadState(storage) : loadState({ getItem: () => null });
   applySettings(state);
+  pruneInProgress(state, course);
 
   const view = h('main', { id: 'view', class: 'view', tabindex: '-1' });
   const nav = h('nav', { class: 'tabbar', 'aria-label': 'Navegación principal' });

@@ -27,7 +27,7 @@ No abras `index.html` con doble clic (`file://`): los módulos JavaScript y el S
 | | |
 |---|---|
 | Módulos | 6, con evaluación final cada uno (aprobado: 75 %) |
-| Microlecciones | 19 (el módulo 1 empieza con «La terminal desde cero»), con tarjetas visuales y ejercicios intercalados |
+| Microlecciones | 27, cortas (5–7 minutos): 1–3 ideas nuevas cada una, con ejemplo antes de practicar y un resumen al final |
 | Formatos de ejercicio | opción única/decisión, selección múltiple, ordenar, emparejar, completar, encontrar el error, editor con criterios y terminal con objetivos |
 | Misiones | 12, incluido el proyecto final integrador |
 | Laboratorio | Terminal libre persistente + 8 retos |
@@ -89,10 +89,28 @@ Sin `src`, se muestra `fallback`. Para que el vídeo funcione offline, añade su
 | `match` | `pairs: [[izquierda, derecha], …]` |
 | `fill` | `template` con `{{0}}`, `blanks: [{ options, answer }]` o `[{ accept: [...] }]`; `code: false` para texto normal |
 | `spot` | `lines`, `faulty` (índices desde 0), `notes { índice: explicación }`, `fixed`, `file` |
-| `editor` | `file`, `starter`, `solution`, `checks: [{ label, pattern, flags?, negate?, json?, hint? }]` |
-| `terminal` | `setup { cwd, files }`, `goals`, `solution` (comandos), `solutionFiles` (contenido para `nano`), `suggestions`, `intro` |
+| `editor` | **Redacta la petición a Claude** (no el archivo): `file` debe ser «Tu petición a Claude», `starter` (petición vaga), `solution` (petición modelo), `checks: [{ label, pattern, flags?, negate?, hint? }]` sobre el texto de la petición |
+| `terminal` | `setup { cwd, files, claudeActions? }`, `goals`, `solution` (comandos y, si hay `claudeActions`, la petición en lenguaje natural), `suggestions`, `intro` |
 
 Objetivos de terminal (`goals`): `cwd`, `exists`, `absent`, `file` (regex sobre el contenido), `frontmatter`, `json` (rutas con puntos), `ran` (regex sobre el historial), `mode`, `session`, `mcp`, `commits`, `clean` y `doctor`. Todos llevan `label` y, opcionalmente, `hint`.
+
+### Filosofía: el alumno dirige y revisa, Claude escribe
+Los ejercicios **no piden escribir a mano** CLAUDE.md, Skills, permisos, hooks ni subagentes: en la práctica se los pides a Claude y tú revisas el resultado. Por eso:
+- Los ejercicios `editor` evalúan la **petición** (qué, dónde y con qué criterios).
+- Los ejercicios `terminal` que crean o corrigen archivos usan un **Claude simulado** (`setup.claudeActions`): si la petición cumple los grupos de `when`, escribe los archivos de `writes` (con `append: true` añade al final); si es vaga, pide más detalle; en modo plan solo propone. No hay IA: es una respuesta definida en el JSON y se indica siempre como simulación.
+- Hay una prueba automática que impide añadir ejercicios cuya solución obligue a usar `nano`.
+
+```json
+"claudeActions": [{
+  "id": "skill-cierre",
+  "when": [["skill"], ["cierre"], ["argument", "periodo"]],
+  "reply": "He creado la Skill «cierre».",
+  "writes": [{ "path": "~/finanzas/.claude/skills/cierre/SKILL.md", "content": "---\nname: cierre\n---\n..." }]
+}]
+```
+
+### Ritmo de las lecciones
+Una lección = 1–3 ideas nuevas, 6–10 pasos, ejemplo antes de practicar y tarjeta final «Lo esencial». `npm test` lo comprueba (≤ 4 conceptos y ≤ 12 pasos por lección, ≥ 3 formatos de ejercicio, resumen final).
 
 ### Ampliar el simulador
 - Comandos de shell: `js/terminal/shell.js` (`exec`).

@@ -21,7 +21,8 @@ export function createTerminal({ shell, suggestions = [], intro = [], onRun, com
       h('span', { class: 'term-title' }, 'terminal simulada'),
     ),
     output,
-    h('form', { class: 'term-form', onsubmit: e => { e.preventDefault(); exec(input.value); } }, promptEl, input),
+    h('form', { class: 'term-form', onsubmit: e => { e.preventDefault(); exec(input.value); } }, promptEl, input,
+      h('button', { class: 'term-send', type: 'submit', 'aria-label': 'Enviar comando' }, 'Enviar')),
     h('div', { class: 'term-tools' }, upBtn, modeBtn, chips),
   );
   el.addEventListener('click', e => { if (e.target === output || e.target === el) input.focus({ preventScroll: true }); });
@@ -109,5 +110,9 @@ export function createTerminal({ shell, suggestions = [], intro = [], onRun, com
   let lastPrompt = shell.prompt();
   write(intro);
   refreshPrompt();
-  return { el, write, focus: () => input.focus({ preventScroll: true }), exec, refresh: refreshPrompt, shell };
+  /** Texto escrito y todavía sin enviar. */
+  const pending = () => input.value.trim();
+  /** Si hay algo escrito sin enviar, lo ejecuta (evita el fallo de «lo escribí pero no pulsé enviar»). */
+  const flush = () => { const v = pending(); if (v) exec(v); return Boolean(v); };
+  return { el, write, focus: () => input.focus({ preventScroll: true }), exec, refresh: refreshPrompt, shell, pending, flush };
 }

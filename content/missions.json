@@ -6,7 +6,9 @@
     "summary": "Oriéntate en un proyecto nuevo, abre una sesión con nombre y retómala.",
     "difficulty": 1,
     "xp": 40,
-    "requires": ["l1-2"],
+    "requires": [
+      "l1-2"
+    ],
     "brief": "Te acabas de incorporar al equipo de control de gestión y heredas el proyecto **cierre-q3**. Antes de pedir nada a Claude, necesitas saber dónde estás y qué hay.",
     "scenario": "El proyecto está en ~/cierre-q3, con datos de ventas ficticios, un README y notas del responsable anterior.",
     "debrief": "Situarte, explorar y nombrar sesiones te ahorrará confusión cuando trabajes en varias tareas a la vez.",
@@ -17,14 +19,47 @@
         "concept": "env.navigation",
         "title": "Explora el proyecto",
         "prompt": "Entra en **cierre-q3**, muestra su estructura y lee el README",
-        "setup": { "cwd": "~", "files": { "~/cierre-q3/README.md": "# Cierre Q3\nScripts para consolidar ventas trimestrales.\nResponsable anterior: ver notas/traspaso.md\n", "~/cierre-q3/notas/traspaso.md": "- Los CSV de datos/ son originales\n- El margen se calcula sobre ventas\n", "~/cierre-q3/datos/ventas_q3.csv": "mes,importe\n07,1200\n08,980\n09,1430\n" } },
+        "setup": {
+          "cwd": "~",
+          "files": {
+            "~/cierre-q3/README.md": "# Cierre Q3\nScripts para consolidar ventas trimestrales.\nResponsable anterior: ver notas/traspaso.md\n",
+            "~/cierre-q3/notas/traspaso.md": "- Los CSV de datos/ son originales\n- El margen se calcula sobre ventas\n",
+            "~/cierre-q3/datos/ventas_q3.csv": "mes,importe\n07,1200\n08,980\n09,1430\n"
+          }
+        },
         "goals": [
-          { "type": "cwd", "path": "~/cierre-q3", "label": "Estar en ~/cierre-q3", "hint": "cd cierre-q3" },
-          { "type": "ran", "pattern": "^(tree|ls)", "label": "Ver la estructura", "hint": "tree" },
-          { "type": "ran", "pattern": "^cat\\s+(\\./)?README\\.md$", "label": "Leer README.md", "hint": "cat README.md" }
+          {
+            "type": "cwd",
+            "path": "~/cierre-q3",
+            "label": "Estar en ~/cierre-q3",
+            "hint": "cd cierre-q3"
+          },
+          {
+            "type": "ran",
+            "pattern": "^(tree|ls)",
+            "label": "Ver la estructura",
+            "hint": "tree"
+          },
+          {
+            "type": "ran",
+            "pattern": "^cat\\s+(\\./)?README\\.md$",
+            "label": "Leer README.md",
+            "hint": "cat README.md"
+          }
         ],
-        "solution": ["cd cierre-q3", "tree", "cat README.md"],
-        "suggestions": { "shell": ["ls", "cd cierre-q3", "tree", "cat README.md"] },
+        "solution": [
+          "cd cierre-q3",
+          "tree",
+          "cat README.md"
+        ],
+        "suggestions": {
+          "shell": [
+            "ls",
+            "cd cierre-q3",
+            "tree",
+            "cat README.md"
+          ]
+        },
         "explain": "El README apunta a notas/traspaso.md: buena señal de dónde está el conocimiento del proyecto."
       },
       {
@@ -33,14 +68,48 @@
         "concept": "ctx.sessions",
         "title": "Sesión con nombre",
         "prompt": "Abre una sesión llamada **traspaso**, pide un resumen de @notas/traspaso.md y sal. Después retómala por su nombre",
-        "setup": { "cwd": "~/cierre-q3", "files": { "~/cierre-q3/notas/traspaso.md": "- Los CSV de datos/ son originales\n- El margen se calcula sobre ventas\n" } },
+        "setup": {
+          "cwd": "~/cierre-q3",
+          "files": {
+            "~/cierre-q3/notas/traspaso.md": "- Los CSV de datos/ son originales\n- El margen se calcula sobre ventas\n"
+          }
+        },
         "goals": [
-          { "type": "ran", "pattern": "^claude\\s+(-n|--name)\\s+traspaso", "label": "Abrir con claude -n traspaso", "hint": "claude -n traspaso" },
-          { "type": "ran", "pattern": "@notas/traspaso\\.md", "label": "Referenciar @notas/traspaso.md", "hint": "resume @notas/traspaso.md" },
-          { "type": "ran", "pattern": "^claude\\s+(-r|--resume)\\s+traspaso$", "label": "Reanudar con claude -r traspaso", "hint": "/exit y después claude -r traspaso" }
+          {
+            "type": "ran",
+            "pattern": "^claude\\s+(-n|--name)\\s+traspaso",
+            "label": "Abrir con claude -n traspaso",
+            "hint": "claude -n traspaso"
+          },
+          {
+            "type": "ran",
+            "pattern": "@notas/traspaso\\.md",
+            "label": "Referenciar @notas/traspaso.md",
+            "hint": "resume @notas/traspaso.md"
+          },
+          {
+            "type": "ran",
+            "pattern": "^claude\\s+(-r|--resume)\\s+traspaso$",
+            "label": "Reanudar con claude -r traspaso",
+            "hint": "/exit y después claude -r traspaso"
+          }
         ],
-        "solution": ["claude -n traspaso", "resume @notas/traspaso.md", "/exit", "claude -r traspaso"],
-        "suggestions": { "shell": ["claude -n traspaso", "claude -r traspaso"], "session": ["resume @notas/traspaso.md", "/exit"] },
+        "solution": [
+          "claude -n traspaso",
+          "resume @notas/traspaso.md",
+          "/exit",
+          "claude -r traspaso"
+        ],
+        "suggestions": {
+          "shell": [
+            "claude -n traspaso",
+            "claude -r traspaso"
+          ],
+          "session": [
+            "resume @notas/traspaso.md",
+            "/exit"
+          ]
+        },
         "explain": "Con nombre, encontrarás la sesión aunque abras otras entretanto."
       },
       {
@@ -51,9 +120,18 @@
         "context": "El proyecto tiene su CLAUDE.md en la raíz y tú quieres trabajar en los scripts.",
         "prompt": "¿Desde dónde arrancas `claude`?",
         "options": [
-          { "text": "Desde la raíz del proyecto (o una subcarpeta suya): el CLAUDE.md de la raíz se carga igualmente", "correct": true },
-          { "text": "Desde tu carpeta personal, para que vea todo el disco", "feedback": "Le darías acceso y contexto innecesarios." },
-          { "text": "Da igual dónde: Claude Code siempre sabe cuál es el proyecto", "feedback": "Trabaja en el directorio donde lo arrancas." }
+          {
+            "text": "Desde la raíz del proyecto (o una subcarpeta suya): el CLAUDE.md de la raíz se carga igualmente",
+            "correct": true
+          },
+          {
+            "text": "Desde tu carpeta personal, para que vea todo el disco",
+            "feedback": "Le darías acceso y contexto innecesarios."
+          },
+          {
+            "text": "Da igual dónde: Claude Code siempre sabe cuál es el proyecto",
+            "feedback": "Trabaja en el directorio donde lo arrancas."
+          }
         ],
         "explain": "Claude Code carga los CLAUDE.md del directorio de trabajo y de los superiores. Arrancar dentro del proyecto acota lo que lee."
       }
@@ -66,7 +144,9 @@
     "summary": "Revisa un cambio con Git, confírmalo con un buen mensaje y elige cómo deshacer errores.",
     "difficulty": 1,
     "xp": 45,
-    "requires": ["l1-3"],
+    "requires": [
+      "l1-3b"
+    ],
     "brief": "Un compañero cambió el informe de margen con ayuda de Claude y no lo confirmó. Tienes que revisar qué cambió y dejarlo registrado.",
     "scenario": "Repositorio con un commit previo. El archivo informe.md tiene cambios sin confirmar.",
     "debrief": "status → diff → commit con un mensaje que explica el porqué: tres comandos que te permiten auditar cualquier cambio.",
@@ -77,15 +157,55 @@
         "concept": "env.git",
         "title": "Revisa y confirma",
         "prompt": "Mira qué cambió, revisa las líneas y confirma el cambio con un mensaje que mencione el **margen**",
-        "setup": { "cwd": "~/cierre", "files": { "~/cierre/CLAUDE.md": "# Cierre\n", "~/cierre/informe.md": "Margen bruto: 25%\nCalculado sobre ventas\n", "~/cierre/.git/state.json": "{\"commits\":[{\"id\":\"a1b2c3d\",\"msg\":\"Estado inicial\",\"files\":{\"CLAUDE.md\":\"# Cierre\\n\",\"informe.md\":\"Margen bruto: 30%\\nCalculado sobre costes\\n\"}}],\"staged\":{}}" } },
+        "setup": {
+          "cwd": "~/cierre",
+          "files": {
+            "~/cierre/CLAUDE.md": "# Cierre\n",
+            "~/cierre/informe.md": "Margen bruto: 25%\nCalculado sobre ventas\n",
+            "~/cierre/.git/state.json": "{\"commits\":[{\"id\":\"a1b2c3d\",\"msg\":\"Estado inicial\",\"files\":{\"CLAUDE.md\":\"# Cierre\\n\",\"informe.md\":\"Margen bruto: 30%\\nCalculado sobre costes\\n\"}}],\"staged\":{}}"
+          }
+        },
         "goals": [
-          { "type": "ran", "pattern": "^git status$", "label": "Ver el estado con git status", "hint": "git status" },
-          { "type": "ran", "pattern": "^git diff", "label": "Revisar las líneas con git diff", "hint": "git diff" },
-          { "type": "commits", "min": 2, "message": "margen", "label": "Nuevo commit cuyo mensaje menciona el margen", "hint": "git add . y git commit -m \"Corrige el margen: se calcula sobre ventas\"" },
-          { "type": "clean", "label": "Nada pendiente al terminar", "hint": "git status debe decir que el árbol está limpio." }
+          {
+            "type": "ran",
+            "pattern": "^git status$",
+            "label": "Ver el estado con git status",
+            "hint": "git status"
+          },
+          {
+            "type": "ran",
+            "pattern": "^git diff",
+            "label": "Revisar las líneas con git diff",
+            "hint": "git diff"
+          },
+          {
+            "type": "commits",
+            "min": 2,
+            "message": "margen",
+            "label": "Nuevo commit cuyo mensaje menciona el margen",
+            "hint": "git add . y git commit -m \"Corrige el margen: se calcula sobre ventas\""
+          },
+          {
+            "type": "clean",
+            "label": "Nada pendiente al terminar",
+            "hint": "git status debe decir que el árbol está limpio."
+          }
         ],
-        "solution": ["git status", "git diff", "git add .", "git commit -m \"Corrige el margen: se calcula sobre ventas\""],
-        "suggestions": { "shell": ["git status", "git diff", "git add .", "git commit -m \"\"", "git log"] },
+        "solution": [
+          "git status",
+          "git diff",
+          "git add .",
+          "git commit -m \"Corrige el margen: se calcula sobre ventas\""
+        ],
+        "suggestions": {
+          "shell": [
+            "git status",
+            "git diff",
+            "git add .",
+            "git commit -m \"\"",
+            "git log"
+          ]
+        },
         "explain": "El diff muestra que el margen pasó a calcularse sobre ventas (30% → 25%). El mensaje del commit debe contarlo."
       },
       {
@@ -95,9 +215,18 @@
         "title": "Un buen mensaje",
         "prompt": "¿Qué mensaje de commit es más útil dentro de seis meses?",
         "options": [
-          { "text": "«cambios»", "feedback": "No dice qué ni por qué." },
-          { "text": "«Corrige el margen: se calcula sobre ventas, no sobre costes»", "correct": true },
-          { "text": "«Claude lo ha arreglado»", "feedback": "Quién lo hizo importa menos que qué cambió y por qué." }
+          {
+            "text": "«cambios»",
+            "feedback": "No dice qué ni por qué."
+          },
+          {
+            "text": "«Corrige el margen: se calcula sobre ventas, no sobre costes»",
+            "correct": true
+          },
+          {
+            "text": "«Claude lo ha arreglado»",
+            "feedback": "Quién lo hizo importa menos que qué cambió y por qué."
+          }
         ],
         "explain": "Qué cambió y por qué: así cualquiera (incluido Claude) entiende el historial."
       },
@@ -108,9 +237,18 @@
         "title": "Cómo deshacer",
         "prompt": "Empareja cada situación con la herramienta para deshacer",
         "pairs": [
-          ["Claude editó un archivo hace dos mensajes y no te convence", "`/rewind` (o Esc dos veces)"],
-          ["Un script de shell reescribió un CSV", "Git: recuperar la versión confirmada"],
-          ["Quieres volver al estado de la semana pasada", "Git: historial de commits"]
+          [
+            "Claude editó un archivo hace dos mensajes y no te convence",
+            "`/rewind` (o Esc dos veces)"
+          ],
+          [
+            "Un script de shell reescribió un CSV",
+            "Git: recuperar la versión confirmada"
+          ],
+          [
+            "Quieres volver al estado de la semana pasada",
+            "Git: historial de commits"
+          ]
         ],
         "explain": "Checkpoints para la sesión en curso y ediciones de Claude; Git para todo lo demás."
       }
@@ -123,7 +261,10 @@
     "summary": "Detecta lo que sobra, escribe instrucciones verificables y organiza la memoria.",
     "difficulty": 2,
     "xp": 60,
-    "requires": ["l2-1"],
+    "requires": [
+      "l2-1b",
+      "l2-1c"
+    ],
     "brief": "El CLAUDE.md del proyecto de tesorería ha crecido sin control: hay secretos, instrucciones vagas y nada sobre cómo validar.",
     "scenario": "Proyecto de previsión de tesorería con datos ficticios en datos/ y un glosario en docs/glosario.md.",
     "debrief": "Un buen CLAUDE.md es corto, concreto, sin secretos y dice cómo comprobar que el trabajo está bien.",
@@ -135,9 +276,25 @@
         "title": "Detecta los problemas",
         "prompt": "Señala las líneas que no deberían estar así en el CLAUDE.md del proyecto",
         "file": "CLAUDE.md",
-        "lines": ["# Previsión de tesorería", "- Importes en EUR, 2 decimales", "- Usuario del banco: tesoreria01 / Clave: Verano2026", "- Intenta hacerlo lo mejor posible", "- No modificar datos/: son extractos originales", "- Mis preferencias de tono personales: muy informal", "- Valida con: python tests/test_prevision.py"],
-        "faulty": [2, 3, 5],
-        "notes": { "2": "Credenciales: nunca en CLAUDE.md.", "3": "Vago y no comprobable.", "5": "Preferencia personal: va en ~/.claude/CLAUDE.md o CLAUDE.local.md, no en el archivo del equipo." },
+        "lines": [
+          "# Previsión de tesorería",
+          "- Importes en EUR, 2 decimales",
+          "- Usuario del banco: tesoreria01 / Clave: Verano2026",
+          "- Intenta hacerlo lo mejor posible",
+          "- No modificar datos/: son extractos originales",
+          "- Mis preferencias de tono personales: muy informal",
+          "- Valida con: python tests/test_prevision.py"
+        ],
+        "faulty": [
+          2,
+          3,
+          5
+        ],
+        "notes": {
+          "2": "Credenciales: nunca en CLAUDE.md.",
+          "3": "Vago y no comprobable.",
+          "5": "Preferencia personal: va en ~/.claude/CLAUDE.md o CLAUDE.local.md, no en el archivo del equipo."
+        },
         "fixed": "# Previsión de tesorería\n- Importes en EUR, 2 decimales\n- No modificar datos/: son extractos originales\n- Valida con: python tests/test_prevision.py",
         "explain": "Secretos fuera, preferencias personales en su ámbito e instrucciones concretas."
       },
@@ -145,20 +302,41 @@
         "id": "ms03s2",
         "type": "editor",
         "concept": "ctx.imports-rules",
-        "title": "Reescríbelo",
-        "prompt": "Escribe el CLAUDE.md del equipo con secciones de estructura y validación, la regla sobre datos/ e importando el glosario",
-        "file": "CLAUDE.md",
-        "starter": "# Previsión de tesorería\n",
-        "rows": 14,
+        "prompt": "Pídele a Claude que escriba el CLAUDE.md del equipo. Tu petición debe pedir una sección de **estructura**, una de **validación**, **proteger datos/** e **importar el glosario** `@docs/glosario.md`",
+        "file": "Tu petición a Claude",
+        "starter": "Escribe el CLAUDE.md del proyecto de tesorería.",
+        "rows": 8,
         "checks": [
-          { "label": "Sección de estructura", "pattern": "^#+\\s*estructura", "hint": "## Estructura" },
-          { "label": "Sección de validación con un comando o criterio", "pattern": "^#+\\s*(validaci|verificaci|comprobaci)[\\s\\S]*(test|prueba|cuadr|python)", "hint": "## Validación\\n- python tests/test_prevision.py" },
-          { "label": "Protege datos/", "pattern": "(no (modificar|modifiques|tocar|toques|sobrescribir)|solo lectura)[^\\n]*datos|datos[^\\n]*(no (se )?(modifica|toca)|solo lectura|original)", "hint": "- No modificar datos/" },
-          { "label": "Importa el glosario con @docs/glosario.md", "pattern": "(^|\\s)@docs/glosario\\.md", "hint": "Consulta @docs/glosario.md" },
-          { "label": "Sin credenciales", "pattern": "(clave|contraseña|password|token)\\s*:", "negate": true }
+          {
+            "label": "Pide una sección de estructura",
+            "pattern": "estructura",
+            "hint": "Qué hay en cada carpeta."
+          },
+          {
+            "label": "Pide una sección de validación con un criterio",
+            "pattern": "(validaci|verificaci|comprobaci)[\\s\\S]*(test|prueba|cuadr|python)|(test|prueba|cuadr)[\\s\\S]*(validaci|verificaci)",
+            "hint": "Por ejemplo: validación con python tests/test_prevision.py."
+          },
+          {
+            "label": "Pide proteger datos/",
+            "pattern": "(no (modifiques|modificar|toques|tocar|sobrescribas|sobrescribir)|solo lectura|proteg)[^\\n]*datos|datos[^\\n]*(no (se )?(modifica|toca)|solo lectura|original)",
+            "hint": "datos/ no se modifica."
+          },
+          {
+            "label": "Pide importar el glosario con @docs/glosario.md",
+            "pattern": "@docs/glosario\\.md",
+            "hint": "Escribe la ruta con la @."
+          },
+          {
+            "label": "No incluye credenciales",
+            "pattern": "(clave|contrase|password|token)\\s*:",
+            "negate": true,
+            "hint": "Nunca claves en CLAUDE.md."
+          }
         ],
-        "solution": "# Previsión de tesorería\n\n## Estructura\n- datos/: extractos originales (no modificar)\n- informes/: resultados\n\n## Validación\n- python tests/test_prevision.py\n\nGlosario: @docs/glosario.md\n",
-        "explain": "Con el import, el glosario se carga junto a CLAUDE.md sin engordarlo."
+        "solution": "Escribe el CLAUDE.md del proyecto de tesorería con una sección de estructura (datos/ original y no se modifica, informes/ resultados), una sección de validación (ejecutar python tests/test_prevision.py y cuadrar los totales) y que importe el glosario @docs/glosario.md.",
+        "explain": "Una buena petición dice **qué** quieres y **con qué criterios**. Claude redacta el archivo; tú compruebas que cumple lo que pediste.",
+        "title": "Reescríbelo"
       },
       {
         "id": "ms03s3",
@@ -167,10 +345,22 @@
         "title": "Cada cosa en su sitio",
         "prompt": "¿Dónde va cada instrucción?",
         "pairs": [
-          ["Tono muy informal en mis respuestas", "`~/.claude/CLAUDE.md`"],
-          ["Reglas de los tests de Python", "`.claude/rules/testing.md`"],
-          ["Ruta de mi copia local de pruebas", "`CLAUDE.local.md`"],
-          ["Estructura del proyecto para el equipo", "`CLAUDE.md`"]
+          [
+            "Tono muy informal en mis respuestas",
+            "`~/.claude/CLAUDE.md`"
+          ],
+          [
+            "Reglas de los tests de Python",
+            "`.claude/rules/testing.md`"
+          ],
+          [
+            "Ruta de mi copia local de pruebas",
+            "`CLAUDE.local.md`"
+          ],
+          [
+            "Estructura del proyecto para el equipo",
+            "`CLAUDE.md`"
+          ]
         ],
         "explain": "Usuario, reglas temáticas, local y proyecto: cada ámbito tiene su archivo."
       }
@@ -183,7 +373,9 @@
     "summary": "Investiga en modo plan, controla el contexto y decide sobre un plan arriesgado.",
     "difficulty": 2,
     "xp": 60,
-    "requires": ["l2-3"],
+    "requires": [
+      "l2-3c"
+    ],
     "brief": "Dirección comercial dice que las comisiones de octubre están infladas. Antes de cambiar nada, quieres entender el cálculo.",
     "scenario": "El script scripts/comisiones.py calcula comisiones sobre ventas; los datos están en datos/.",
     "debrief": "Investigar en modo plan te da un diagnóstico sin riesgo; el plan se aprueba solo si respeta tus límites.",
@@ -194,15 +386,58 @@
         "concept": "met.plan-mode",
         "title": "Investiga sin riesgo",
         "prompt": "Abre una sesión, cambia a **modo plan** (botón ⇧Tab o /plan), pide el análisis de @scripts/comisiones.py y revisa el contexto",
-        "setup": { "cwd": "~/comercial", "files": { "~/comercial/CLAUDE.md": "# Comercial\n- Comisión: 3% sobre ventas netas\n", "~/comercial/scripts/comisiones.py": "def comision(ventas_brutas, devoluciones):\n    return ventas_brutas * 0.03\n", "~/comercial/datos/octubre.csv": "comercial,brutas,devoluciones\nAna,10000,800\n" } },
+        "setup": {
+          "cwd": "~/comercial",
+          "files": {
+            "~/comercial/CLAUDE.md": "# Comercial\n- Comisión: 3% sobre ventas netas\n",
+            "~/comercial/scripts/comisiones.py": "def comision(ventas_brutas, devoluciones):\n    return ventas_brutas * 0.03\n",
+            "~/comercial/datos/octubre.csv": "comercial,brutas,devoluciones\nAna,10000,800\n"
+          }
+        },
         "goals": [
-          { "type": "ran", "pattern": "^claude", "label": "Abrir una sesión", "hint": "claude" },
-          { "type": "mode", "value": "plan", "label": "Estar en modo plan", "hint": "Pulsa ⇧Tab hasta plan o escribe /plan" },
-          { "type": "ran", "pattern": "@scripts/comisiones\\.py", "label": "Pedir el análisis con @scripts/comisiones.py", "hint": "analiza @scripts/comisiones.py frente a CLAUDE.md" },
-          { "type": "ran", "pattern": "^/context$", "label": "Revisar el uso de contexto", "hint": "/context" }
+          {
+            "type": "ran",
+            "pattern": "^claude",
+            "label": "Abrir una sesión",
+            "hint": "claude"
+          },
+          {
+            "type": "mode",
+            "value": "plan",
+            "label": "Estar en modo plan",
+            "hint": "Pulsa ⇧Tab hasta plan o escribe /plan"
+          },
+          {
+            "type": "ran",
+            "pattern": "@scripts/comisiones\\.py",
+            "label": "Pedir el análisis con @scripts/comisiones.py",
+            "hint": "analiza @scripts/comisiones.py frente a CLAUDE.md"
+          },
+          {
+            "type": "ran",
+            "pattern": "^/context$",
+            "label": "Revisar el uso de contexto",
+            "hint": "/context"
+          }
         ],
-        "solution": ["claude", "/plan", "analiza @scripts/comisiones.py frente a la regla de CLAUDE.md", "/context"],
-        "suggestions": { "shell": ["claude", "claude --permission-mode plan"], "session": ["/plan", "analiza @scripts/comisiones.py", "/context", "/exit"] },
+        "solution": [
+          "claude",
+          "/plan",
+          "analiza @scripts/comisiones.py frente a la regla de CLAUDE.md",
+          "/context"
+        ],
+        "suggestions": {
+          "shell": [
+            "claude",
+            "claude --permission-mode plan"
+          ],
+          "session": [
+            "/plan",
+            "analiza @scripts/comisiones.py",
+            "/context",
+            "/exit"
+          ]
+        },
         "explain": "El script aplica el 3% sobre ventas brutas, pero CLAUDE.md dice ventas netas: falta restar devoluciones."
       },
       {
@@ -213,9 +448,18 @@
         "context": "El plan propuesto dice: «1) Corregir comisiones.py para restar devoluciones. 2) Recalcular y sobrescribir datos/octubre.csv con las comisiones nuevas».",
         "prompt": "¿Qué haces?",
         "options": [
-          { "text": "Aprobarlo tal cual: es rápido", "feedback": "El paso 2 sobrescribe datos originales." },
-          { "text": "Pedir que el resultado vaya a informes/ y que datos/ no se toque; después aprobar", "correct": true },
-          { "text": "Descartar todo y hacerlo a mano", "feedback": "El paso 1 es correcto; basta con ajustar el 2." }
+          {
+            "text": "Aprobarlo tal cual: es rápido",
+            "feedback": "El paso 2 sobrescribe datos originales."
+          },
+          {
+            "text": "Pedir que el resultado vaya a informes/ y que datos/ no se toque; después aprobar",
+            "correct": true
+          },
+          {
+            "text": "Descartar todo y hacerlo a mano",
+            "feedback": "El paso 1 es correcto; basta con ajustar el 2."
+          }
         ],
         "explain": "Revisar el plan es exactamente para esto: detectar pasos que rompen tus reglas antes de que ocurran."
       },
@@ -227,7 +471,17 @@
         "prompt": "Completa el criterio de verificación para la comisión de Ana",
         "code": false,
         "template": "Con ventas brutas 10.000 € y devoluciones 800 €, la comisión correcta es {{0}} €.",
-        "blanks": [ { "options": ["276", "300", "24", "324"], "answer": "276" } ],
+        "blanks": [
+          {
+            "options": [
+              "276",
+              "300",
+              "24",
+              "324"
+            ],
+            "answer": "276"
+          }
+        ],
         "explain": "(10.000 − 800) × 3% = 276 €. Un caso con resultado conocido convierte «arréglalo» en algo verificable."
       }
     ]
@@ -239,7 +493,9 @@
     "summary": "Diseña la Skill, créala en el proyecto y pruébala con argumentos.",
     "difficulty": 2,
     "xp": 70,
-    "requires": ["l3-2"],
+    "requires": [
+      "l3-2"
+    ],
     "brief": "Cada mes repites la misma conciliación bancaria con los mismos pasos. Vas a convertirla en una Skill del proyecto que el equipo pueda reutilizar.",
     "scenario": "Proyecto ~/tesoreria con extractos y mayor ficticios por periodo en datos/.",
     "debrief": "Una Skill bien descrita se activa cuando toca; con argumentos, sirve para cualquier periodo.",
@@ -248,39 +504,128 @@
         "id": "ms05s1",
         "type": "editor",
         "concept": "sk.frontmatter",
-        "title": "Diseña el SKILL.md",
-        "prompt": "Escribe el SKILL.md de **conciliar-bancos**: frontmatter con name y una description que diga cuándo usarla, pasos que usen el periodo y una comprobación de saldos",
-        "file": ".claude/skills/conciliar-bancos/SKILL.md",
-        "starter": "---\nname: conciliar-bancos\n---\n\n",
-        "rows": 14,
+        "prompt": "Pídele a Claude que cree la Skill **conciliar-bancos**. Tu petición debe indicar el **nombre**, **cuándo** debe activarse, que use el **periodo como argumento** y que **compruebe los saldos**",
+        "file": "Tu petición a Claude",
+        "starter": "Crea una Skill de conciliación.",
+        "rows": 8,
         "checks": [
-          { "label": "Frontmatter delimitado con ---", "pattern": "^---\\n[\\s\\S]*?\\n---", "flags": "" },
-          { "label": "name: conciliar-bancos", "pattern": "^name:\\s*conciliar-bancos\\s*$" },
-          { "label": "description que dice cuándo usarla", "pattern": "^description:.*(úsala|usala|cuando|use when)", "hint": "description: Concilia… Úsala cuando…" },
-          { "label": "Usa el periodo con $ARGUMENTS o $0", "pattern": "\\$ARGUMENTS|\\$0" },
-          { "label": "Comprueba saldo inicial + movimientos = saldo final", "pattern": "saldo", "hint": "Añade un control de saldos." }
+          {
+            "label": "Indica el nombre: conciliar-bancos",
+            "pattern": "conciliar-bancos",
+            "hint": "El nombre exacto."
+          },
+          {
+            "label": "Dice cuándo debe activarse",
+            "pattern": "(cuando|al pedir|si (el usuario|alguien|pidan)|activ)",
+            "hint": "Por ejemplo: «que se active cuando pidan conciliar…»."
+          },
+          {
+            "label": "Pide usar el periodo como argumento",
+            "pattern": "(argument|par[aá]metro|periodo)",
+            "hint": "El periodo cambia cada mes."
+          },
+          {
+            "label": "Pide comprobar los saldos",
+            "pattern": "saldo",
+            "hint": "Saldo inicial + movimientos = saldo final."
+          }
         ],
-        "solution": "---\nname: conciliar-bancos\ndescription: Concilia el extracto bancario con el mayor. Úsala cuando pidan conciliar o cuadrar el banco de un periodo.\n---\n\n1. Lee datos/extracto_$ARGUMENTS.csv y datos/mayor_$ARGUMENTS.csv\n2. Empareja movimientos por fecha e importe\n3. Lista las partidas sin emparejar\n4. Comprueba que saldo inicial + movimientos = saldo final\n",
-        "explain": "La description es lo que hace que Claude la cargue sola; el control de saldos es lo que la hace fiable."
+        "solution": "Crea una Skill de proyecto llamada conciliar-bancos que se active cuando pidan conciliar el banco de un periodo. Debe recibir el periodo como argumento, comparar el extracto con el mayor y comprobar que saldo inicial más movimientos es igual al saldo final.",
+        "explain": "Una buena petición dice **qué** quieres y **con qué criterios**. Claude redacta el archivo; tú compruebas que cumple lo que pediste.",
+        "title": "Diseña el SKILL.md"
       },
       {
         "id": "ms05s2",
         "type": "terminal",
         "concept": "sk.arguments",
-        "title": "Créala y pruébala",
-        "prompt": "Crea la Skill en el proyecto, comprueba que aparece en /skills y ejecútala para **2026-10**",
-        "setup": { "cwd": "~/tesoreria", "files": { "~/tesoreria/datos/extracto_2026-10.csv": "fecha,concepto,importe\n2026-10-02,Cobro A,1200\n", "~/tesoreria/datos/mayor_2026-10.csv": "fecha,cuenta,importe\n2026-10-02,430,1200\n" } },
-        "intro": ["Crea la carpeta .claude/skills/conciliar-bancos y edita su SKILL.md con nano."],
+        "prompt": "Pídele a Claude que cree la Skill **conciliar-bancos** en el proyecto, comprueba que aparece en /skills y ejecútala para **2026-10**",
+        "setup": {
+          "cwd": "~/tesoreria",
+          "files": {
+            "~/tesoreria/datos/extracto_2026-10.csv": "fecha,concepto,importe\n2026-10-02,Cobro A,1200\n",
+            "~/tesoreria/datos/mayor_2026-10.csv": "fecha,cuenta,importe\n2026-10-02,430,1200\n"
+          },
+          "claudeActions": [
+            {
+              "id": "skill-conciliar",
+              "when": [
+                [
+                  "skill"
+                ],
+                [
+                  "conciliar"
+                ]
+              ],
+              "reply": "He creado la Skill «conciliar-bancos» en el proyecto.",
+              "writes": [
+                {
+                  "path": "~/tesoreria/.claude/skills/conciliar-bancos/SKILL.md",
+                  "content": "---\nname: conciliar-bancos\ndescription: Concilia el extracto bancario con el mayor. Úsala cuando pidan conciliar el banco de un periodo.\n---\n\n1. Lee datos/extracto_$ARGUMENTS.csv y datos/mayor_$ARGUMENTS.csv\n2. Empareja movimientos por fecha e importe\n3. Comprueba que saldo inicial + movimientos = saldo final\n"
+                }
+              ]
+            }
+          ]
+        },
         "goals": [
-          { "type": "frontmatter", "path": "~/tesoreria/.claude/skills/conciliar-bancos/SKILL.md", "expect": { "name": "conciliar-bancos", "description": { "pattern": ".{20,}" } }, "label": "SKILL.md con name y description", "hint": "mkdir -p .claude/skills/conciliar-bancos y nano .claude/skills/conciliar-bancos/SKILL.md" },
-          { "type": "file", "path": "~/tesoreria/.claude/skills/conciliar-bancos/SKILL.md", "checks": [{ "pattern": "\\$ARGUMENTS|\\$0" }], "label": "Usa $ARGUMENTS o $0", "hint": "datos/extracto_$ARGUMENTS.csv" },
-          { "type": "ran", "pattern": "^/skills$", "label": "Comprobar con /skills", "hint": "claude y después /skills" },
-          { "type": "ran", "pattern": "^/conciliar-bancos\\s+2026-10$", "label": "Ejecutar /conciliar-bancos 2026-10", "hint": "/conciliar-bancos 2026-10" }
+          {
+            "type": "frontmatter",
+            "path": "~/tesoreria/.claude/skills/conciliar-bancos/SKILL.md",
+            "expect": {
+              "name": "conciliar-bancos",
+              "description": {
+                "pattern": ".{20,}"
+              }
+            },
+            "label": "Existe la Skill con name y description",
+            "hint": "Pídeselo a Claude con el nombre conciliar-bancos."
+          },
+          {
+            "type": "file",
+            "path": "~/tesoreria/.claude/skills/conciliar-bancos/SKILL.md",
+            "checks": [
+              {
+                "pattern": "\\$ARGUMENTS|\\$0"
+              }
+            ],
+            "label": "Usa el periodo como argumento",
+            "hint": "Dile que el periodo es un argumento."
+          },
+          {
+            "type": "ran",
+            "pattern": "^/skills$",
+            "label": "Comprobar con /skills",
+            "hint": "/skills"
+          },
+          {
+            "type": "ran",
+            "pattern": "^/conciliar-bancos\\s+2026-10$",
+            "label": "Ejecutar /conciliar-bancos 2026-10",
+            "hint": "/conciliar-bancos 2026-10"
+          }
         ],
-        "solution": ["mkdir -p .claude/skills/conciliar-bancos", "nano .claude/skills/conciliar-bancos/SKILL.md", "claude", "/skills", "/conciliar-bancos 2026-10"],
-        "solutionFiles": [{ "path": "~/tesoreria/.claude/skills/conciliar-bancos/SKILL.md", "content": "---\nname: conciliar-bancos\ndescription: Concilia el extracto bancario con el mayor. Úsala cuando pidan conciliar el banco de un periodo.\n---\n\n1. Lee datos/extracto_$ARGUMENTS.csv y datos/mayor_$ARGUMENTS.csv\n2. Comprueba que saldo inicial + movimientos = saldo final\n" }],
-        "suggestions": { "shell": ["mkdir -p .claude/skills/conciliar-bancos", "nano .claude/skills/conciliar-bancos/SKILL.md", "claude"], "session": ["/skills", "/conciliar-bancos 2026-10", "/exit"] },
-        "explain": "Al invocarla verás las instrucciones con el periodo ya sustituido."
+        "solution": [
+          "claude",
+          "Crea una Skill de proyecto llamada conciliar-bancos que concilie el extracto con el mayor del periodo que le pase",
+          "/skills",
+          "/conciliar-bancos 2026-10"
+        ],
+        "explain": "Al invocarla verás las instrucciones con el periodo ya sustituido. Revisa siempre lo que escribe Claude: aquí, que la Skill compruebe los saldos.",
+        "suggestions": {
+          "shell": [
+            "claude",
+            "ls",
+            "cat "
+          ],
+          "session": [
+            "/skills",
+            "/agents",
+            "/exit"
+          ]
+        },
+        "intro": [
+          "Dentro de la sesión, pídeselo a Claude como se lo pedirías a una persona: qué crear, cómo se llama y qué debe contener."
+        ],
+        "title": "Créala y pruébala"
       },
       {
         "id": "ms05s3",
@@ -289,9 +634,18 @@
         "title": "Compartirla",
         "prompt": "¿Cómo consigues que todo el equipo tenga la Skill?",
         "options": [
-          { "text": "Dejarla en .claude/skills/ del proyecto y subirla al repositorio", "correct": true },
-          { "text": "Guardarla en tu ~/.claude/skills/", "feedback": "Solo la tendrías tú." },
-          { "text": "Copiar su texto en el chat de cada compañero", "feedback": "Pierde el sentido de reutilizarla." }
+          {
+            "text": "Dejarla en .claude/skills/ del proyecto y subirla al repositorio",
+            "correct": true
+          },
+          {
+            "text": "Guardarla en tu ~/.claude/skills/",
+            "feedback": "Solo la tendrías tú."
+          },
+          {
+            "text": "Copiar su texto en el chat de cada compañero",
+            "feedback": "Pierde el sentido de reutilizarla."
+          }
         ],
         "explain": "Las Skills de proyecto se versionan con el código."
       }
@@ -304,7 +658,9 @@
     "summary": "Encuentra por qué una Skill no se activa y arréglala con diagnóstico.",
     "difficulty": 2,
     "xp": 70,
-    "requires": ["l3-3"],
+    "requires": [
+      "l3-3"
+    ],
     "brief": "El equipo creó una Skill para el informe de IVA, pero Claude nunca la usa y nadie sabe por qué.",
     "scenario": "La Skill está en .claude/skills/informe-iva/SKILL.md del proyecto ~/impuestos.",
     "debrief": "Los campos mal escritos se ignoran sin avisar: por eso /doctor y /skills son tus primeras herramientas de diagnóstico.",
@@ -316,9 +672,23 @@
         "title": "Revisa el frontmatter",
         "prompt": "¿Qué líneas explican que Claude no la cargue sola?",
         "file": ".claude/skills/informe-iva/SKILL.md",
-        "lines": ["---", "name: informe-iva", "descripcion: Prepara el borrador trimestral de IVA", "disable-model-invocation: true", "---", "", "1. Suma el IVA repercutido y soportado de $ARGUMENTS"],
-        "faulty": [2, 3],
-        "notes": { "2": "El campo es description (en inglés); «descripcion» se ignora y la Skill queda sin descripción.", "3": "Con disable-model-invocation: true Claude nunca la carga por sí mismo." },
+        "lines": [
+          "---",
+          "name: informe-iva",
+          "descripcion: Prepara el borrador trimestral de IVA",
+          "disable-model-invocation: true",
+          "---",
+          "",
+          "1. Suma el IVA repercutido y soportado de $ARGUMENTS"
+        ],
+        "faulty": [
+          2,
+          3
+        ],
+        "notes": {
+          "2": "El campo es description (en inglés); «descripcion» se ignora y la Skill queda sin descripción.",
+          "3": "Con disable-model-invocation: true Claude nunca la carga por sí mismo."
+        },
         "fixed": "---\nname: informe-iva\ndescription: Prepara el borrador trimestral de IVA. Úsala cuando pidan el IVA de un trimestre.\n---\n\n1. Suma el IVA repercutido y soportado de $ARGUMENTS",
         "explain": "Un campo mal escrito y una opción que bloquea la invocación automática."
       },
@@ -326,19 +696,94 @@
         "id": "ms06s2",
         "type": "terminal",
         "concept": "sk.quality",
-        "title": "Diagnostica y arregla",
-        "prompt": "Ejecuta **claude doctor**, corrige el SKILL.md y comprueba con /skills que ya tiene descripción",
-        "setup": { "cwd": "~/impuestos", "files": { "~/impuestos/.claude/skills/informe-iva/SKILL.md": "---\nname: informe-iva\ndescripcion: Prepara el borrador trimestral de IVA\ndisable-model-invocation: true\n---\n\n1. Suma el IVA repercutido y soportado de $ARGUMENTS\n" } },
+        "prompt": "Ejecuta **claude doctor**, pídele a Claude que corrija la Skill para que pueda activarse sola y comprueba con /skills que ya tiene descripción",
+        "setup": {
+          "cwd": "~/impuestos",
+          "files": {
+            "~/impuestos/.claude/skills/informe-iva/SKILL.md": "---\nname: informe-iva\ndescripcion: Prepara el borrador trimestral de IVA\ndisable-model-invocation: true\n---\n\n1. Suma el IVA repercutido y soportado de $ARGUMENTS\n"
+          },
+          "claudeActions": [
+            {
+              "id": "fix-iva",
+              "when": [
+                [
+                  "arregla",
+                  "corrige",
+                  "repara",
+                  "soluciona",
+                  "revisa"
+                ],
+                [
+                  "skill",
+                  "informe-iva"
+                ]
+              ],
+              "reply": "He renombrado el campo a «description» y he quitado la opción que impedía la activación automática.",
+              "writes": [
+                {
+                  "path": "~/impuestos/.claude/skills/informe-iva/SKILL.md",
+                  "content": "---\nname: informe-iva\ndescription: Prepara el borrador trimestral de IVA. Úsala cuando pidan el IVA de un trimestre.\n---\n\n1. Suma el IVA repercutido y soportado de $ARGUMENTS\n"
+                }
+              ]
+            }
+          ]
+        },
         "goals": [
-          { "type": "ran", "pattern": "^claude doctor$|^/doctor$", "label": "Ejecutar el diagnóstico", "hint": "claude doctor" },
-          { "type": "frontmatter", "path": "~/impuestos/.claude/skills/informe-iva/SKILL.md", "expect": { "description": { "pattern": ".{20,}" } }, "label": "Campo description correcto", "hint": "Renombra descripcion → description" },
-          { "type": "frontmatter", "path": "~/impuestos/.claude/skills/informe-iva/SKILL.md", "expect": { "disable-model-invocation": { "exists": false } }, "label": "Sin disable-model-invocation", "hint": "Elimina esa línea para que Claude pueda cargarla." },
-          { "type": "ran", "pattern": "^/skills$", "label": "Verificar con /skills", "hint": "claude y /skills" }
+          {
+            "type": "ran",
+            "pattern": "^claude doctor$|^/doctor$",
+            "label": "Ejecutar el diagnóstico",
+            "hint": "claude doctor"
+          },
+          {
+            "type": "frontmatter",
+            "path": "~/impuestos/.claude/skills/informe-iva/SKILL.md",
+            "expect": {
+              "description": {
+                "pattern": ".{20,}"
+              }
+            },
+            "label": "Campo description correcto",
+            "hint": "Pídele a Claude que lo corrija."
+          },
+          {
+            "type": "frontmatter",
+            "path": "~/impuestos/.claude/skills/informe-iva/SKILL.md",
+            "expect": {
+              "disable-model-invocation": {
+                "exists": false
+              }
+            },
+            "label": "Sin disable-model-invocation",
+            "hint": "Dile que Claude debe poder activarla sola."
+          },
+          {
+            "type": "ran",
+            "pattern": "^/skills$",
+            "label": "Verificar con /skills",
+            "hint": "/skills"
+          }
         ],
-        "solution": ["claude doctor", "nano .claude/skills/informe-iva/SKILL.md", "claude", "/skills"],
-        "solutionFiles": [{ "path": "~/impuestos/.claude/skills/informe-iva/SKILL.md", "content": "---\nname: informe-iva\ndescription: Prepara el borrador trimestral de IVA. Úsala cuando pidan el IVA de un trimestre.\n---\n\n1. Suma el IVA repercutido y soportado de $ARGUMENTS\n" }],
-        "suggestions": { "shell": ["claude doctor", "nano .claude/skills/informe-iva/SKILL.md", "claude"], "session": ["/skills", "/doctor", "/exit"] },
-        "explain": "Diagnóstico → corrección → verificación: el mismo bucle que usarías con código."
+        "solution": [
+          "claude doctor",
+          "claude",
+          "Corrige la Skill informe-iva para que Claude pueda activarla sola",
+          "/skills"
+        ],
+        "explain": "Diagnóstico → petición clara → verificación: tú identificas el problema y compruebas el resultado; Claude hace la edición.",
+        "suggestions": {
+          "shell": [
+            "claude doctor",
+            "claude",
+            "cat .claude/skills/informe-iva/SKILL.md"
+          ],
+          "session": [
+            "/skills",
+            "/doctor",
+            "/exit"
+          ]
+        },
+        "title": "Diagnostica y arregla"
       },
       {
         "id": "ms06s3",
@@ -348,9 +793,18 @@
         "context": "La Skill ya se activa, pero a veces se carga cuando pides otros informes que no son de IVA.",
         "prompt": "¿Qué ajustas?",
         "options": [
-          { "text": "Hacer la description más específica: qué hace y en qué peticiones usarla", "correct": true },
-          { "text": "Añadir más pasos al cuerpo", "feedback": "El cuerpo no influye en cuándo se carga." },
-          { "text": "Renombrar la carpeta", "feedback": "El nombre no es lo que Claude usa para decidir." }
+          {
+            "text": "Hacer la description más específica: qué hace y en qué peticiones usarla",
+            "correct": true
+          },
+          {
+            "text": "Añadir más pasos al cuerpo",
+            "feedback": "El cuerpo no influye en cuándo se carga."
+          },
+          {
+            "text": "Renombrar la carpeta",
+            "feedback": "El nombre no es lo que Claude usa para decidir."
+          }
         ],
         "explain": "La activación automática depende de la description (y de `when_to_use`, si lo usas)."
       }
@@ -363,7 +817,9 @@
     "summary": "Configura servidores MCP en el ámbito correcto y deja .mcp.json sin secretos.",
     "difficulty": 2,
     "xp": 75,
-    "requires": ["l4-2"],
+    "requires": [
+      "l4-2"
+    ],
     "brief": "El equipo quiere que Claude consulte la normativa interna desde un servidor MCP. Tú, además, quieres probar un servidor local de hojas de cálculo solo para ti.",
     "scenario": "Proyecto ~/control-gestion. Servidor de normativa remoto (https://mcp.normativa.ejemplo.com/mcp) y servidor local de hojas ficticio.",
     "debrief": "Ámbito correcto, transporte explícito y credenciales en variables de entorno.",
@@ -374,33 +830,80 @@
         "concept": "mcp.scopes",
         "title": "Configura los servidores",
         "prompt": "Añade **normativa** (http) para todo el equipo y **hojas** (stdio, comando `npx -y servidor-hojas`) solo para ti en todos tus proyectos. Después lista los servidores",
-        "setup": { "cwd": "~/control-gestion", "files": { "~/control-gestion/CLAUDE.md": "# Control de gestión\n" } },
+        "setup": {
+          "cwd": "~/control-gestion",
+          "files": {
+            "~/control-gestion/CLAUDE.md": "# Control de gestión\n"
+          }
+        },
         "goals": [
-          { "type": "mcp", "name": "normativa", "scope": "project", "transport": "http", "url": "https://mcp.normativa.ejemplo.com/mcp", "label": "normativa: http, ámbito project", "hint": "claude mcp add --transport http --scope project normativa https://mcp.normativa.ejemplo.com/mcp" },
-          { "type": "mcp", "name": "hojas", "scope": "user", "transport": "stdio", "label": "hojas: stdio, ámbito user", "hint": "claude mcp add --scope user hojas -- npx -y servidor-hojas" },
-          { "type": "ran", "pattern": "^claude mcp list$", "label": "Listar con claude mcp list", "hint": "claude mcp list" }
+          {
+            "type": "mcp",
+            "name": "normativa",
+            "scope": "project",
+            "transport": "http",
+            "url": "https://mcp.normativa.ejemplo.com/mcp",
+            "label": "normativa: http, ámbito project",
+            "hint": "claude mcp add --transport http --scope project normativa https://mcp.normativa.ejemplo.com/mcp"
+          },
+          {
+            "type": "mcp",
+            "name": "hojas",
+            "scope": "user",
+            "transport": "stdio",
+            "label": "hojas: stdio, ámbito user",
+            "hint": "claude mcp add --scope user hojas -- npx -y servidor-hojas"
+          },
+          {
+            "type": "ran",
+            "pattern": "^claude mcp list$",
+            "label": "Listar con claude mcp list",
+            "hint": "claude mcp list"
+          }
         ],
-        "solution": ["claude mcp add --transport http --scope project normativa https://mcp.normativa.ejemplo.com/mcp", "claude mcp add --scope user hojas -- npx -y servidor-hojas", "claude mcp list"],
-        "suggestions": { "shell": ["claude mcp add --transport http --scope project ", "claude mcp add --scope user hojas -- npx -y servidor-hojas", "claude mcp list", "cat .mcp.json"] },
+        "solution": [
+          "claude mcp add --transport http --scope project normativa https://mcp.normativa.ejemplo.com/mcp",
+          "claude mcp add --scope user hojas -- npx -y servidor-hojas",
+          "claude mcp list"
+        ],
+        "suggestions": {
+          "shell": [
+            "claude mcp add --transport http --scope project ",
+            "claude mcp add --scope user hojas -- npx -y servidor-hojas",
+            "claude mcp list",
+            "cat .mcp.json"
+          ]
+        },
         "explain": "En stdio, todo lo que va después de `--` es el comando del servidor, sin que Claude Code interprete sus opciones."
       },
       {
         "id": "ms07s2",
         "type": "editor",
         "concept": "mcp.config",
-        "title": "Sin secretos",
-        "prompt": "Este .mcp.json lleva un token literal y le falta el tipo. Corrígelo usando la variable **NORMATIVA_TOKEN**",
-        "file": ".mcp.json",
-        "starter": "{\n  \"mcpServers\": {\n    \"normativa\": {\n      \"url\": \"https://mcp.normativa.ejemplo.com/mcp\",\n      \"headers\": { \"Authorization\": \"Bearer 4f9a8b7c6d5e4f3a2b1c\" }\n    }\n  }\n}\n",
-        "rows": 12,
+        "prompt": "El `.mcp.json` tiene un token escrito a mano y le falta el tipo. Pídele a Claude que lo corrija: **tipo http** y el token como **variable de entorno NORMATIVA_TOKEN**",
+        "file": "Tu petición a Claude",
+        "starter": "Revisa el .mcp.json.",
+        "rows": 7,
         "checks": [
-          { "label": "JSON válido", "json": true },
-          { "label": "\"type\": \"http\"", "pattern": "\"type\"\\s*:\\s*\"http\"" },
-          { "label": "Usa ${NORMATIVA_TOKEN}", "pattern": "Bearer \\$\\{NORMATIVA_TOKEN\\}" },
-          { "label": "Sin el token literal", "pattern": "4f9a8b7c6d5e4f3a2b1c", "negate": true }
+          {
+            "label": "Pide el tipo http",
+            "pattern": "http",
+            "hint": "Falta «type»: http."
+          },
+          {
+            "label": "Pide usar la variable NORMATIVA_TOKEN",
+            "pattern": "NORMATIVA_TOKEN",
+            "hint": "Nómbrala tal cual."
+          },
+          {
+            "label": "Pide quitar el token escrito a mano",
+            "pattern": "(quita|elimina|sustituye|reemplaza|no (lo )?(dejes|incluyas|escribas)|en lugar|en vez)",
+            "hint": "Que no quede el valor literal."
+          }
         ],
-        "solution": "{\n  \"mcpServers\": {\n    \"normativa\": {\n      \"type\": \"http\",\n      \"url\": \"https://mcp.normativa.ejemplo.com/mcp\",\n      \"headers\": { \"Authorization\": \"Bearer ${NORMATIVA_TOKEN}\" }\n    }\n  }\n}\n",
-        "explain": "Cada persona define NORMATIVA_TOKEN en su entorno; el archivo compartido no contiene secretos."
+        "solution": "Corrige el .mcp.json: añade el tipo http y sustituye el token escrito a mano por la variable de entorno NORMATIVA_TOKEN, para que no quede ninguna credencial en el archivo.",
+        "explain": "Una buena petición dice **qué** quieres y **con qué criterios**. Claude redacta el archivo; tú compruebas que cumple lo que pediste.",
+        "title": "Sin secretos"
       },
       {
         "id": "ms07s3",
@@ -410,9 +913,18 @@
         "context": "Encuentras en internet un servidor MCP gratuito que promete «leer cualquier PDF bancario y resumirlo».",
         "prompt": "¿Qué haces antes de conectarlo al proyecto con extractos?",
         "options": [
-          { "text": "Verificar su origen y qué datos envía; si no puedes confiar en él, no conectarlo", "correct": true },
-          { "text": "Conectarlo en ámbito project para que lo pruebe todo el equipo", "feedback": "Multiplicarías el riesgo." },
-          { "text": "Conectarlo: los servidores MCP son seguros por diseño", "feedback": "La documentación advierte: verifica que confías en cada servidor." }
+          {
+            "text": "Verificar su origen y qué datos envía; si no puedes confiar en él, no conectarlo",
+            "correct": true
+          },
+          {
+            "text": "Conectarlo en ámbito project para que lo pruebe todo el equipo",
+            "feedback": "Multiplicarías el riesgo."
+          },
+          {
+            "text": "Conectarlo: los servidores MCP son seguros por diseño",
+            "feedback": "La documentación advierte: verifica que confías en cada servidor."
+          }
         ],
         "explain": "Un servidor MCP puede ver lo que le envías y traer contenido con instrucciones maliciosas."
       }
@@ -425,7 +937,9 @@
     "summary": "Detecta reglas peligrosas y escribe una política de permisos segura.",
     "difficulty": 3,
     "xp": 80,
-    "requires": ["l4-3"],
+    "requires": [
+      "l4-3b"
+    ],
     "brief": "Antes de dar acceso a Claude Code al proyecto de nóminas (con datos ficticios en la academia), auditoría interna te pide revisar los permisos.",
     "scenario": "Proyecto con .claude/settings.json compartido. Hay un archivo .env y una carpeta datos/ con información sensible.",
     "debrief": "Política mínima: allow para lo rutinario, ask para lo delicado, deny para lo prohibido. Y JSON válido.",
@@ -437,9 +951,23 @@
         "title": "Revisa la política actual",
         "prompt": "Marca las líneas problemáticas de este .claude/settings.json",
         "file": ".claude/settings.json",
-        "lines": ["{", "  \"permissions\": {", "    // permisos del equipo", "    \"allow\": [\"Bash\", \"Read(./.env)\"],", "    \"deny\": [\"Edit(./datos/**)\"]", "  }", "}"],
-        "faulty": [2, 3],
-        "notes": { "2": "Los comentarios // invalidan el JSON (Settings Error).", "3": "\"Bash\" permite cualquier comando y Read(./.env) expone secretos." },
+        "lines": [
+          "{",
+          "  \"permissions\": {",
+          "    // permisos del equipo",
+          "    \"allow\": [\"Bash\", \"Read(./.env)\"],",
+          "    \"deny\": [\"Edit(./datos/**)\"]",
+          "  }",
+          "}"
+        ],
+        "faulty": [
+          2,
+          3
+        ],
+        "notes": {
+          "2": "Los comentarios // invalidan el JSON (Settings Error).",
+          "3": "\"Bash\" permite cualquier comando y Read(./.env) expone secretos."
+        },
         "fixed": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(npm run test *)\"],\n    \"deny\": [\"Read(./.env)\", \"Edit(./datos/**)\"]\n  }\n}",
         "explain": "Reglas demasiado amplias y un archivo que ni siquiera se carga."
       },
@@ -447,21 +975,35 @@
         "id": "ms08s2",
         "type": "editor",
         "concept": "sec.rules",
-        "title": "Escribe la política",
-        "prompt": "Escribe la política: tests sin preguntar, confirmación para cualquier `git push`, y prohibido leer .env o editar datos/",
-        "file": ".claude/settings.json",
-        "starter": "{\n  \"permissions\": {\n  }\n}\n",
-        "rows": 13,
+        "prompt": "Pídele a Claude la política de permisos: **ejecutar los tests sin preguntar**, **confirmar cualquier `git push`** y **prohibir** leer `.env` y editar `datos/`",
+        "file": "Tu petición a Claude",
+        "starter": "Configura los permisos.",
+        "rows": 8,
         "checks": [
-          { "label": "JSON válido", "json": true },
-          { "label": "allow: Bash(npm run test *)", "pattern": "\"allow\"\\s*:\\s*\\[[^\\]]*\"Bash\\(npm run test \\*\\)\"" },
-          { "label": "ask: Bash(git push *)", "pattern": "\"ask\"\\s*:\\s*\\[[^\\]]*\"Bash\\(git push \\*\\)\"" },
-          { "label": "deny: Read(./.env)", "pattern": "\"deny\"\\s*:\\s*\\[[^\\]]*\"Read\\(\\./\\.env\\)\"" },
-          { "label": "deny: Edit(./datos/**)", "pattern": "\"deny\"\\s*:\\s*\\[[^\\]]*\"Edit\\(\\./datos/\\*\\*\\)\"" },
-          { "label": "Sin un \"Bash\" genérico en allow", "pattern": "\"allow\"\\s*:\\s*\\[[^\\]]*\"Bash\"", "negate": true }
+          {
+            "label": "Pide permitir los tests sin preguntar",
+            "pattern": "(test|prueba)",
+            "hint": "Por ejemplo: npm run test."
+          },
+          {
+            "label": "Pide confirmar `git push`",
+            "pattern": "git push",
+            "hint": "Menciona el comando."
+          },
+          {
+            "label": "Pide prohibir leer `.env`",
+            "pattern": "\\.env",
+            "hint": "Nombra el archivo."
+          },
+          {
+            "label": "Pide prohibir editar `datos/`",
+            "pattern": "datos",
+            "hint": "Nombra la carpeta."
+          }
         ],
-        "solution": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(npm run test *)\"],\n    \"ask\": [\"Bash(git push *)\"],\n    \"deny\": [\"Read(./.env)\", \"Edit(./datos/**)\"]\n  }\n}\n",
-        "explain": "Esta política va en el archivo de proyecto para que aplique a todo el equipo; las deny y ask se aplican de inmediato."
+        "solution": "Configura los permisos del proyecto: permite ejecutar los tests (npm run test) sin preguntar, pregunta antes de cualquier git push, y prohíbe leer el archivo .env y editar la carpeta datos/.",
+        "explain": "Tú defines la política y Claude la escribe. Después la revisas: permitir solo lo concreto, preguntar lo delicado y prohibir lo sensible.",
+        "title": "Escribe la política"
       },
       {
         "id": "ms08s3",
@@ -471,9 +1013,18 @@
         "context": "Un compañero propone trabajar en su portátil habitual con `--dangerously-skip-permissions` «para ir más rápido».",
         "prompt": "¿Qué le respondes?",
         "options": [
-          { "text": "Que bypassPermissions es solo para contenedores o máquinas aisladas; en su portátil mejor acceptEdits o auto con reglas", "correct": true },
-          { "text": "Que adelante, las reglas deny lo protegen de todo", "feedback": "deny protege lo que listaste, pero bypass no ofrece protección frente a inyección de instrucciones ni acciones no previstas." },
-          { "text": "Que use dontAsk, que es lo mismo", "feedback": "dontAsk deniega todo lo no preaprobado: es lo contrario." }
+          {
+            "text": "Que bypassPermissions es solo para contenedores o máquinas aisladas; en su portátil mejor acceptEdits o auto con reglas",
+            "correct": true
+          },
+          {
+            "text": "Que adelante, las reglas deny lo protegen de todo",
+            "feedback": "deny protege lo que listaste, pero bypass no ofrece protección frente a inyección de instrucciones ni acciones no previstas."
+          },
+          {
+            "text": "Que use dontAsk, que es lo mismo",
+            "feedback": "dontAsk deniega todo lo no preaprobado: es lo contrario."
+          }
         ],
         "explain": "La documentación es tajante: bypass solo en entornos aislados."
       }
@@ -486,7 +1037,9 @@
     "summary": "Define un subagente especialista con mínimo privilegio y decide cuándo delegar.",
     "difficulty": 3,
     "xp": 80,
-    "requires": ["l5-1"],
+    "requires": [
+      "l5-1"
+    ],
     "brief": "Quieres un especialista que concilie cobros contra facturas sin poder modificar nada, rápido y barato porque lo usarás a diario.",
     "scenario": "Proyecto ~/cierre con facturas y cobros ficticios en datos/.",
     "debrief": "Un buen subagente: descripción clara, herramientas mínimas y modelo adecuado a la tarea.",
@@ -495,19 +1048,99 @@
         "id": "ms09s1",
         "type": "terminal",
         "concept": "ag.least-privilege",
-        "title": "Crea el especialista",
-        "prompt": "Crea el subagente **conciliador** (proyecto) con modelo **haiku**, solo herramientas de lectura y una description que pida usarlo de forma proactiva",
-        "setup": { "cwd": "~/cierre", "files": { "~/cierre/datos/facturas.csv": "factura,cliente,importe\nF-101,A,1200\n", "~/cierre/datos/cobros.csv": "fecha,cliente,importe\n2026-10-10,A,1200\n" } },
+        "prompt": "Pídele a Claude que cree el subagente **conciliador** (proyecto): modelo **haiku**, solo herramientas de **lectura** y una descripción que pida usarlo de forma **proactiva**",
+        "setup": {
+          "cwd": "~/cierre",
+          "files": {
+            "~/cierre/datos/facturas.csv": "factura,cliente,importe\nF-101,A,1200\n",
+            "~/cierre/datos/cobros.csv": "fecha,cliente,importe\n2026-10-10,A,1200\n"
+          },
+          "claudeActions": [
+            {
+              "id": "agent-conciliador",
+              "when": [
+                [
+                  "subagente",
+                  "agente"
+                ],
+                [
+                  "conciliador"
+                ],
+                [
+                  "haiku"
+                ]
+              ],
+              "reply": "He creado el subagente «conciliador».",
+              "writes": [
+                {
+                  "path": "~/cierre/.claude/agents/conciliador.md",
+                  "content": "---\nname: conciliador\ndescription: Concilia cobros contra facturas y lista diferencias. Úsalo de forma proactiva tras importar cobros.\ntools: Read, Grep, Glob\nmodel: haiku\n---\n\nEmpareja cada cobro con su factura y devuelve las diferencias con importe y referencia.\n"
+                }
+              ]
+            }
+          ]
+        },
         "goals": [
-          { "type": "frontmatter", "path": "~/cierre/.claude/agents/conciliador.md", "expect": { "name": "conciliador" }, "label": "name: conciliador en .claude/agents/conciliador.md", "hint": "mkdir -p .claude/agents y nano .claude/agents/conciliador.md" },
-          { "type": "frontmatter", "path": "~/cierre/.claude/agents/conciliador.md", "expect": { "description": { "pattern": "proactiv" } }, "label": "description que menciona usarlo de forma proactiva", "hint": "… Úsalo de forma proactiva tras importar cobros." },
-          { "type": "frontmatter", "path": "~/cierre/.claude/agents/conciliador.md", "expect": { "model": "haiku" }, "label": "model: haiku", "hint": "model: haiku" },
-          { "type": "frontmatter", "path": "~/cierre/.claude/agents/conciliador.md", "expect": { "tools": { "pattern": "^(?!.*\\b(Edit|Write|Bash)\\b).*Read" } }, "label": "tools solo de lectura", "hint": "tools: Read, Grep, Glob" }
+          {
+            "type": "frontmatter",
+            "path": "~/cierre/.claude/agents/conciliador.md",
+            "expect": {
+              "name": "conciliador"
+            },
+            "label": "Existe el subagente conciliador",
+            "hint": "Pídeselo a Claude con ese nombre."
+          },
+          {
+            "type": "frontmatter",
+            "path": "~/cierre/.claude/agents/conciliador.md",
+            "expect": {
+              "description": {
+                "pattern": "proactiv"
+              }
+            },
+            "label": "Description que pide usarlo de forma proactiva",
+            "hint": "Dile que se use de forma proactiva."
+          },
+          {
+            "type": "frontmatter",
+            "path": "~/cierre/.claude/agents/conciliador.md",
+            "expect": {
+              "model": "haiku"
+            },
+            "label": "model: haiku",
+            "hint": "Dile que use el modelo haiku."
+          },
+          {
+            "type": "frontmatter",
+            "path": "~/cierre/.claude/agents/conciliador.md",
+            "expect": {
+              "tools": {
+                "pattern": "^(?!.*\\b(Edit|Write|Bash)\\b).*Read"
+              }
+            },
+            "label": "Solo herramientas de lectura",
+            "hint": "Dile que solo pueda leer."
+          }
         ],
-        "solution": ["mkdir -p .claude/agents", "nano .claude/agents/conciliador.md", "claude", "/agents"],
-        "solutionFiles": [{ "path": "~/cierre/.claude/agents/conciliador.md", "content": "---\nname: conciliador\ndescription: Concilia cobros contra facturas y lista diferencias. Úsalo de forma proactiva tras importar cobros.\ntools: Read, Grep, Glob\nmodel: haiku\n---\n\nEmpareja cada cobro con su factura y devuelve las diferencias con importe y referencia.\n" }],
-        "suggestions": { "shell": ["mkdir -p .claude/agents", "nano .claude/agents/conciliador.md", "claude"], "session": ["/agents", "/exit"] },
-        "explain": "Lectura + modelo ligero: barato, rápido y sin capacidad de alterar datos."
+        "solution": [
+          "claude",
+          "Crea un subagente de proyecto llamado conciliador con modelo haiku, solo herramientas de lectura y que se use de forma proactiva tras importar cobros"
+        ],
+        "explain": "Lectura + modelo ligero: barato, rápido y sin capacidad de alterar datos. Tú decides rol y límites; Claude escribe el archivo.",
+        "suggestions": {
+          "shell": [
+            "claude",
+            "cat .claude/agents/conciliador.md"
+          ],
+          "session": [
+            "/agents",
+            "/exit"
+          ]
+        },
+        "intro": [
+          "Dentro de la sesión, pídeselo a Claude como se lo pedirías a una persona: qué crear, cómo se llama y qué debe contener."
+        ],
+        "title": "Crea el especialista"
       },
       {
         "id": "ms09s2",
@@ -516,9 +1149,18 @@
         "title": "Herramientas por rol",
         "prompt": "Empareja cada especialista con sus herramientas",
         "pairs": [
-          ["Revisor de informes", "Read, Grep, Glob"],
-          ["Generador de informes", "Read, Write, Edit"],
-          ["Ejecutor de pruebas", "Read, Bash"]
+          [
+            "Revisor de informes",
+            "Read, Grep, Glob"
+          ],
+          [
+            "Generador de informes",
+            "Read, Write, Edit"
+          ],
+          [
+            "Ejecutor de pruebas",
+            "Read, Bash"
+          ]
         ],
         "explain": "Cada rol recibe solo lo que su tarea exige."
       },
@@ -530,9 +1172,18 @@
         "context": "Le pides a Claude cambiar el formato de fecha en una línea del informe que estás revisando con él.",
         "prompt": "¿Debería delegarlo en un subagente?",
         "options": [
-          { "text": "No: es un cambio pequeño e iterativo; mejor en la conversación principal", "correct": true },
-          { "text": "Sí: todo debería delegarse", "feedback": "Delegar tiene coste y el subagente empieza sin tu contexto." },
-          { "text": "Sí, en el conciliador", "feedback": "El conciliador no puede editar, y no es su función." }
+          {
+            "text": "No: es un cambio pequeño e iterativo; mejor en la conversación principal",
+            "correct": true
+          },
+          {
+            "text": "Sí: todo debería delegarse",
+            "feedback": "Delegar tiene coste y el subagente empieza sin tu contexto."
+          },
+          {
+            "text": "Sí, en el conciliador",
+            "feedback": "El conciliador no puede editar, y no es su función."
+          }
         ],
         "explain": "Los subagentes compensan con tareas voluminosas o independientes, no con retoques."
       }
@@ -545,7 +1196,9 @@
     "summary": "Diseña un flujo multiagente con paralelismo, revisión independiente y decisión final.",
     "difficulty": 3,
     "xp": 85,
-    "requires": ["l5-3"],
+    "requires": [
+      "l5-3"
+    ],
     "brief": "Debes revisar los informes de los tres meses del trimestre y preparar el resumen para dirección en una mañana.",
     "scenario": "Repositorio con informes mensuales ficticios; dos personas del equipo trabajarán en paralelo con Claude.",
     "debrief": "Paralelismo aislado, roles separados y una persona que decide: así escala el trabajo con agentes.",
@@ -556,7 +1209,13 @@
         "concept": "ag.orchestration",
         "title": "Diseña el flujo",
         "prompt": "Ordena las fases de la auditoría",
-        "items": ["Explorar: un subagente localiza informes y fuentes", "Revisar en paralelo: un subagente revisor por mes", "Consolidar los hallazgos en la sesión principal", "Revisión independiente del resumen por un revisor de solo lectura", "Decisión humana y comunicación a dirección"],
+        "items": [
+          "Explorar: un subagente localiza informes y fuentes",
+          "Revisar en paralelo: un subagente revisor por mes",
+          "Consolidar los hallazgos en la sesión principal",
+          "Revisión independiente del resumen por un revisor de solo lectura",
+          "Decisión humana y comunicación a dirección"
+        ],
         "explain": "Explorar, paralelizar, consolidar, revisar y decidir."
       },
       {
@@ -566,7 +1225,17 @@
         "title": "Paralelo sin colisiones",
         "prompt": "Completa los comandos para que dos personas trabajen a la vez en el mismo repositorio",
         "template": "# Persona 1\nclaude {{0}} ajustes-octubre\n\n# Persona 2\nclaude {{0}} ajustes-noviembre",
-        "blanks": [ { "options": ["--worktree", "--continue", "--resume", "--bare"], "answer": "--worktree" } ],
+        "blanks": [
+          {
+            "options": [
+              "--worktree",
+              "--continue",
+              "--resume",
+              "--bare"
+            ],
+            "answer": "--worktree"
+          }
+        ],
         "explain": "Cada worktree es una copia aislada en su propia rama."
       },
       {
@@ -576,10 +1245,22 @@
         "title": "Qué puede ir en paralelo",
         "prompt": "¿Qué tareas pueden ejecutarse en paralelo con seguridad?",
         "options": [
-          { "text": "Revisar el informe de cada mes por separado (solo lectura)", "correct": true },
-          { "text": "Buscar las fuentes de datos de cada informe", "correct": true },
-          { "text": "Dos sesiones editando el mismo archivo en la misma carpeta", "feedback": "Se pisarían los cambios." },
-          { "text": "Ajustes en archivos distintos, cada uno en su worktree", "correct": true }
+          {
+            "text": "Revisar el informe de cada mes por separado (solo lectura)",
+            "correct": true
+          },
+          {
+            "text": "Buscar las fuentes de datos de cada informe",
+            "correct": true
+          },
+          {
+            "text": "Dos sesiones editando el mismo archivo en la misma carpeta",
+            "feedback": "Se pisarían los cambios."
+          },
+          {
+            "text": "Ajustes en archivos distintos, cada uno en su worktree",
+            "correct": true
+          }
         ],
         "explain": "Lo independiente o aislado se paraleliza; lo que comparte archivos, no."
       },
@@ -591,9 +1272,18 @@
         "context": "El revisor de solo lectura detecta que el total de noviembre no cuadra con su CSV por 120 €.",
         "prompt": "¿Cuál es el siguiente paso correcto?",
         "options": [
-          { "text": "Pedir al revisor que lo corrija él mismo", "feedback": "No tiene permisos de edición, y eso es intencionado." },
-          { "text": "Que la sesión principal investigue la causa, corrija con un test que lo demuestre y el revisor vuelva a verificar", "correct": true },
-          { "text": "Ajustar el total para que cuadre", "feedback": "Maquillar la cifra oculta el error real." }
+          {
+            "text": "Pedir al revisor que lo corrija él mismo",
+            "feedback": "No tiene permisos de edición, y eso es intencionado."
+          },
+          {
+            "text": "Que la sesión principal investigue la causa, corrija con un test que lo demuestre y el revisor vuelva a verificar",
+            "correct": true
+          },
+          {
+            "text": "Ajustar el total para que cuadre",
+            "feedback": "Maquillar la cifra oculta el error real."
+          }
         ],
         "explain": "Quien prepara corrige; quien revisa verifica. Segregación de funciones."
       }
@@ -606,7 +1296,9 @@
     "summary": "Ejecución no interactiva, acotada y protegida con un hook.",
     "difficulty": 3,
     "xp": 90,
-    "requires": ["l6-1"],
+    "requires": [
+      "l6-1b"
+    ],
     "brief": "Cada lunes alguien prepara a mano el resumen de tesorería. Vas a automatizarlo de forma segura.",
     "scenario": "Proyecto ~/tesoreria con extractos ficticios y un script de validación.",
     "debrief": "Automatizar no es soltar el control: herramientas acotadas, límites de turnos y hooks que protegen lo esencial.",
@@ -617,35 +1309,81 @@
         "concept": "auto.allowed-tools",
         "title": "Ejecución acotada",
         "prompt": "Lanza el resumen en modo no interactivo con salida **json**, solo la herramienta **Read** preaprobada y un máximo de **5** turnos",
-        "setup": { "cwd": "~/tesoreria", "files": { "~/tesoreria/datos/semana_45.csv": "fecha,concepto,importe\n2026-11-03,Cobro A,1500\n2026-11-05,Pago proveedor,-900\n" } },
+        "setup": {
+          "cwd": "~/tesoreria",
+          "files": {
+            "~/tesoreria/datos/semana_45.csv": "fecha,concepto,importe\n2026-11-03,Cobro A,1500\n2026-11-05,Pago proveedor,-900\n"
+          }
+        },
         "goals": [
-          { "type": "ran", "pattern": "^claude\\s.*(-p|--print)\\b", "label": "Modo no interactivo (-p)", "hint": "claude -p \"…\"" },
-          { "type": "ran", "pattern": "^claude\\s.*--output-format\\s+json", "label": "--output-format json", "hint": "Añade --output-format json" },
-          { "type": "ran", "pattern": "^claude\\s.*--allowedTools\\s+(\"Read\"|'Read'|Read)(\\s|$)", "label": "--allowedTools \"Read\"", "hint": "--allowedTools \"Read\"" },
-          { "type": "ran", "pattern": "^claude\\s.*--max-turns\\s+5", "label": "--max-turns 5", "hint": "--max-turns 5" }
+          {
+            "type": "ran",
+            "pattern": "^claude\\s.*(-p|--print)\\b",
+            "label": "Modo no interactivo (-p)",
+            "hint": "claude -p \"…\""
+          },
+          {
+            "type": "ran",
+            "pattern": "^claude\\s.*--output-format\\s+json",
+            "label": "--output-format json",
+            "hint": "Añade --output-format json"
+          },
+          {
+            "type": "ran",
+            "pattern": "^claude\\s.*--allowedTools\\s+(\"Read\"|'Read'|Read)(\\s|$)",
+            "label": "--allowedTools \"Read\"",
+            "hint": "--allowedTools \"Read\""
+          },
+          {
+            "type": "ran",
+            "pattern": "^claude\\s.*--max-turns\\s+5",
+            "label": "--max-turns 5",
+            "hint": "--max-turns 5"
+          }
         ],
-        "solution": ["claude -p \"resume la tesorería de @datos/semana_45.csv\" --output-format json --allowedTools \"Read\" --max-turns 5"],
-        "suggestions": { "shell": ["claude -p \"resume la tesorería de @datos/semana_45.csv\" --output-format json --allowedTools \"Read\" --max-turns 5"] },
+        "solution": [
+          "claude -p \"resume la tesorería de @datos/semana_45.csv\" --output-format json --allowedTools \"Read\" --max-turns 5"
+        ],
+        "suggestions": {
+          "shell": [
+            "claude -p \"resume la tesorería de @datos/semana_45.csv\" --output-format json --allowedTools \"Read\" --max-turns 5"
+          ]
+        },
         "explain": "Salida parseable, permisos mínimos y un tope de iteraciones: listo para un script programado."
       },
       {
         "id": "ms11s2",
         "type": "editor",
         "concept": "auto.hooks",
-        "title": "Protege los datos",
-        "prompt": "Añade un hook **PreToolUse** que ejecute `python scripts/proteger_datos.py` antes de cualquier Edit o Write (el script sale con código 2 si la ruta está en datos/)",
-        "file": ".claude/settings.json",
-        "starter": "{\n  \"hooks\": {\n  }\n}\n",
-        "rows": 14,
+        "prompt": "Pídele a Claude un **hook** que proteja los datos: debe ejecutarse **antes** de cualquier Edit o Write y llamar a `python scripts/proteger_datos.py`, que bloquea si la ruta está en datos/",
+        "file": "Tu petición a Claude",
+        "starter": "Crea un hook de protección.",
+        "rows": 8,
         "checks": [
-          { "label": "JSON válido", "json": true },
-          { "label": "Evento PreToolUse", "pattern": "\"PreToolUse\"\\s*:\\s*\\[" },
-          { "label": "matcher Edit|Write", "pattern": "\"matcher\"\\s*:\\s*\"(Edit\\|Write|Write\\|Edit)\"" },
-          { "label": "command con python scripts/proteger_datos.py", "pattern": "\"command\"\\s*:\\s*\"python scripts/proteger_datos\\.py\"" },
-          { "label": "type: command", "pattern": "\"type\"\\s*:\\s*\"command\"" }
+          {
+            "label": "Pide un hook",
+            "pattern": "hook",
+            "hint": "Usa la palabra «hook»."
+          },
+          {
+            "label": "Indica el script a ejecutar",
+            "pattern": "proteger_datos",
+            "hint": "scripts/proteger_datos.py"
+          },
+          {
+            "label": "Indica que debe ocurrir antes de la edición (PreToolUse)",
+            "pattern": "(antes|PreToolUse)",
+            "hint": "Antes de editar, no después."
+          },
+          {
+            "label": "Indica a qué acciones se aplica (Edit o Write)",
+            "pattern": "(edit|escrib)",
+            "hint": "Edit o Write."
+          }
         ],
-        "solution": "{\n  \"hooks\": {\n    \"PreToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          { \"type\": \"command\", \"command\": \"python scripts/proteger_datos.py\" }\n        ]\n      }\n    ]\n  }\n}\n",
-        "explain": "PreToolUse con salida 2 bloquea la edición antes de que ocurra, pase lo que pase en la conversación."
+        "solution": "Crea un hook PreToolUse que se ejecute antes de cualquier Edit o Write y llame a python scripts/proteger_datos.py para bloquear los cambios en datos/.",
+        "explain": "PreToolUse ocurre **antes** de la herramienta y puede bloquearla. Eso lo decides tú; Claude escribe la configuración y tú compruebas que aparece en `/hooks`.",
+        "title": "Protege los datos"
       },
       {
         "id": "ms11s3",
@@ -655,9 +1393,18 @@
         "context": "El mismo resumen se ejecutará en un servidor de integración continua donde nadie puede responder a preguntas de permisos.",
         "prompt": "¿Qué combinación es la más adecuada?",
         "options": [
-          { "text": "`--bare`, `--permission-mode dontAsk` y `--allowedTools` con lo mínimo necesario", "correct": true },
-          { "text": "Modo interactivo y que alguien conteste los permisos", "feedback": "En CI no hay nadie para contestar." },
-          { "text": "`--dangerously-skip-permissions` sin más", "feedback": "Sin control alguno; solo aceptable en un entorno totalmente aislado." }
+          {
+            "text": "`--bare`, `--permission-mode dontAsk` y `--allowedTools` con lo mínimo necesario",
+            "correct": true
+          },
+          {
+            "text": "Modo interactivo y que alguien conteste los permisos",
+            "feedback": "En CI no hay nadie para contestar."
+          },
+          {
+            "text": "`--dangerously-skip-permissions` sin más",
+            "feedback": "Sin control alguno; solo aceptable en un entorno totalmente aislado."
+          }
         ],
         "explain": "dontAsk deniega todo lo no preaprobado; --bare garantiza el mismo comportamiento en cualquier máquina."
       }
@@ -680,63 +1427,282 @@
         "id": "ms12s1",
         "type": "editor",
         "concept": "ctx.claude-md",
-        "title": "Memoria del proyecto",
-        "prompt": "Escribe el **CLAUDE.md**: estructura, regla de no modificar datos/, validación con cuadre de totales y el glosario importado",
-        "file": "CLAUDE.md",
-        "starter": "# Asistente de cierre mensual\n",
-        "rows": 14,
+        "prompt": "Pídele a Claude el CLAUDE.md del proyecto final. Tu petición debe incluir: **estructura**, **no modificar datos/**, **validación con cuadre de totales**, **moneda EUR** e **importar** `@docs/glosario.md`",
+        "file": "Tu petición a Claude",
+        "starter": "Escribe el CLAUDE.md del proyecto.",
+        "rows": 8,
         "checks": [
-          { "label": "Sección de estructura", "pattern": "^#+\\s*estructura" },
-          { "label": "No modificar datos/", "pattern": "(no (modificar|modifiques|tocar|toques|sobrescribir)|solo lectura)[^\\n]*datos|datos[^\\n]*(no (se )?(modifica|toca)|solo lectura|original)" },
-          { "label": "Validación con cuadre de totales", "pattern": "^#+\\s*(validaci|verificaci|comprobaci)[\\s\\S]*(cuadr|coincid|total)" },
-          { "label": "Importa @docs/glosario.md", "pattern": "(^|\\s)@docs/glosario\\.md" },
-          { "label": "Indica la moneda", "pattern": "\\bEUR\\b|euros?" }
+          {
+            "label": "Pide una sección de estructura",
+            "pattern": "estructura",
+            "hint": "Qué hay en cada carpeta."
+          },
+          {
+            "label": "Pide no modificar datos/",
+            "pattern": "(no (modifiques|modificar|toques|tocar|sobrescribir)|solo lectura|proteg)[^\\n]*datos|datos[^\\n]*(no (se )?(modifica|toca)|solo lectura|original)",
+            "hint": "datos/ no se modifica."
+          },
+          {
+            "label": "Pide validación con cuadre de totales",
+            "pattern": "(validaci|verificaci|comprobaci)[\\s\\S]*(cuadr|coincid|total)",
+            "hint": "Totales por cliente = total del CSV."
+          },
+          {
+            "label": "Pide importar @docs/glosario.md",
+            "pattern": "@docs/glosario\\.md",
+            "hint": "Con la @."
+          },
+          {
+            "label": "Indica la moneda",
+            "pattern": "\\bEUR\\b|euros?",
+            "hint": "EUR."
+          }
         ],
-        "solution": "# Asistente de cierre mensual\n\n## Estructura\n- datos/: originales (no modificar)\n- informes/: resultados\n\n## Validación\n- Los totales por cliente deben cuadrar con datos/ventas_2026-10.csv\n\n## Convenciones\n- Importes en EUR\n- Glosario: @docs/glosario.md\n",
-        "explain": "Base de todo lo demás: Claude lo cargará en cada sesión del proyecto."
+        "solution": "Escribe el CLAUDE.md del asistente de cierre mensual con: sección de estructura (datos/ originales que no se modifican, informes/ resultados), sección de validación (los totales por cliente deben cuadrar con datos/ventas_2026-10.csv), importes en EUR e importar el glosario @docs/glosario.md.",
+        "explain": "Una buena petición dice **qué** quieres y **con qué criterios**. Claude redacta el archivo; tú compruebas que cumple lo que pediste.",
+        "title": "Memoria del proyecto"
       },
       {
         "id": "ms12s2",
         "type": "terminal",
         "concept": "sec.rules",
-        "title": "Permisos y conexión",
-        "prompt": "Crea **.claude/settings.json** con deny para `Read(./.env)` y `Edit(./datos/**)`, conecta **contabilidad** (http, ámbito project) y verifica con **claude doctor** que no hay errores",
-        "setup": { "cwd": "~/cierre-final", "files": { "~/cierre-final/CLAUDE.md": "# Asistente de cierre mensual\n- Importes en EUR\n", "~/cierre-final/datos/ventas_2026-10.csv": "fecha,cliente,importe_eur\n2026-10-03,Cliente A,1200.00\n2026-10-12,Cliente B,850.50\n2026-10-27,Cliente C,2310.00\n", "~/cierre-final/.env": "CONTA_TOKEN=valor-de-ejemplo\n" } },
-        "intro": ["Pista: mkdir -p .claude y nano .claude/settings.json"],
+        "prompt": "Pídele a Claude que cree `.claude/settings.json` con **deny** para `.env` y `datos/`. Después conecta **contabilidad** (http, ámbito project) con `claude mcp add` y verifica con **claude doctor**",
+        "setup": {
+          "cwd": "~/cierre-final",
+          "files": {
+            "~/cierre-final/CLAUDE.md": "# Asistente de cierre mensual\n- Importes en EUR\n",
+            "~/cierre-final/datos/ventas_2026-10.csv": "fecha,cliente,importe_eur\n2026-10-03,Cliente A,1200.00\n2026-10-12,Cliente B,850.50\n2026-10-27,Cliente C,2310.00\n",
+            "~/cierre-final/.env": "CONTA_TOKEN=valor-de-ejemplo\n"
+          },
+          "claudeActions": [
+            {
+              "id": "settings-deny",
+              "when": [
+                [
+                  "settings",
+                  "permisos"
+                ],
+                [
+                  "\\.env"
+                ],
+                [
+                  "datos"
+                ]
+              ],
+              "reply": "He creado .claude/settings.json con las dos reglas deny.",
+              "writes": [
+                {
+                  "path": "~/cierre-final/.claude/settings.json",
+                  "content": "{\n  \"permissions\": {\n    \"deny\": [\"Read(./.env)\", \"Edit(./datos/**)\"]\n  }\n}\n"
+                }
+              ]
+            }
+          ]
+        },
         "goals": [
-          { "type": "json", "path": "~/cierre-final/.claude/settings.json", "expect": { "permissions.deny": { "includes": "Read(./.env)" } }, "label": "deny incluye Read(./.env)", "hint": "\"deny\": [\"Read(./.env)\", \"Edit(./datos/**)\"]" },
-          { "type": "json", "path": "~/cierre-final/.claude/settings.json", "expect": { "permissions.deny": { "includes": "Edit(./datos/**)" } }, "label": "deny incluye Edit(./datos/**)" },
-          { "type": "mcp", "name": "contabilidad", "scope": "project", "transport": "http", "url": "https://mcp.contabilidad.ejemplo.com/mcp", "label": "contabilidad: http, ámbito project", "hint": "claude mcp add --transport http --scope project contabilidad https://mcp.contabilidad.ejemplo.com/mcp" },
-          { "type": "doctor", "label": "claude doctor sin errores" },
-          { "type": "ran", "pattern": "^claude doctor$|^/doctor$", "label": "Haber ejecutado el diagnóstico", "hint": "claude doctor" }
+          {
+            "type": "json",
+            "path": "~/cierre-final/.claude/settings.json",
+            "expect": {
+              "permissions.deny": {
+                "includes": "Read(./.env)"
+              }
+            },
+            "label": "deny incluye Read(./.env)",
+            "hint": "Pídele que prohíba leer .env."
+          },
+          {
+            "type": "json",
+            "path": "~/cierre-final/.claude/settings.json",
+            "expect": {
+              "permissions.deny": {
+                "includes": "Edit(./datos/**)"
+              }
+            },
+            "label": "deny incluye Edit(./datos/**)",
+            "hint": "Pídele que prohíba editar la carpeta datos."
+          },
+          {
+            "type": "mcp",
+            "name": "contabilidad",
+            "scope": "project",
+            "transport": "http",
+            "url": "https://mcp.contabilidad.ejemplo.com/mcp",
+            "label": "contabilidad: http, ámbito project",
+            "hint": "claude mcp add --transport http --scope project contabilidad https://mcp.contabilidad.ejemplo.com/mcp"
+          },
+          {
+            "type": "doctor",
+            "label": "claude doctor sin errores"
+          },
+          {
+            "type": "ran",
+            "pattern": "^claude doctor$|^/doctor$",
+            "label": "Haber ejecutado el diagnóstico",
+            "hint": "claude doctor"
+          }
         ],
-        "solution": ["mkdir -p .claude", "nano .claude/settings.json", "claude mcp add --transport http --scope project contabilidad https://mcp.contabilidad.ejemplo.com/mcp", "claude doctor"],
-        "solutionFiles": [{ "path": "~/cierre-final/.claude/settings.json", "content": "{\n  \"permissions\": {\n    \"deny\": [\"Read(./.env)\", \"Edit(./datos/**)\"]\n  }\n}\n" }],
-        "suggestions": { "shell": ["mkdir -p .claude", "nano .claude/settings.json", "claude mcp add --transport http --scope project contabilidad https://mcp.contabilidad.ejemplo.com/mcp", "claude doctor"] },
-        "explain": "Protecciones técnicas antes de dar trabajo a Claude: el .env y los datos originales quedan fuera de su alcance."
+        "solution": [
+          "claude",
+          "Crea .claude/settings.json con permisos: prohíbe leer .env y prohíbe editar la carpeta datos",
+          "/exit",
+          "claude mcp add --transport http --scope project contabilidad https://mcp.contabilidad.ejemplo.com/mcp",
+          "claude doctor"
+        ],
+        "explain": "Protecciones técnicas antes de dar trabajo a Claude: el .env y los datos originales quedan fuera de su alcance. Pides la configuración, la revisas, y los comandos `claude mcp add` sí los escribes tú.",
+        "suggestions": {
+          "shell": [
+            "claude",
+            "claude mcp add --transport http --scope project contabilidad https://mcp.contabilidad.ejemplo.com/mcp",
+            "claude doctor",
+            "cat .claude/settings.json"
+          ],
+          "session": [
+            "/exit"
+          ]
+        },
+        "intro": [
+          "Dentro de la sesión, pídeselo a Claude como se lo pedirías a una persona: qué crear, cómo se llama y qué debe contener."
+        ],
+        "title": "Permisos y conexión"
       },
       {
         "id": "ms12s3",
         "type": "terminal",
         "concept": "sk.quality",
-        "title": "Procedimiento y revisor",
-        "prompt": "Crea la Skill **cierre-mensual** (con $ARGUMENTS y una sección de controles) y el subagente **revisor** de solo lectura. Después confirma todo en Git",
-        "setup": { "cwd": "~/cierre-final", "files": { "~/cierre-final/CLAUDE.md": "# Asistente de cierre mensual\n- Importes en EUR\n", "~/cierre-final/datos/ventas_2026-10.csv": "fecha,cliente,importe_eur\n2026-10-03,Cliente A,1200.00\n" } },
-        "intro": ["Usa mkdir -p y nano para crear .claude/skills/cierre-mensual/SKILL.md y .claude/agents/revisor.md"],
+        "prompt": "Pídele a Claude la Skill **cierre-mensual** (con `$ARGUMENTS` y una sección de **controles**) y el subagente **revisor** de solo lectura. Después **confirma todo en Git**",
+        "setup": {
+          "cwd": "~/cierre-final",
+          "files": {
+            "~/cierre-final/CLAUDE.md": "# Asistente de cierre mensual\n- Importes en EUR\n",
+            "~/cierre-final/datos/ventas_2026-10.csv": "fecha,cliente,importe_eur\n2026-10-03,Cliente A,1200.00\n"
+          },
+          "claudeActions": [
+            {
+              "id": "skill-final",
+              "when": [
+                [
+                  "skill"
+                ],
+                [
+                  "cierre-mensual"
+                ]
+              ],
+              "reply": "He creado la Skill «cierre-mensual» con controles de calidad.",
+              "writes": [
+                {
+                  "path": "~/cierre-final/.claude/skills/cierre-mensual/SKILL.md",
+                  "content": "---\nname: cierre-mensual\ndescription: Prepara el cierre mensual de un periodo. Úsala cuando pidan el cierre de un mes.\n---\n\n1. Consolida datos/ventas_$ARGUMENTS.csv\n2. Escribe informes/cierre_$ARGUMENTS.md\n\n## Controles\n- La suma por cliente cuadra con el total del CSV\n- Si no cuadra, detente y explica la diferencia\n"
+                }
+              ]
+            },
+            {
+              "id": "agent-final",
+              "when": [
+                [
+                  "subagente",
+                  "agente"
+                ],
+                [
+                  "revisor"
+                ],
+                [
+                  "leer",
+                  "lectura",
+                  "solo lee",
+                  "sin editar",
+                  "no (pueda )?editar"
+                ]
+              ],
+              "reply": "He creado el subagente «revisor» de solo lectura.",
+              "writes": [
+                {
+                  "path": "~/cierre-final/.claude/agents/revisor.md",
+                  "content": "---\nname: revisor\ndescription: Revisa informes de cierre y señala cifras sin fuente\ntools: Read, Grep, Glob\n---\n\nVerifica cada cifra contra datos/ y lista las discrepancias.\n"
+                }
+              ]
+            }
+          ]
+        },
         "goals": [
-          { "type": "frontmatter", "path": "~/cierre-final/.claude/skills/cierre-mensual/SKILL.md", "expect": { "description": { "pattern": ".{20,}" } }, "label": "Skill cierre-mensual con description", "hint": ".claude/skills/cierre-mensual/SKILL.md" },
-          { "type": "file", "path": "~/cierre-final/.claude/skills/cierre-mensual/SKILL.md", "checks": [{ "pattern": "\\$ARGUMENTS|\\$0" }, { "pattern": "^#+\\s*(controles|validaci|checklist|verificaci)" }], "label": "Usa $ARGUMENTS e incluye ## Controles" },
-          { "type": "frontmatter", "path": "~/cierre-final/.claude/agents/revisor.md", "expect": { "name": "revisor", "description": { "pattern": ".{15,}" }, "tools": { "pattern": "^(?!.*\\b(Edit|Write|Bash)\\b).*Read" } }, "label": "Subagente revisor de solo lectura", "hint": "tools: Read, Grep, Glob" },
-          { "type": "commits", "min": 1, "label": "Cambios confirmados en Git", "hint": "git init, git add . y git commit -m \"…\"" },
-          { "type": "clean", "label": "Árbol de trabajo limpio" }
+          {
+            "type": "frontmatter",
+            "path": "~/cierre-final/.claude/skills/cierre-mensual/SKILL.md",
+            "expect": {
+              "description": {
+                "pattern": ".{20,}"
+              }
+            },
+            "label": "Existe la Skill cierre-mensual con description",
+            "hint": "Pídesela a Claude con ese nombre."
+          },
+          {
+            "type": "file",
+            "path": "~/cierre-final/.claude/skills/cierre-mensual/SKILL.md",
+            "checks": [
+              {
+                "pattern": "\\$ARGUMENTS|\\$0"
+              },
+              {
+                "pattern": "^#+\\s*(controles|validaci|checklist|verificaci)"
+              }
+            ],
+            "label": "Usa $ARGUMENTS e incluye una sección de controles",
+            "hint": "Dile que use el periodo como argumento y que incluya controles."
+          },
+          {
+            "type": "frontmatter",
+            "path": "~/cierre-final/.claude/agents/revisor.md",
+            "expect": {
+              "name": "revisor",
+              "description": {
+                "pattern": ".{15,}"
+              },
+              "tools": {
+                "pattern": "^(?!.*\\b(Edit|Write|Bash)\\b).*Read"
+              }
+            },
+            "label": "Subagente revisor de solo lectura",
+            "hint": "Dile que solo pueda leer."
+          },
+          {
+            "type": "commits",
+            "min": 1,
+            "label": "Cambios confirmados en Git",
+            "hint": "git init, git add . y git commit -m \"…\""
+          },
+          {
+            "type": "clean",
+            "label": "Árbol de trabajo limpio"
+          }
         ],
-        "solution": ["mkdir -p .claude/skills/cierre-mensual .claude/agents", "nano .claude/skills/cierre-mensual/SKILL.md", "nano .claude/agents/revisor.md", "git init", "git add .", "git commit -m \"Añade Skill de cierre y revisor de solo lectura\""],
-        "solutionFiles": [
-          { "path": "~/cierre-final/.claude/skills/cierre-mensual/SKILL.md", "content": "---\nname: cierre-mensual\ndescription: Prepara el cierre mensual de un periodo. Úsala cuando pidan el cierre de un mes.\n---\n\n1. Consolida datos/ventas_$ARGUMENTS.csv\n2. Escribe informes/cierre_$ARGUMENTS.md\n\n## Controles\n- La suma por cliente cuadra con el total del CSV\n- Si no cuadra, detente y explica la diferencia\n" },
-          { "path": "~/cierre-final/.claude/agents/revisor.md", "content": "---\nname: revisor\ndescription: Revisa informes de cierre y señala cifras sin fuente\ntools: Read, Grep, Glob\n---\n\nVerifica cada cifra contra datos/ y lista las discrepancias.\n" }
+        "solution": [
+          "claude",
+          "Crea la Skill cierre-mensual con el periodo como argumento y controles de calidad, y el subagente revisor que solo pueda leer",
+          "/exit",
+          "git init",
+          "git add .",
+          "git commit -m \"Añade Skill de cierre y revisor de solo lectura\""
         ],
-        "suggestions": { "shell": ["mkdir -p .claude/skills/cierre-mensual .claude/agents", "nano .claude/skills/cierre-mensual/SKILL.md", "nano .claude/agents/revisor.md", "git init", "git add .", "git commit -m \"\"", "git status"] },
-        "explain": "Procedimiento empaquetado y revisión independiente, versionados para el equipo."
+        "explain": "Procedimiento empaquetado y revisión independiente, versionados para el equipo. Tú dirigiste y revisaste; Claude escribió.",
+        "suggestions": {
+          "shell": [
+            "claude",
+            "git init",
+            "git add .",
+            "git commit -m \"\"",
+            "git status"
+          ],
+          "session": [
+            "/skills",
+            "/agents",
+            "/exit"
+          ]
+        },
+        "intro": [
+          "Dentro de la sesión, pídeselo a Claude como se lo pedirías a una persona: qué crear, cómo se llama y qué debe contener."
+        ],
+        "title": "Procedimiento y revisor"
       },
       {
         "id": "ms12s4",
@@ -744,7 +1710,13 @@
         "concept": "met.explore-plan",
         "title": "El cierre de cada mes",
         "prompt": "Ordena cómo se ejecutará el cierre de cada mes con este asistente",
-        "items": ["Abrir sesión en modo plan y revisar qué datos hay para el periodo", "Ejecutar /cierre-mensual con el periodo", "Pedir al subagente revisor una revisión independiente", "Comprobar los controles y el diff", "Hacer commit del informe y comunicarlo"],
+        "items": [
+          "Abrir sesión en modo plan y revisar qué datos hay para el periodo",
+          "Ejecutar /cierre-mensual con el periodo",
+          "Pedir al subagente revisor una revisión independiente",
+          "Comprobar los controles y el diff",
+          "Hacer commit del informe y comunicarlo"
+        ],
         "explain": "Plan → procedimiento → revisión → verificación → registro."
       },
       {
@@ -754,9 +1726,21 @@
         "title": "Revisión final",
         "prompt": "Revisa el informe que ha generado el asistente. Ventas del CSV: 1.200,00 + 850,50 + 2.310,00. Gastos: 240,00 + 610,20. ¿Qué líneas fallan?",
         "file": "informes/cierre_2026-10.md",
-        "lines": ["Ventas totales: 4.360,50 € (datos/ventas_2026-10.csv)", "Gastos totales: 850,20 € (datos/gastos_2026-10.csv)", "Margen bruto: 80,5 %", "Suma de ventas por cliente: 4.260,50 €", "Cobro pendiente cliente D: 1.000,00 €"],
-        "faulty": [3, 4],
-        "notes": { "3": "No cuadra con el total: 1.200 + 850,50 + 2.310 = 4.360,50 €.", "4": "Cifra sin fuente: el cliente D no aparece en los datos." },
+        "lines": [
+          "Ventas totales: 4.360,50 € (datos/ventas_2026-10.csv)",
+          "Gastos totales: 850,20 € (datos/gastos_2026-10.csv)",
+          "Margen bruto: 80,5 %",
+          "Suma de ventas por cliente: 4.260,50 €",
+          "Cobro pendiente cliente D: 1.000,00 €"
+        ],
+        "faulty": [
+          3,
+          4
+        ],
+        "notes": {
+          "3": "No cuadra con el total: 1.200 + 850,50 + 2.310 = 4.360,50 €.",
+          "4": "Cifra sin fuente: el cliente D no aparece en los datos."
+        },
         "fixed": "Ventas totales: 4.360,50 € (datos/ventas_2026-10.csv)\nGastos totales: 850,20 € (datos/gastos_2026-10.csv)\nMargen bruto: 80,5 %\nSuma de ventas por cliente: 4.360,50 €",
         "explain": "Margen = (4.360,50 − 850,20) / 4.360,50 = 80,5 %. Cuadre de totales y fuente de cada cifra: los controles que pusiste en la Skill."
       },
@@ -768,9 +1752,18 @@
         "context": "Dirección quiere que el borrador del cierre se genere automáticamente el día 1 de cada mes en GitHub Actions.",
         "prompt": "¿Qué planteamiento es el correcto?",
         "options": [
-          { "text": "Workflow con anthropics/claude-code-action@v1 que invoque /cierre-mensual, clave en secrets, --max-turns acotado y revisión humana del resultado antes de publicarlo", "correct": true },
-          { "text": "Poner la API key en el YAML para simplificar", "feedback": "Las credenciales van siempre en secrets." },
-          { "text": "Publicar el informe automáticamente sin revisión", "feedback": "La revisión humana sigue siendo el control final." }
+          {
+            "text": "Workflow con anthropics/claude-code-action@v1 que invoque /cierre-mensual, clave en secrets, --max-turns acotado y revisión humana del resultado antes de publicarlo",
+            "correct": true
+          },
+          {
+            "text": "Poner la API key en el YAML para simplificar",
+            "feedback": "Las credenciales van siempre en secrets."
+          },
+          {
+            "text": "Publicar el informe automáticamente sin revisión",
+            "feedback": "La revisión humana sigue siendo el control final."
+          }
         ],
         "explain": "La acción puede invocar una Skill del repositorio como prompt; automatizas la preparación, no la responsabilidad."
       }

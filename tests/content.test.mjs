@@ -53,8 +53,12 @@ test('cada lección combina explicación y práctica', () => {
   for (const l of course.lessons) {
     const cards = l.steps.filter(s => !isExercise(s));
     assert.ok(cards.length >= 2, `${l.id}: al menos 2 tarjetas`);
-    assert.ok(l.exercises.length >= 4, `${l.id}: al menos 4 ejercicios`);
+    assert.ok(l.exercises.length >= 3, `${l.id}: al menos 3 ejercicios`);
     assert.ok(new Set(l.exercises.map(e => e.type)).size >= 3, `${l.id}: al menos 3 formatos distintos`);
+    // Ritmo: pocas ideas nuevas por lección y lecciones cortas.
+    assert.ok(new Set(l.exercises.map(e => e.concept)).size <= 4, `${l.id}: demasiados conceptos nuevos (${[...new Set(l.exercises.map(e => e.concept))].join(', ')})`);
+    assert.ok(l.steps.length <= 12, `${l.id}: lección demasiado larga (${l.steps.length} pasos)`);
+    assert.equal(l.steps.at(-1).kicker, 'Para recordar', `${l.id}: falta el resumen final`);
     for (const card of cards) for (const b of card.blocks) assert.ok(BLOCK_TYPES_LIST.includes(b.type), `${l.id}: bloque ${b.type}`);
     assert.ok(l.objectives?.length, `${l.id}: objetivos`);
   }
@@ -119,7 +123,7 @@ test('los ejercicios de terminal: el estado inicial no aprueba y la solución s�
       assert.ok(GOAL_TYPES.includes(g.type), `${ex.id}: objetivo ${g.type}`);
       assert.ok(g.label, `${ex.id}: objetivo sin etiqueta`);
     }
-    const initial = new Shell({ files: ex.setup?.files || {}, cwd: ex.setup?.cwd || '~' });
+    const initial = new Shell({ files: ex.setup?.files || {}, cwd: ex.setup?.cwd || '~', claudeActions: ex.setup?.claudeActions || [] });
     assert.ok(evaluateGoals(ex.goals, initial).some(g => !g.passed), `${ex.id}: aprueba sin hacer nada`);
     const sh = runSolution(ex);
     const failed = evaluateGoals(ex.goals, sh).filter(g => !g.passed);
@@ -147,4 +151,29 @@ test('sin datos sensibles reales en el contenido', () => {
   assert.ok(!/ES\d{22}/.test(text), 'sin IBAN');
   assert.ok(!/\b\d{8}[A-HJ-NP-TV-Z]\b/.test(text), 'sin DNI');
   assert.ok(!/sk-ant-/.test(text), 'sin claves de API');
+});
+
+test('el alumno dirige y revisa: ningún ejercicio obliga a escribir archivos a mano', () => {
+  for (const ex of exercises.filter(e => e.type === 'terminal')) {
+    assert.ok(!ex.solution.some(c => /^(nano|vim|edit)\b|^echo\b.*>/.test(c)), `${ex.id}: la solución escribe un archivo a mano`);
+    assert.ok(!ex.solutionFiles, `${ex.id}: solutionFiles ya no se usa`);
+  }
+  for (const ex of exercises.filter(e => e.type === 'editor')) {
+    assert.equal(ex.file, 'Tu petición a Claude', `${ex.id}: un editor debe pedir redactar la petición, no el archivo`);
+    assert.ok(!ex.checks.some(c => c.json), `${ex.id}: no debe exigir JSON válido (es una petición)`);
+  }
+});
+
+test('un ejercicio de terminal que crea archivos usa el Claude simulado y rechaza peticiones vagas', () => {
+  for (const ex of exercises.filter(e => e.type === 'terminal' && e.setup?.claudeActions?.length)) {
+    const sh = new Shell({ files: ex.setup.files || {}, cwd: ex.setup.cwd || '~', claudeActions: ex.setup.claudeActions });
+    sh.run('claude');
+    sh.run('haz lo que tengas que hacer');
+    assert.ok(evaluateGoals(ex.goals, sh).some(g => !g.passed), `${ex.id}: una petición vaga no debería bastar`);
+  }
+});
+
+test('las lecciones y misiones apuntan a lecciones que existen y las misiones se desbloquean', () => {
+  const ids = new Set(course.lessons.map(l => l.id));
+  for (const m of course.missions) for (const r of m.requires) assert.ok(ids.has(r), `${m.id}: requiere ${r}`);
 });

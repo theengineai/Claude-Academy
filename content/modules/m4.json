@@ -163,6 +163,22 @@
             }
           ],
           "explain": "Sintaxis: `claude mcp add --transport http <nombre> <url>`."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Entender cliente y servidor MCP\n- Distinguir MCP de Skills\n- Conocer los transportes"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
@@ -392,18 +408,34 @@
             "Pedir una tarea que use sus herramientas y revisar qué permisos solicita"
           ],
           "explain": "Configurar, autenticar con /mcp y probar con supervisión."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Elegir el ámbito correcto\n- Leer y escribir .mcp.json\n- Gestionar servidores con list, get y remove"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
     {
       "id": "l4-3",
-      "title": "Permisos y seguridad",
-      "summary": "settings.json, reglas allow/ask/deny, secretos e inyección de instrucciones.",
-      "minutes": 8,
+      "title": "Reglas de permisos",
+      "summary": "Dónde viven los ajustes y cómo se escriben las reglas allow, ask y deny.",
+      "minutes": 7,
       "objectives": [
-        "Escribir reglas de permisos",
-        "Entender la precedencia de settings",
-        "Reconocer riesgos de inyección y de secretos"
+        "Saber dónde viven los ajustes y cuál prevalece",
+        "Leer reglas allow, ask y deny",
+        "Pedirle a Claude que configure la política de permisos"
       ],
       "steps": [
         {
@@ -450,6 +482,11 @@
               "type": "callout",
               "tone": "info",
               "body": "Cómo leer una regla: `Herramienta(patrón)`.\n- `npm run test *`: el comando que lanza las pruebas de un proyecto JavaScript.\n- `./.env`: el archivo `.env`, donde suelen guardarse contraseñas y claves.\n- `./datos/**`: **todo** lo que hay dentro de la carpeta datos."
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "No tienes que escribir este archivo a mano: puedes pedirle a Claude que lo cree (como en el ejercicio) o gestionar las reglas con `/permissions`. Lo importante es **entender qué dice**, para revisarlo."
             }
           ]
         },
@@ -478,31 +515,86 @@
           "id": "m4l3e2",
           "type": "editor",
           "concept": "sec.rules",
-          "prompt": "Escribe un `.claude/settings.json` que permita `git diff`, pida confirmación para `git push` y prohíba leer `.env`",
-          "file": ".claude/settings.json",
-          "starter": "{\n  \"permissions\": {\n  }\n}\n",
-          "rows": 12,
+          "prompt": "Pídele a Claude que configure los permisos del proyecto: permitir `git diff` sin preguntar, pedir confirmación antes de `git push` y prohibir leer el archivo `.env`. Escribe tu petición",
+          "file": "Tu petición a Claude",
+          "starter": "Configura los permisos del proyecto.",
+          "rows": 7,
           "checks": [
             {
-              "label": "Es JSON válido (sin comentarios ni comas finales)",
-              "json": true
+              "label": "Pide permitir `git diff` sin preguntar",
+              "pattern": "git diff",
+              "hint": "Menciona el comando exacto."
             },
             {
-              "label": "allow incluye Bash(git diff *)",
-              "pattern": "\"allow\"\\s*:\\s*\\[[^\\]]*\"Bash\\(git diff \\*\\)\""
+              "label": "Pide confirmación antes de `git push`",
+              "pattern": "git push",
+              "hint": "Menciona el comando exacto."
             },
             {
-              "label": "ask incluye Bash(git push *)",
-              "pattern": "\"ask\"\\s*:\\s*\\[[^\\]]*\"Bash\\(git push \\*\\)\""
+              "label": "Pide prohibir leer `.env`",
+              "pattern": "\\.env",
+              "hint": "Nombra el archivo."
             },
             {
-              "label": "deny incluye Read(./.env)",
-              "pattern": "\"deny\"\\s*:\\s*\\[[^\\]]*\"Read\\(\\./\\.env\\)\""
+              "label": "Deja claro qué se permite, qué se pregunta y qué se prohíbe",
+              "pattern": "(permit|sin preguntar|autoriz)[\\s\\S]*(pregunt|confirm|pid)[\\s\\S]*(proh[ií]b|bloque|no (se )?(pueda|lea|leer))",
+              "hint": "Tres niveles: permitir, preguntar y prohibir."
             }
           ],
-          "solution": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(git diff *)\"],\n    \"ask\": [\"Bash(git push *)\"],\n    \"deny\": [\"Read(./.env)\"]\n  }\n}\n",
-          "explain": "Comprueba la sintaxis exacta: el nombre de la herramienta, paréntesis y el patrón."
+          "solution": "Configura los permisos del proyecto en .claude/settings.json: permite git diff sin preguntar, pregunta antes de ejecutar git push y prohíbe leer el archivo .env.",
+          "explain": "Tú decides la política (qué se permite, qué se pregunta, qué se prohíbe); Claude escribe el archivo. También puedes gestionarlas con `/permissions`. Revisa después el resultado."
         },
+        {
+          "id": "m4l3e4",
+          "type": "choice",
+          "concept": "sec.settings-scopes",
+          "context": "El `.claude/settings.json` del equipo pide confirmación (`ask`) para `git push`. En tu `.claude/settings.local.json` añades `allow` para lo mismo.",
+          "prompt": "¿Qué ocurre?",
+          "options": [
+            {
+              "text": "Te seguirá preguntando: una regla allow no supera a una ask de otro archivo",
+              "correct": true
+            },
+            {
+              "text": "Tu allow anula la regla del equipo",
+              "feedback": "Las reglas se combinan; ask y deny pesan más que allow."
+            },
+            {
+              "text": "Se produce un error de configuración",
+              "feedback": "No es un error: es la forma de combinarse."
+            }
+          ],
+          "explain": "Las reglas de permisos se combinan entre archivos y las restrictivas (deny, ask) prevalecen sobre allow."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Saber dónde viven los ajustes y cuál prevalece\n- Leer reglas allow, ask y deny\n- Pedirle a Claude que configure la política de permisos"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l4-3b",
+      "title": "Seguridad: secretos e inyección",
+      "summary": "Qué riesgos hay al conectar fuentes externas y cómo proteger credenciales.",
+      "minutes": 6,
+      "objectives": [
+        "Reconocer un intento de inyección de instrucciones",
+        "Proteger secretos y archivos sensibles",
+        "Saber qué hacer si una clave se filtra"
+      ],
+      "steps": [
         {
           "type": "card",
           "kicker": "Riesgos",
@@ -566,26 +658,29 @@
           "explain": "Por eso conviene limitar permisos, usar deny para lo sensible y conectar solo servidores de confianza."
         },
         {
-          "id": "m4l3e4",
-          "type": "choice",
-          "concept": "sec.settings-scopes",
-          "context": "El `.claude/settings.json` del equipo pide confirmación (`ask`) para `git push`. En tu `.claude/settings.local.json` añades `allow` para lo mismo.",
-          "prompt": "¿Qué ocurre?",
-          "options": [
-            {
-              "text": "Te seguirá preguntando: una regla allow no supera a una ask de otro archivo",
-              "correct": true
-            },
-            {
-              "text": "Tu allow anula la regla del equipo",
-              "feedback": "Las reglas se combinan; ask y deny pesan más que allow."
-            },
-            {
-              "text": "Se produce un error de configuración",
-              "feedback": "No es un error: es la forma de combinarse."
-            }
+          "id": "m4l3e7",
+          "type": "match",
+          "concept": "sec.secrets",
+          "prompt": "Empareja cada riesgo con su control",
+          "pairs": [
+            [
+              "Un token escrito en `.mcp.json`",
+              "Usar una variable `${VARIABLE}`"
+            ],
+            [
+              "Un archivo `.env` con claves",
+              "Una regla deny sobre `Read(./.env)`"
+            ],
+            [
+              "Un servidor MCP de origen desconocido",
+              "No conectarlo"
+            ],
+            [
+              "Un texto externo que da órdenes a Claude",
+              "Tratarlo como datos, no como instrucciones"
+            ]
           ],
-          "explain": "Las reglas de permisos se combinan entre archivos y las restrictivas (deny, ask) prevalecen sobre allow."
+          "explain": "Cada riesgo tiene un control concreto; ninguno depende de la buena voluntad de nadie."
         },
         {
           "id": "m4l3e5",
@@ -611,6 +706,44 @@
             }
           ],
           "explain": "Los secretos nunca deben quedar en archivos compartidos ni en el contexto si no es imprescindible."
+        },
+        {
+          "id": "m4l3e6",
+          "type": "choice",
+          "concept": "sec.secrets",
+          "prompt": "¿Es suficiente?",
+          "options": [
+            {
+              "text": "No: la clave queda en el historial; hay que darla por comprometida, revocarla y crear otra",
+              "correct": true
+            },
+            {
+              "text": "Sí, ya no aparece en los archivos",
+              "feedback": "Sigue en el historial de Git."
+            },
+            {
+              "text": "Sí, si el repositorio es privado",
+              "feedback": "Quien tenga acceso la ve: el riesgo existe."
+            }
+          ],
+          "explain": "Borrar un archivo no borra su historial. Ante una clave expuesta: revocarla y sustituirla.",
+          "context": "Un compañero subió por error el archivo `.env` con claves al repositorio y lo borra en un commit nuevo."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Reconocer un intento de inyección de instrucciones\n- Proteger secretos y archivos sensibles\n- Saber qué hacer si una clave se filtra"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     }

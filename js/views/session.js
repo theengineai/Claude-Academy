@@ -18,8 +18,9 @@ const COPY = {
 };
 
 /** Avance guardado de una actividad (o null). Se usa también para mostrar «paso X de Y» fuera. */
-export function savedProgress(state, key) {
+export function savedProgress(state, key, sig = null) {
   const s = state.inProgress?.[key];
+  if (sig && s?.sig && s.sig !== sig) return null; // el contenido cambió: no se mezcla
   return s && Array.isArray(s.queue) && s.furthest > 0 && s.furthest < s.queue.length ? s : null;
 }
 
@@ -67,7 +68,7 @@ export function runSession(ctx, options) {
     if (!started()) delete ctx.state.inProgress[resumeKey];
     else {
       ctx.state.inProgress[resumeKey] = {
-        queue, furthest, answers, meta,
+        queue, furthest, answers, meta, sig: options.sig || null,
         firstTry: [...firstTry],
         savedAt: new Date().toISOString(),
       };
@@ -264,7 +265,7 @@ export function runSession(ctx, options) {
   }
 
   // ---------- Inicio: ¿continuar o empezar de nuevo? ----------
-  const saved = resumeKey ? savedProgress(ctx.state, resumeKey) : null;
+  const saved = resumeKey ? savedProgress(ctx.state, resumeKey, options.sig) : null;
   if (saved) {
     paintProgress();
     backBtn.hidden = true;

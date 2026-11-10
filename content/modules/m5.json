@@ -84,6 +84,11 @@
                 ".claude/agents/     # proyecto: se comparte con el equipo",
                 "~/.claude/agents/   # usuario: todos tus proyectos"
               ]
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "No necesitas escribirlo a mano: `/agents` te recuerda que puedes **pedirle a Claude que cree y gestione subagentes** (o editar `.claude/agents/` tú). Lo importante es saber **leer** el archivo para revisarlo."
             }
           ]
         },
@@ -139,17 +144,43 @@
           "id": "m5l1e4",
           "type": "terminal",
           "concept": "ag.definition",
-          "prompt": "Crea el subagente de proyecto `revisor-cifras` (solo lectura) y compruébalo con /agents",
+          "prompt": "Pídele a Claude que cree el subagente de proyecto **revisor-cifras**, que solo pueda **leer** (no editar). Compruébalo con /agents",
           "setup": {
             "cwd": "~/finanzas",
             "files": {
               "~/finanzas/CLAUDE.md": "# Finanzas\n",
               "~/finanzas/informes/": null
-            }
+            },
+            "claudeActions": [
+              {
+                "id": "agent-revisor",
+                "when": [
+                  [
+                    "subagente",
+                    "agente"
+                  ],
+                  [
+                    "revisor"
+                  ],
+                  [
+                    "leer",
+                    "lectura",
+                    "solo lee",
+                    "sin editar",
+                    "no (pueda )?editar",
+                    "no edite"
+                  ]
+                ],
+                "reply": "He creado el subagente «revisor-cifras» con herramientas de solo lectura.",
+                "writes": [
+                  {
+                    "path": "~/finanzas/.claude/agents/revisor-cifras.md",
+                    "content": "---\nname: revisor-cifras\ndescription: Revisa informes financieros buscando cifras sin fuente y totales que no cuadran\ntools: Read, Grep, Glob\n---\n\nRevisa cada importe, localiza su fuente en datos/ y devuelve las discrepancias.\n"
+                  }
+                ]
+              }
+            ]
           },
-          "intro": [
-            "Pista: mkdir -p .claude/agents y después nano .claude/agents/revisor-cifras.md"
-          ],
           "goals": [
             {
               "type": "frontmatter",
@@ -160,8 +191,8 @@
                   "pattern": ".{20,}"
                 }
               },
-              "label": "Frontmatter con name revisor-cifras y una description útil",
-              "hint": "---\\nname: revisor-cifras\\ndescription: ...\\n---"
+              "label": "Existe el subagente revisor-cifras con una description útil",
+              "hint": "Pídeselo a Claude indicando el nombre y para qué sirve."
             },
             {
               "type": "frontmatter",
@@ -171,40 +202,51 @@
                   "pattern": "^(?!.*\\b(Edit|Write|Bash)\\b).*Read"
                 }
               },
-              "label": "tools de solo lectura (incluye Read, sin Edit/Write/Bash)",
-              "hint": "tools: Read, Grep, Glob"
+              "label": "Solo herramientas de lectura (sin Edit, Write ni Bash)",
+              "hint": "Dile que solo pueda leer, sin editar."
             },
             {
               "type": "ran",
               "pattern": "^/agents$",
-              "label": "Comprobarlo con /agents en una sesión",
-              "hint": "claude y después /agents"
+              "label": "Comprobarlo con /agents",
+              "hint": "/agents"
             }
           ],
           "solution": [
-            "mkdir -p .claude/agents",
-            "nano .claude/agents/revisor-cifras.md",
             "claude",
+            "Crea un subagente de proyecto llamado revisor-cifras que solo pueda leer archivos, sin editar",
             "/agents"
           ],
-          "solutionFiles": [
-            {
-              "path": "~/finanzas/.claude/agents/revisor-cifras.md",
-              "content": "---\nname: revisor-cifras\ndescription: Revisa informes financieros buscando cifras sin fuente y totales que no cuadran\ntools: Read, Grep, Glob\n---\n\nRevisa cada importe, localiza su fuente en datos/ y devuelve las discrepancias.\n"
-            }
-          ],
+          "explain": "En Claude Code real, `/agents` te recuerda que puedes pedirle a Claude que cree y gestione subagentes. Tú decides el rol y el **mínimo privilegio**; después compruebas las herramientas del archivo que ha escrito.",
           "suggestions": {
             "shell": [
-              "mkdir -p .claude/agents",
-              "nano .claude/agents/revisor-cifras.md",
-              "claude"
+              "claude",
+              "ls"
             ],
             "session": [
               "/agents",
               "/exit"
             ]
           },
-          "explain": "En Claude Code real, `/agents` recuerda que puedes pedirle a Claude que cree el subagente o editar `.claude/agents/` directamente."
+          "intro": [
+            "Dentro de la sesión, pídeselo a Claude como se lo pedirías a una persona: qué crear, cómo se llama y qué debe contener."
+          ]
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Entender qué aporta un subagente\n- Escribir su definición en .claude/agents/\n- Aplicar mínimo privilegio"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
@@ -371,6 +413,22 @@
             }
           ],
           "explain": "La documentación recomienda enviar el trabajo barato a modelos baratos."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Decidir cuándo conviene un subagente\n- Invocar subagentes de varias formas\n- Conocer Explore, Plan y general-purpose"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
@@ -520,6 +578,22 @@
             }
           ],
           "explain": "Para impedirlo en un subagente concreto, quita la herramienta Agent de su lista `tools`."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Trabajar en paralelo sin colisiones\n- Diseñar una orquestación por fases\n- Separar quien hace de quien revisa"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     }

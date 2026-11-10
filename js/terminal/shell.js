@@ -19,7 +19,9 @@ export class Shell {
    * @param {string} [opts.cwd]    directorio inicial (admite ~)
    * @param {object} [opts.snapshot] estado serializado (toJSON) para restaurar
    */
-  constructor({ files = {}, cwd = '~', snapshot = null } = {}) {
+  constructor({ files = {}, cwd = '~', snapshot = null, claudeActions = [] } = {}) {
+    /** Trabajos que el «Claude simulado» sabe hacer en este ejercicio (ver claude.js). */
+    this.claudeActions = claudeActions;
     if (snapshot) {
       this.fs = VirtualFS.fromJSON(snapshot.fs);
       this.cwd = snapshot.cwd;

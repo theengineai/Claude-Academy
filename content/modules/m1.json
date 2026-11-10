@@ -254,6 +254,22 @@
             }
           ],
           "explain": "Dar un **criterio verificable** (un total que debe cuadrar) permite que el agente compruebe su trabajo en el bucle."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Distinguir un chat de un agente\n- Conocer el bucle reunir contexto → actuar → verificar\n- Saber qué herramientas usa Claude Code"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
@@ -525,6 +541,22 @@
             "Escribir `claude` para abrirlo"
           ],
           "explain": "Primero te orientas, después arrancas Claude Code: así trabaja sobre la carpeta correcta."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Entender qué es una terminal y un comando\n- Reconocer las partes de una orden\n- Saber en qué carpeta estás y cambiar de carpeta"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
@@ -776,18 +808,34 @@
             }
           ],
           "explain": "Primero `claude` para abrir la sesión; después `/init`."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Diferenciar comandos de shell y comandos /\n- Arrancar Claude de distintas formas\n- Conocer qué aporta Desktop"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
     {
       "id": "l1-3",
-      "title": "Archivos, repositorios y proyectos",
-      "summary": "Orientarte en la carpeta correcta y usar Git como red de seguridad.",
-      "minutes": 7,
+      "title": "Orientarte y organizar un proyecto",
+      "summary": "Situarte en el proyecto, separar datos y resultados y pedirle a Claude que cree archivos.",
+      "minutes": 6,
       "objectives": [
-        "Moverte con pwd, ls, cd y tree",
+        "Moverte por un proyecto con pwd, ls y cd",
         "Separar datos de origen y resultados",
-        "Usar git status, diff y commit"
+        "Pedirle a Claude que cree archivos y revisar el resultado"
       ],
       "steps": [
         {
@@ -927,59 +975,117 @@
         },
         {
           "type": "card",
-          "kicker": "Crear y editar",
-          "title": "Crear carpetas y archivos",
+          "kicker": "Tú diriges, Claude escribe",
+          "title": "Cómo se crean y cambian archivos",
           "blocks": [
             {
               "type": "text",
-              "body": "Para dejar notas, reglas o Skills en un proyecto tendrás que **crear carpetas y escribir archivos**. Cuatro comandos bastan:"
+              "body": "Cuando necesitas **crear o cambiar archivos** (una carpeta de informes, una nota, un CLAUDE.md…), normalmente **no los escribes tú**: se lo pides a Claude dentro de la sesión, en lenguaje normal.\n\nTu trabajo es **pedir con claridad** y **revisar lo que ha escrito**."
+            },
+            {
+              "type": "chat",
+              "messages": [
+                {
+                  "role": "user",
+                  "text": "Crea una carpeta informes y dentro un archivo nota.txt con la frase «Revisar el margen de octubre»."
+                },
+                {
+                  "role": "claude",
+                  "text": "He creado `informes/nota.txt`. (En modo Manual te habría pedido permiso antes de escribir.)"
+                }
+              ]
+            },
+            {
+              "type": "flow",
+              "steps": [
+                {
+                  "title": "Tú pides",
+                  "text": "Qué quieres, **dónde** va y **qué debe contener**."
+                },
+                {
+                  "title": "Claude escribe",
+                  "text": "Con sus herramientas `Write` o `Edit`."
+                },
+                {
+                  "title": "Tú revisas",
+                  "text": "Lees el resultado antes de darlo por bueno."
+                }
+              ]
             },
             {
               "type": "cmds",
+              "title": "Cómo revisar lo que ha escrito",
               "items": [
                 {
-                  "cmd": "mkdir informes",
-                  "desc": "Crea la carpeta «informes»."
-                },
-                {
-                  "cmd": "mkdir -p a/b/c",
-                  "desc": "Crea una carpeta dentro de otra aunque las de en medio no existan. La opción `-p` significa «también las intermedias»."
-                },
-                {
-                  "cmd": "nano informes/nota.txt",
-                  "desc": "Abre un **editor de texto sencillo** para escribir ese archivo (si no existe, lo crea)."
-                },
-                {
                   "cmd": "cat informes/nota.txt",
-                  "desc": "Muestra por pantalla lo que contiene el archivo."
+                  "desc": "Muestra el contenido del archivo."
+                },
+                {
+                  "cmd": "git diff",
+                  "desc": "Qué ha cambiado exactamente (en proyectos con Git)."
                 }
               ]
             },
             {
               "type": "callout",
               "tone": "tip",
-              "body": "En el simulador, `nano` abre una ventana con un botón **Guardar**. En una terminal real se guarda con Ctrl+O y se sale con Ctrl+X."
+              "body": "Una buena petición dice **qué** quieres, **dónde** y **con qué contenido**. Es la misma habilidad que usarás para CLAUDE.md, Skills y permisos."
             }
           ]
+        },
+        {
+          "id": "m1l3e7",
+          "type": "order",
+          "concept": "env.create-files",
+          "prompt": "Ordena los pasos para que Claude cree un archivo y tú lo des por bueno",
+          "items": [
+            "Escribes la petición en la sesión de Claude: qué, dónde y con qué contenido",
+            "Claude crea el archivo (te pide permiso según el modo)",
+            "Compruebas el contenido con cat o git diff",
+            "Si no es lo que querías, se lo pides de nuevo con más detalle"
+          ],
+          "explain": "Pedir, dejar que Claude escriba y revisar. Si falla, mejora la petición."
         },
         {
           "id": "m1l3e6",
           "type": "terminal",
           "concept": "env.create-files",
-          "prompt": "Crea la carpeta **informes**, escribe dentro un archivo **nota.txt** con la frase «Revisar el margen de octubre» y comprueba su contenido",
+          "prompt": "Abre una sesión de Claude y **pídele** que cree la carpeta **informes** con un archivo **nota.txt** que diga «Revisar el margen de octubre». Después sal y **revisa** el archivo con `cat`",
           "setup": {
             "cwd": "~/cierre",
             "files": {
               "~/cierre/README.md": "Proyecto de cierre\n"
-            }
+            },
+            "claudeActions": [
+              {
+                "id": "nota",
+                "when": [
+                  [
+                    "informes"
+                  ],
+                  [
+                    "nota"
+                  ],
+                  [
+                    "margen"
+                  ]
+                ],
+                "reply": "He creado la carpeta informes y el archivo nota.txt.",
+                "writes": [
+                  {
+                    "path": "~/cierre/informes/nota.txt",
+                    "content": "Revisar el margen de octubre\n"
+                  }
+                ]
+              }
+            ]
           },
           "goals": [
             {
-              "type": "exists",
-              "path": "~/cierre/informes",
-              "kind": "dir",
-              "label": "Existe la carpeta informes",
-              "hint": "mkdir informes"
+              "type": "ran",
+              "pattern": "^claude",
+              "label": "Abrir una sesión de Claude",
+              "hint": "claude"
             },
             {
               "type": "file",
@@ -989,37 +1095,72 @@
                   "pattern": "revisar el margen"
                 }
               ],
-              "label": "nota.txt contiene «Revisar el margen de octubre»",
-              "hint": "nano informes/nota.txt, escribe la frase y pulsa Guardar"
+              "label": "Claude ha creado informes/nota.txt con la frase",
+              "hint": "Pídele la carpeta informes con un archivo nota.txt y la frase."
+            },
+            {
+              "type": "session",
+              "active": false,
+              "label": "Salir de la sesión",
+              "hint": "/exit"
             },
             {
               "type": "ran",
               "pattern": "^cat\\s+informes/nota\\.txt$",
-              "label": "Comprobar el contenido con cat",
+              "label": "Revisar el contenido con cat",
               "hint": "cat informes/nota.txt"
             }
           ],
           "solution": [
-            "mkdir informes",
-            "nano informes/nota.txt",
+            "claude",
+            "Crea una carpeta informes con un archivo nota.txt que diga «Revisar el margen de octubre»",
+            "/exit",
             "cat informes/nota.txt"
           ],
-          "solutionFiles": [
-            {
-              "path": "~/cierre/informes/nota.txt",
-              "content": "Revisar el margen de octubre\n"
-            }
-          ],
+          "explain": "Pedir con claridad y comprobar el resultado: así trabajarás casi siempre con archivos.",
           "suggestions": {
             "shell": [
-              "mkdir informes",
-              "nano informes/nota.txt",
+              "claude",
               "cat informes/nota.txt",
               "ls"
+            ],
+            "session": [
+              "/exit"
             ]
           },
-          "explain": "Crear una carpeta, escribir un archivo y leerlo: con eso podrás montar cualquier estructura de proyecto."
+          "intro": [
+            "Dentro de la sesión, pídeselo a Claude como se lo pedirías a una persona: qué crear, cómo se llama y qué debe contener."
+          ]
         },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Moverte por un proyecto con pwd, ls y cd\n- Separar datos de origen y resultados\n- Pedirle a Claude que cree archivos y revisar el resultado"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l1-3b",
+      "title": "Git: tu red de seguridad",
+      "summary": "Guardar versiones del proyecto y revisar cambios antes de aceptarlos.",
+      "minutes": 6,
+      "objectives": [
+        "Entender qué es Git, un repositorio y un commit",
+        "Revisar cambios con git status y git diff",
+        "Elegir entre checkpoints y Git para deshacer"
+      ],
+      "steps": [
         {
           "type": "card",
           "kicker": "Git",
@@ -1124,6 +1265,41 @@
           "explain": "Con un commit inicial, cualquier cambio posterior de Claude se puede revisar con `git diff` y deshacer si hace falta."
         },
         {
+          "type": "card",
+          "kicker": "Dos redes de seguridad",
+          "title": "Checkpoints y Git: cuándo usar cada uno",
+          "blocks": [
+            {
+              "type": "compare",
+              "left": {
+                "title": "Checkpoints",
+                "icon": "refresh",
+                "items": [
+                  "`/rewind` o Esc dos veces",
+                  "Rápido, dentro de la sesión",
+                  "Solo las ediciones de Claude",
+                  "No cubren cambios hechos por comandos de shell"
+                ]
+              },
+              "right": {
+                "title": "Git",
+                "icon": "check",
+                "items": [
+                  "Historial permanente",
+                  "Cubre cualquier cambio",
+                  "Se comparte con el equipo",
+                  "Hay que guardar versiones (commit)"
+                ]
+              }
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Regla práctica: checkpoints para deshacer **ahora**, Git para todo lo demás."
+            }
+          ]
+        },
+        {
           "id": "m1l3e5",
           "type": "choice",
           "concept": "met.checkpoints",
@@ -1144,6 +1320,22 @@
             }
           ],
           "explain": "Los checkpoints cubren las ediciones de las herramientas de archivos de Claude; los cambios de comandos Bash no se rastrean. Git es la red de seguridad permanente."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Entender qué es Git, un repositorio y un commit\n- Revisar cambios con git status y git diff\n- Elegir entre checkpoints y Git para deshacer"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     }

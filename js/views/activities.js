@@ -1,6 +1,6 @@
 // Apertura de lecciones, evaluaciones y sesiones de repaso.
 import { runSession, savedProgress } from './session.js';
-import { examPool } from '../core/course.js';
+import { examPool, stepsSignature } from '../core/course.js';
 import { shuffle } from '../core/util.js';
 import { buildReviewQueue } from '../core/srs.js';
 import {
@@ -17,6 +17,7 @@ export function openLesson(ctx, lessonId) {
     steps: lesson.steps,
     exitRoute: '#/academy',
     resumeKey: `lesson:${lesson.id}`,
+    sig: stepsSignature(lesson.steps),
     onFinish: ({ accuracy }) => {
       const r = completeLesson(state, lesson.id, accuracy);
       const achievements = ctx.commit();

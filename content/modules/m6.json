@@ -8,13 +8,13 @@
   "lessons": [
     {
       "id": "l6-1",
-      "title": "Automatizar con -p y hooks",
-      "summary": "Claude en scripts y acciones deterministas en el ciclo de vida.",
-      "minutes": 8,
+      "title": "Claude en scripts: el modo -p",
+      "summary": "Usar Claude en una sola línea, encadenarlo con otros comandos y limitar lo que puede hacer.",
+      "minutes": 7,
       "objectives": [
-        "Usar claude -p con salida estructurada",
-        "Preaprobar herramientas de forma acotada",
-        "Configurar hooks"
+        "Usar claude -p y la tubería |",
+        "Pedir la respuesta en formato JSON",
+        "Preaprobar solo las herramientas necesarias"
       ],
       "steps": [
         {
@@ -160,6 +160,35 @@
         },
         {
           "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Usar claude -p y la tubería |\n- Pedir la respuesta en formato JSON\n- Preaprobar solo las herramientas necesarias"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l6-1b",
+      "title": "Hooks: acciones que siempre ocurren",
+      "summary": "Acciones automáticas en el ciclo de vida de Claude Code y cuándo usarlas.",
+      "minutes": 7,
+      "objectives": [
+        "Entender qué es un hook y cuándo se ejecuta",
+        "Elegir entre CLAUDE.md, permisos y hooks",
+        "Pedirle a Claude que configure un hook"
+      ],
+      "steps": [
+        {
+          "type": "card",
           "kicker": "Hooks",
           "title": "Acciones que siempre ocurren",
           "blocks": [
@@ -182,8 +211,67 @@
               "type": "callout",
               "tone": "warn",
               "body": "En `PreToolUse`, el comando del hook puede **terminar con el número 2** (todo programa devuelve un número al acabar: 0 significa «todo bien») y eso **bloquea** la acción; el motivo se escribe como mensaje de error. Terminar con 0 no aprueba nada: sigue el flujo normal de permisos."
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "No hace falta escribir el hook a mano: puedes **pedirle a Claude que lo escriba** describiendo lo que quieres (lo practicas abajo) y comprobar después con `/hooks` que aparece."
             }
           ]
+        },
+        {
+          "type": "card",
+          "kicker": "Elegir",
+          "title": "Hook, CLAUDE.md o permisos: ¿cuál usar?",
+          "blocks": [
+            {
+              "type": "cmds",
+              "items": [
+                {
+                  "cmd": "CLAUDE.md",
+                  "desc": "**Sugiere** cómo trabajar. Claude suele seguirlo, pero no es obligatorio."
+                },
+                {
+                  "cmd": "Permisos",
+                  "desc": "**Controlan** qué puede hacer Claude (allow, ask, deny)."
+                },
+                {
+                  "cmd": "Hook",
+                  "desc": "**Ejecuta una acción siempre** que ocurre un evento: formatear, validar, bloquear."
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "tone": "finance",
+              "body": "Si algo **debe** ocurrir siempre, no lo dejes a la memoria de Claude: usa un hook o un permiso."
+            }
+          ]
+        },
+        {
+          "id": "m6l1e7",
+          "type": "match",
+          "concept": "auto.hooks",
+          "prompt": "Empareja cada evento de hook con el momento en que se ejecuta",
+          "pairs": [
+            [
+              "`PreToolUse`",
+              "Antes de usar una herramienta (puede bloquearla)"
+            ],
+            [
+              "`PostToolUse`",
+              "Después de usar una herramienta con éxito"
+            ],
+            [
+              "`SessionStart`",
+              "Cuando empieza o se reanuda una sesión"
+            ],
+            [
+              "`Stop`",
+              "Cuando Claude termina de responder"
+            ]
+          ],
+          "explain": "Elegir bien el evento es elegir cuándo actúa el hook."
         },
         {
           "id": "m6l1e4",
@@ -210,30 +298,66 @@
           "id": "m6l1e5",
           "type": "editor",
           "concept": "auto.hooks",
-          "prompt": "Configura un hook que ejecute `python scripts/validar_csv.py` después de cada edición o escritura de archivos",
-          "file": ".claude/settings.json",
-          "starter": "{\n  \"hooks\": {\n  }\n}\n",
-          "rows": 14,
+          "prompt": "Pídele a Claude que configure un **hook** que ejecute `python scripts/validar_csv.py` después de cada edición o creación de archivos. Escribe tu petición",
+          "file": "Tu petición a Claude",
+          "starter": "Crea un hook de validación.",
+          "rows": 7,
           "checks": [
             {
-              "label": "Es JSON válido",
-              "json": true
+              "label": "Pide un hook",
+              "pattern": "hook",
+              "hint": "Usa la palabra «hook»."
             },
             {
-              "label": "Usa el evento PostToolUse",
-              "pattern": "\"PostToolUse\"\\s*:\\s*\\["
+              "label": "Indica el script que debe ejecutarse",
+              "pattern": "validar_csv",
+              "hint": "scripts/validar_csv.py"
             },
             {
-              "label": "matcher para Edit|Write",
-              "pattern": "\"matcher\"\\s*:\\s*\"(Edit\\|Write|Write\\|Edit)\""
-            },
-            {
-              "label": "Hook de tipo command con el script",
-              "pattern": "\"type\"\\s*:\\s*\"command\"[\\s\\S]*\"command\"\\s*:\\s*\"python scripts/validar_csv\\.py\"|\"command\"\\s*:\\s*\"python scripts/validar_csv\\.py\"[\\s\\S]*\"type\"\\s*:\\s*\"command\""
+              "label": "Indica cuándo: después de editar o escribir archivos",
+              "pattern": "(despu[eé]s|tras)[^\\n]*(edit|escrib|modific|cre)|PostToolUse",
+              "hint": "Por ejemplo: «después de cada edición»."
             }
           ],
-          "solution": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          { \"type\": \"command\", \"command\": \"python scripts/validar_csv.py\" }\n        ]\n      }\n    ]\n  }\n}\n",
-          "explain": "Estructura: evento → lista de grupos con matcher → lista de hooks con type y command."
+          "solution": "Configura un hook que ejecute python scripts/validar_csv.py después de cada vez que se edite o escriba un archivo.",
+          "explain": "La documentación oficial lo dice expresamente: puedes pedirle a Claude que escriba el hook describiendo lo que quieres. Tú indicas **cuándo** y **qué**; después compruebas con `/hooks` que aparece."
+        },
+        {
+          "id": "m6l1e6",
+          "type": "choice",
+          "concept": "auto.hooks",
+          "prompt": "Quieres que, tras cada edición, se validen siempre los CSV, pase lo que pase en la conversación. ¿Qué usas?",
+          "options": [
+            {
+              "text": "Un hook PostToolUse",
+              "correct": true
+            },
+            {
+              "text": "Una frase en CLAUDE.md",
+              "feedback": "Claude puede no seguirla siempre."
+            },
+            {
+              "text": "Una regla allow",
+              "feedback": "Allow concede permisos; no ejecuta acciones."
+            }
+          ],
+          "explain": "Un hook se ejecuta **siempre** que ocurre el evento; una instrucción es una sugerencia."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Entender qué es un hook y cuándo se ejecuta\n- Elegir entre CLAUDE.md, permisos y hooks\n- Pedirle a Claude que configure un hook"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
@@ -394,6 +518,11 @@
               "type": "callout",
               "tone": "tip",
               "body": "Errores frecuentes: JSON con coma final, frontmatter mal delimitado, nombre de campo mal escrito (se ignora sin avisar) o archivo en la carpeta equivocada."
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "Si un archivo de ajustes está roto, Claude Code te avisa y te deja arreglarlo **con ayuda de Claude**; y `/doctor` ofrece correcciones tras pedirte confirmación."
             }
           ]
         },
@@ -401,16 +530,36 @@
           "id": "m6l2e4",
           "type": "terminal",
           "concept": "met.debugging",
-          "prompt": "El proyecto tiene un settings.json roto. Diagnostícalo con claude doctor y arréglalo hasta que no haya errores",
+          "prompt": "El proyecto tiene un `settings.json` roto. Diagnostícalo con **claude doctor**, pídele a Claude que lo corrija **sin perder la regla original** y vuelve a diagnosticar",
           "setup": {
             "cwd": "~/finanzas",
             "files": {
               "~/finanzas/.claude/settings.json": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(git diff *)\"],\n  }\n}\n"
-            }
+            },
+            "claudeActions": [
+              {
+                "id": "fix-settings",
+                "when": [
+                  [
+                    "arregla",
+                    "corrige",
+                    "repara",
+                    "soluciona"
+                  ],
+                  [
+                    "settings"
+                  ]
+                ],
+                "reply": "He quitado la coma final: el archivo vuelve a ser JSON válido y conserva tu regla.",
+                "writes": [
+                  {
+                    "path": "~/finanzas/.claude/settings.json",
+                    "content": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(git diff *)\"]\n  }\n}\n"
+                  }
+                ]
+              }
+            ]
           },
-          "intro": [
-            "Pista: claude doctor y después nano .claude/settings.json"
-          ],
           "goals": [
             {
               "type": "ran",
@@ -420,8 +569,8 @@
             },
             {
               "type": "doctor",
-              "label": "Sin errores de configuración",
-              "hint": "Quita la coma final después de la lista allow."
+              "label": "Sin errores de configuración al final",
+              "hint": "Pídele a Claude que corrija el settings.json y vuelve a diagnosticar."
             },
             {
               "type": "json",
@@ -432,28 +581,46 @@
                 }
               },
               "label": "Conservar la regla allow original",
-              "hint": "No borres la regla: solo corrige la sintaxis."
+              "hint": "Dile que no pierda la regla."
             }
           ],
           "solution": [
             "claude doctor",
-            "nano .claude/settings.json",
-            "claude doctor"
+            "claude",
+            "Corrige el settings.json sin perder la regla de permisos",
+            "/doctor"
           ],
-          "solutionFiles": [
-            {
-              "path": "~/finanzas/.claude/settings.json",
-              "content": "{\n  \"permissions\": {\n    \"allow\": [\"Bash(git diff *)\"]\n  }\n}\n"
-            }
-          ],
+          "explain": "En Claude Code real, un archivo de ajustes roto abre un aviso que te deja corregirlo **con ayuda de Claude**. Tu parte: entender el diagnóstico y comprobar que la corrección conserva lo que querías.",
           "suggestions": {
             "shell": [
               "claude doctor",
-              "cat .claude/settings.json",
-              "nano .claude/settings.json"
+              "claude",
+              "cat .claude/settings.json"
+            ],
+            "session": [
+              "/doctor",
+              "/exit"
             ]
           },
-          "explain": "Una coma final invalida todo el archivo: en Claude Code real verías un *Settings Error* al arrancar."
+          "intro": [
+            "Pista: claude doctor para ver el error; después abre claude y pídele que lo corrija."
+          ]
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Pedir una depuración eficaz\n- Usar tests como criterio de éxito\n- Diagnosticar configuración con /doctor"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     },
@@ -606,6 +773,22 @@
             }
           ],
           "explain": "Cambios pequeños y revisables: cada incremento debe poder verificarse y deshacerse por separado."
+        },
+        {
+          "type": "card",
+          "kicker": "Para recordar",
+          "title": "Lo esencial de esta lección",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Con esta lección deberías poder:\n- Estructurar un proyecto de principio a fin\n- Trabajar en incrementos verificables\n- Conocer Claude Code en GitHub Actions"
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "Si algún punto no te queda claro, vuelve atrás con la flecha ← o repite la lección: no tienes prisa."
+            }
+          ]
         }
       ]
     }

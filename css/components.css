@@ -148,7 +148,8 @@ input[type="checkbox"][role="switch"]:checked::after { transform: translateX(20p
 .tl-dir { color: #8DB3DA; }
 .tl-claude { color: var(--term-claude); }
 .term-form { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-top: 1px solid #2E2C29; }
-.term-prompt { color: var(--term-ok); white-space: nowrap; max-width: 55%; overflow: hidden; text-overflow: ellipsis; }
+.term-send { flex: none; border: 0; border-radius: 9px; padding: 7px 12px; background: var(--term-claude); color: #1D1C1A; font-family: var(--font-sans); font-weight: 800; font-size: 13px; }
+.term-prompt { color: var(--term-ok); white-space: nowrap; max-width: 38%; overflow: hidden; text-overflow: ellipsis; }
 .in-session .term-prompt { color: var(--term-claude); }
 .term-input { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #fff; font-family: var(--font-mono); font-size: 16px; caret-color: var(--term-claude); padding: 6px 0; }
 .term-tools { display: flex; gap: 6px; padding: 0 10px 10px; overflow-x: auto; scrollbar-width: none; }

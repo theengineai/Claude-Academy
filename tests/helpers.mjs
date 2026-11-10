@@ -37,7 +37,7 @@ export function allExercises(course) {
  * de solutionFiles (lo que el alumno haría en el editor) y "⇧Tab" pulsa el atajo.
  */
 export function runSolution(ex) {
-  const sh = new Shell({ files: ex.setup?.files || {}, cwd: ex.setup?.cwd || '~' });
+  const sh = new Shell({ files: ex.setup?.files || {}, cwd: ex.setup?.cwd || '~', claudeActions: ex.setup?.claudeActions || [] });
   for (const cmd of ex.solution) {
     if (cmd === '⇧Tab') { sh.shiftTab(); continue; }
     const result = sh.run(cmd);

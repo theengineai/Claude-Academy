@@ -319,7 +319,7 @@ function editor(ex) {
 
 // ---------- Terminal con objetivos ----------
 function terminal(ex, ctx) {
-  const shell = new Shell({ files: ex.setup?.files || {}, cwd: ex.setup?.cwd || '~' });
+  const shell = new Shell({ files: ex.setup?.files || {}, cwd: ex.setup?.cwd || '~', claudeActions: ex.setup?.claudeActions || [] });
   const goalsList = h('ul', { class: 'goals' });
   const paint = () => {
     clear(goalsList);
@@ -345,6 +345,7 @@ function terminal(ex, ctx) {
     onChange(fn) { this.listeners.push(fn); },
     changed() { this.listeners.forEach(fn => fn()); },
     check() {
+      term.flush(); // un comando escrito y no enviado cuenta como enviado
       const results = evaluateGoals(ex.goals, shell);
       const failed = results.filter(r => !r.passed);
       return { ok: failed.length === 0, message: failed.map(f => `• ${f.label}${f.hint ? ` — ${f.hint}` : ''}`).join('\n'), result: { results } };

@@ -19,8 +19,19 @@ Contenido contrastado con la documentación oficial de Claude Code el **9 de nov
 | [GitHub Actions](https://code.claude.com/docs/en/github-actions) | `anthropics/claude-code-action@v1`, `@claude`, `/install-github-app`, `ANTHROPIC_API_KEY` / `CLAUDE_CODE_OAUTH_TOKEN` como secretos, `--max-turns` en `claude_args` | M6, proyecto final |
 | [Desktop](https://code.claude.com/docs/en/desktop) | Pestaña Code, revisión visual de diffs con comentarios, sesiones en paralelo con worktree, entornos local/nube/SSH, selector de modos, `dontAsk` solo en la CLI | M1 |
 
+## Qué se puede delegar en Claude (y qué dice la documentación)
+
+| Tarea | Qué dice la documentación oficial |
+|---|---|
+| Crear o ampliar CLAUDE.md | `/init` genera un CLAUDE.md inicial; también se puede pedir «add this to CLAUDE.md»; `/memory` permite editarlo a mano (Memory) |
+| Hooks | «You can also ask Claude to write the hook for you by describing what you want» (Hooks guide) |
+| Subagentes | `/agents` recuerda pedirle a Claude que cree o gestione subagentes, o editar `.claude/agents/` (Commands) |
+| Ajustes rotos | Un `Settings Error` ofrece corregir el archivo con ayuda de Claude; `/doctor` ofrece arreglos tras confirmar (Settings, Skills) |
+| Skills | La guía oficial las crea **a mano** como ejemplo didáctico. No afirma que Claude las cree por sí solo, pero son archivos de texto del proyecto que Claude puede escribir; en la academia se plantea como «pídeselo y revisa» |
+
 ## Decisiones de prudencia
 
+- El **Claude simulado** de los ejercicios no usa IA: aplica respuestas predefinidas en el temario cuando la petición contiene lo necesario. Sirve para practicar a pedir con claridad y a revisar.
 - El simulador reproduce la **forma** de los comandos (flags, ámbitos, archivos que se escriben) pero no su salida exacta. Todas sus respuestas indican que son una simulación.
 - `/context` muestra una **estimación didáctica** con una ventana de ejemplo de 200k tokens; la real depende del modelo.
 - `/agents`: en versiones recientes muestra un recordatorio para crear subagentes pidiéndoselo a Claude o editando `.claude/agents/`; en versiones antiguas abría un asistente.

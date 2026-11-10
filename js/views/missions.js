@@ -2,6 +2,7 @@
 import { h } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
 import { runSession, savedProgress } from './session.js';
+import { stepsSignature } from '../core/course.js';
 import { isMissionUnlocked, completeMission, missionXp } from '../core/progress.js';
 
 const DIFFICULTY = { 1: 'Básica', 2: 'Intermedia', 3: 'Avanzada' };
@@ -71,6 +72,7 @@ export function openMission(ctx, missionId) {
     steps: [intro, ...m.steps],
     exitRoute: '#/missions',
     resumeKey: `mission:${m.id}`,
+    sig: stepsSignature(m.steps),
     onFinish: ({ accuracy }) => {
       const r = completeMission(state, m, accuracy);
       const achievements = ctx.commit();
