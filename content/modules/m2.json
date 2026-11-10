@@ -420,17 +420,75 @@
         {
           "type": "card",
           "kicker": "Escala",
-          "title": "Archivos cortos, imports y reglas",
+          "title": "Si CLAUDE.md crece: un archivo aparte",
           "blocks": [
             {
               "type": "text",
-              "body": "La guía oficial recomienda **menos de 200 líneas** por CLAUDE.md: cuanto más largo, más contexto consume y peor se sigue. Para crecer:\n- **Imports**: `@docs/glosario.md` dentro de CLAUDE.md incluye ese archivo (rutas relativas al archivo que importa; máximo cuatro saltos encadenados).\n- **Reglas**: archivos temáticos en `.claude/rules/` (por ejemplo `testing.md`). Pueden aplicarse solo a ciertas carpetas o tipos de archivo."
+              "body": "Piensa en CLAUDE.md como la **hoja de instrucciones** que le dejas cada mañana a un compañero nuevo. Si es una hoja, la sigue bien; si son veinte páginas, se salta cosas. Claude lo lee **entero al empezar cada sesión**: cuanto más largo, más espacio ocupa y peor sigue cada regla. La guía oficial recomienda **menos de 200 líneas**."
+            },
+            {
+              "type": "text",
+              "body": "¿Y si necesitas mucha información, por ejemplo un glosario contable largo? No lo pegues en CLAUDE.md: guárdalo en **otro archivo** y haz que CLAUDE.md **apunte a él**. Eso se llama **import**."
+            },
+            {
+              "type": "tree",
+              "lines": [
+                "proyecto/",
+                "  CLAUDE.md          # corto: reglas y una línea que apunta al glosario",
+                "  docs/",
+                "    glosario.md      # largo: definiciones (EBITDA, margen, capex…)"
+              ]
             },
             {
               "type": "code",
               "lang": "markdown",
               "file": "CLAUDE.md",
-              "code": "# Cierre mensual\nConsulta el glosario contable en @docs/glosario.md\n\n## Validación\n- Ejecuta las pruebas antes de dar una tarea por terminada"
+              "code": "# Cierre mensual\nPara los términos, consulta @docs/glosario.md\n- Ejecuta las pruebas antes de dar una tarea por terminada"
+            },
+            {
+              "type": "text",
+              "body": "La línea con `@docs/glosario.md` significa: «incluye aquí el contenido de ese archivo». `docs/glosario.md` es la **ruta**: carpeta `docs`, archivo `glosario.md`, contada desde donde está CLAUDE.md. Claude lo carga al arrancar como si estuviera escrito dentro."
+            },
+            {
+              "type": "callout",
+              "tone": "tip",
+              "body": "No necesitas crear los archivos tú: pídeselo a Claude. Por ejemplo: «Mueve el glosario a docs/glosario.md y enlázalo desde CLAUDE.md con un import»."
+            }
+          ]
+        },
+        {
+          "type": "card",
+          "kicker": "Escala",
+          "title": "Reglas por tema",
+          "blocks": [
+            {
+              "type": "text",
+              "body": "Otra forma de repartir las instrucciones son las **reglas**. Dentro de `.claude/` (la carpeta oculta del proyecto, la que ves con `ls -a`) puedes crear la carpeta `rules/` con **un archivo por tema**: uno para las pruebas, otro para el formato de los informes…"
+            },
+            {
+              "type": "tree",
+              "lines": [
+                "proyecto/",
+                ".claude/",
+                "  rules/",
+                "    informes.md      # reglas solo sobre cómo se presentan los informes",
+                "    pruebas.md       # reglas solo sobre cómo se comprueba el trabajo"
+              ]
+            },
+            {
+              "type": "code",
+              "lang": "markdown",
+              "file": ".claude/rules/informes.md",
+              "code": "# Informes\n- Importes en EUR con 2 decimales\n- Cada informe termina con una sección de supuestos"
+            },
+            {
+              "type": "text",
+              "body": "Así cada tema está ordenado y CLAUDE.md se mantiene corto. Algunas reglas pueden aplicarse **solo a ciertas carpetas** (por ejemplo, solo cuando Claude trabaja en `informes/`)."
+            },
+            {
+              "type": "callout",
+              "tone": "info",
+              "body": "**Resumen:** CLAUDE.md corto y claro · lo largo va a otro archivo con un **import** (`@ruta`) · lo que es de un tema concreto va a una **regla** en `.claude/rules/`. Y de escribirlo se encarga Claude: tú lo revisas."
             }
           ]
         },
