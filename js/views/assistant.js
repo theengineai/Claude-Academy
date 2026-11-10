@@ -1,5 +1,5 @@
 // Ventana de dudas tipo chat. No usa IA: responde con el glosario preparado (content/glossary.json).
-import { h, clear, md } from '../ui/dom.js';
+import { h, clear, mdEl } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
 import { toast } from '../ui/fx.js';
 import { ask, suggestions, byId } from '../core/assistant.js';
@@ -32,9 +32,9 @@ export function openAssistant(ctx, { lessonId = null } = {}) {
   function answerCard(entry, { extra = false } = {}) {
     const body = h('div', { class: 'as-card' },
       h('strong', { class: 'as-term' }, entry.term),
-      h('div', { class: 'md' }, md(entry.short)),
-      entry.long ? h('div', { class: 'md as-long' }, md(entry.long)) : null,
-      entry.example ? h('div', { class: 'as-example' }, md(entry.example)) : null,
+      mdEl(entry.short, 'md'),
+      entry.long ? mdEl(entry.long, 'md as-long') : null,
+      entry.example ? mdEl(entry.example, 'as-example md') : null,
       lessonLinks(entry));
     const rel = (entry.related || []).map(id => byId(entries, id)).filter(Boolean).slice(0, 4);
     const m = bot(body);
@@ -51,7 +51,7 @@ export function openAssistant(ctx, { lessonId = null } = {}) {
   function respond(text) {
     const res = ask(entries, text);
     if (res.confidence === 'none') {
-      const m = bot(h('div', { class: 'md' }, md('No tengo eso todavía. Prueba con otras palabras o toca una de las dudas frecuentes.')),
+      const m = bot(mdEl('No tengo eso todavía. Prueba con otras palabras o toca una de las dudas frecuentes.', 'md'),
         h('div', { class: 'as-chips' },
           chip('Guardar mi duda', () => { saveDoubt(text); }),
           ...suggestions(entries, lessonId, 3).map(e => chip(e.term, () => { user(e.term); answerCard(e); }))));
@@ -59,12 +59,13 @@ export function openAssistant(ctx, { lessonId = null } = {}) {
     }
     const [top, ...rest] = res.results;
     if (res.confidence === 'maybe') {
-      bot(h('div', { class: 'md' }, md('No estoy seguro. ¿Te refieres a alguna de estas?')),
+      bot(mdEl('No estoy seguro. ¿Te refieres a alguna de estas?', 'md'),
         h('div', { class: 'as-chips' }, ...res.results.map(r => chip(r.entry.term, () => { user(r.entry.term); answerCard(r.entry); }))));
       return;
     }
     answerCard(top.entry);
-    const more = rest.filter(r => r.score >= 80).slice(0, 3);
+    const shown = new Set([top.entry.id, ...(top.entry.related || [])]);
+    const more = rest.filter(r => r.score >= 80 && !shown.has(r.entry.id)).slice(0, 3);
     if (more.length) log.lastChild.append(h('div', { class: 'as-chips' }, h('span', { class: 'muted small' }, 'Quizá también:'), ...more.map(r => chip(r.entry.term, () => { user(r.entry.term); answerCard(r.entry, { extra: true }); }))));
   }
 
@@ -99,7 +100,7 @@ export function openAssistant(ctx, { lessonId = null } = {}) {
       h('button', { class: 'term-send', type: 'submit', 'aria-label': 'Enviar duda' }, 'Enviar')));
   document.body.append(root);
   document.body.classList.add('in-assistant');
-  bot(h('div', { class: 'md' }, md(WELCOME)));
+  bot(mdEl(WELCOME, 'md'));
   paintChips();
   setTimeout(() => input.focus({ preventScroll: true }), 60);
   return close;

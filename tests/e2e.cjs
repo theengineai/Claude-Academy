@@ -288,6 +288,7 @@ async function openRoute(page, route) {
   const asIn = page.locator('.as-input');
   await asIn.fill('¿Qué es el shell?'); await asIn.press('Enter');
   await page.locator('.as-card', { hasText: 'entiende los comandos' }).waitFor();
+  assert.ok(!(await page.locator('.as-card').first().innerText()).includes('<'), 'el chat no muestra etiquetas HTML');
   await asIn.fill('qué es datos/'); await asIn.press('Enter');
   await page.locator('.as-card', { hasText: 'datos de origen' }).waitFor();
   await asIn.fill('receta de paella'); await asIn.press('Enter');
